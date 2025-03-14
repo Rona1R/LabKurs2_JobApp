@@ -1,3 +1,4 @@
+using backend.Infrastructure.Configuration;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 
@@ -7,6 +8,8 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.AddDbContext(builder.Configuration);
+        builder.Services.AddMongoDb();
 
         //builder.Services.AddControllers();
         builder.Services.AddCors(opt =>
