@@ -1,5 +1,10 @@
 import { Link } from "react-router";
+import Testimonials from "components/home/Testimonials";
+import { Box, Typography } from "@mui/material";
 import Collaborators from "components/home/Collaborators";
+import Divider from "@mui/material/Divider";
+import Introduction from "components/home/Introductions";
+import Quote from "components/home/Quote";
 
 export default function Index() {
   return (
@@ -42,7 +47,18 @@ export default function Index() {
 
       <div>
         <Collaborators />
+        <Divider sx={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }} />
+        <Introduction />
+        <Divider sx={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }} />
+        <Box marginTop={15} marginBottom={15}>
+          <Typography variant="h2" sx={{ fontWeight: "bold", color: "#0A0529" ,paddingBottom:"30px"}}>
+            Testimonials
+          </Typography>
+          <Testimonials />
+        </Box>
+        <Quote/>
       </div>
     </>
   );
 }
+
