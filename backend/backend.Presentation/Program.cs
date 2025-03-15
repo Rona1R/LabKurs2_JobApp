@@ -12,6 +12,7 @@ internal class Program
         builder.Services.AddDomainMappings();
         builder.Services.AddDbContext(builder.Configuration);
         builder.Services.AddMongoDb();
+        builder.Services.MapInterfaces();
 
         //builder.Services.AddControllers();
         builder.Services.AddCors(opt =>

@@ -15,5 +15,6 @@ namespace backend.Application.Configuration
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
             return services;
         }
+    
     }
 }
