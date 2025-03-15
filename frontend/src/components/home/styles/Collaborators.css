@@ -1,0 +1,28 @@
+.custom-carousel
+.carousel-control-prev{
+    display: none;
+}
+
+.custom-carousel
+.carousel-control-next{
+    display: none;
+}
+
+
+.custom-carousel{
+    padding-bottom: 50px;
+}
+
+.custom-carousel .carousel-indicators button{
+    padding-top: "10px" !important;
+    background-color: hsl(210, 81%, 82%); 
+}
+
+.custom-carousel .carousel-indicators .active {
+    background-color: hsl(209, 81%, 8%); 
+}
+
+.hide-button .carousel-indicators {
+    display: none;
+}
+
