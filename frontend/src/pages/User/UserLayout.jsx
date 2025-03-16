@@ -1,6 +1,7 @@
+import Navigation from "components/layout/user/Navigation";
 import { Outlet } from "react-router";
 import Box from '@mui/material/Box';
-
+import Footer from "components/layout/user/Footer";
 
 export default function UserLayout() {
   return (
@@ -12,10 +13,12 @@ export default function UserLayout() {
       flexDirection:"column"
     }}
     >
+      <Navigation />
       <Box component="main" sx={{ paddingTop: "90px",flex:1 }}>
         {/* User Pages Nested Routes */}
         <Outlet/> 
       </Box>
+      <Footer/>
     </div>
   );
 }
