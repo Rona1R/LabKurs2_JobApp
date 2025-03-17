@@ -1,6 +1,7 @@
 import UserLayout from "pages/User/UserLayout";
 import Index from "pages/Home";
 import Dashboard from "pages/Dashboard/Dashboard";
+import Categories from "pages/Dashboard/Administrator/Categories/Categories";
 
 const routes = [
   {
@@ -16,6 +17,12 @@ const routes = [
     protected : true,
     roles: ["Admin","Employer"],
     children: [
+      {
+        path: "/dashboard/categories",
+        element: Categories,
+        protected : true,
+        roles: ["Admin"],
+      },
     ],
   },
 ];
