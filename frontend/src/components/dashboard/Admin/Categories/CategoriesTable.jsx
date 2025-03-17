@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { CategoryService } from "api/sevices/CategoryService";
 import Loading from "components/common/Loading";
 import {IconButton} from "@mui/material";
+import CreateCategory from "./CreateCategory";
 const categoryService = new CategoryService();
 
 export default function CategoriesTable() {
@@ -140,6 +141,13 @@ export default function CategoriesTable() {
 
   return (
     <>
+         {showCreate && (
+        <CreateCategory
+          handleClose={() => setShowCreate(false)}
+          refresh={() => setRefreshKey(Date.now())}
+        />
+      )}
+
 
       <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
         <Button className="create-button" onClick={() => setShowCreate(true)}>
