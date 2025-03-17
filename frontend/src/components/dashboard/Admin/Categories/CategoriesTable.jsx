@@ -10,18 +10,19 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 import { CategoryService } from "api/sevices/CategoryService";
 import Loading from "components/common/Loading";
-import {IconButton} from "@mui/material";
+import { IconButton } from "@mui/material";
 import CreateCategory from "./CreateCategory";
+import UpdateCategory from "./UpdateCategory";
 const categoryService = new CategoryService();
 
 export default function CategoriesTable() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState("");
-  const [selected,setSelected] = useState(null);
+  const [selected, setSelected] = useState(null);
   const [showCreate, setShowCreate] = useState(false);
-  const [showUpdate,setShowUpdate] = useState(false);
-  const [showDelete,setShowDelete] = useState(false);
+  const [showUpdate, setShowUpdate] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
 
   const handleEditClick = (id) => {
     setSelected(id);
@@ -31,7 +32,7 @@ export default function CategoriesTable() {
   const handleDeleteClick = (id) => {
     setSelected(id);
     setShowDelete(true);
-  }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,7 +75,7 @@ export default function CategoriesTable() {
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
       renderCell: (params) => {
-        const date = new Date(params.value+"Z");
+        const date = new Date(params.value + "Z");
         const formattedDate = date.toLocaleString("en-US", {
           year: "numeric",
           month: "long",
@@ -94,7 +95,7 @@ export default function CategoriesTable() {
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
       renderCell: (params) => {
-        const date = new Date(params.value+"Z");
+        const date = new Date(params.value + "Z");
         const formattedDate = date.toLocaleString("en-US", {
           year: "numeric",
           month: "long",
@@ -141,13 +142,19 @@ export default function CategoriesTable() {
 
   return (
     <>
-         {showCreate && (
+      {showUpdate && selected && (
+        <UpdateCategory
+          id={selected}
+          handleClose={() => setShowUpdate(false)}
+          refresh={() => setRefreshKey(Date.now())}
+        />
+      )}
+      {showCreate && (
         <CreateCategory
           handleClose={() => setShowCreate(false)}
           refresh={() => setRefreshKey(Date.now())}
         />
       )}
-
 
       <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
         <Button className="create-button" onClick={() => setShowCreate(true)}>
