@@ -24,6 +24,11 @@ namespace backend.Application.DTOs
                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.AspNetUser.Email))
                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.AspNetUser.PhoneNumber))
                .ForMember(dest => dest.Roles, opt => opt.Ignore());
+
+            CreateMap<CompanyRequest, Company>();
+            CreateMap<Company, CompanyResponse>()
+                .ForMember(dest => dest.EmployerName, opt => opt.MapFrom(src => src.Employer.User.Name))
+                .ForMember(dest => dest.EmployerLastName, opt => opt.MapFrom(src => src.Employer.User.LastName));
         }
     }
 }
