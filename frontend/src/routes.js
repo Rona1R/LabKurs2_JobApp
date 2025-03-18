@@ -3,6 +3,7 @@ import Index from "pages/Home";
 import Dashboard from "pages/Dashboard/Dashboard";
 import Categories from "pages/Dashboard/Administrator/Categories/Categories";
 import Register from "pages/Authentication/Register/Register";
+import LogIn from "pages/Authentication/LogIn/LogIn";
 
 const routes = [
   {
@@ -26,7 +27,8 @@ const routes = [
       },
     ],
   },
-  { path: "/register", element: Register }
+  { path: "/register", element: Register },
+  { path: "/logIn", element: LogIn },
 ];
 
 export default routes;
