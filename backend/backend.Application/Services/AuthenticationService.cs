@@ -1,0 +1,62 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using backend.Application.DTOs.Request;
+using backend.Application.Exceptions;
+using backend.Application.Interfaces.Authentication;
+using backend.Domain.Models;
+using Microsoft.AspNetCore.Identity;
+
+namespace backend.Application.Services
+{
+    public class AuthenticationService : IAuthenticationService
+    {
+
+        private readonly IAuthenticationRepository _authenticationRepository;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        public AuthenticationService(IAuthenticationRepository authenticationRepository, RoleManager<IdentityRole> roleManager)
+        {
+            _authenticationRepository = authenticationRepository;
+            _roleManager = roleManager;
+        }
+
+
+        public async Task<IdentityResult> CreateRole(string role)
+        {
+
+            var roliEkziston = await _roleManager.FindByNameAsync(role);
+
+            if (roliEkziston == null)
+            {
+                var roliIRi = new IdentityRole(role);
+
+                var roliKrijuar = await _roleManager.CreateAsync(roliIRi);
+
+                return roliKrijuar;
+            }
+            else
+            {
+                throw new ExistsException("Ekziston nje rol me kete emer!");
+            }
+        }
+
+        public async Task<IdentityResult> RemoveRole(string roli)
+        {
+
+            var roliEkziston = await _roleManager.FindByNameAsync(roli);
+
+            if (roliEkziston != null)
+            {
+                var roliPerTuFshire = await _roleManager.DeleteAsync(roliEkziston);
+                return roliPerTuFshire;
+            }
+            else
+            {
+                throw new Exception("Ky rol nuk u gjet ne sistem!");
+            }
+        }  
+    }
+}
