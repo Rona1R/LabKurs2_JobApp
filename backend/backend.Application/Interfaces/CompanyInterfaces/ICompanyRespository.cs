@@ -11,13 +11,6 @@ namespace backend.Application.Interfaces.CompanyInterfaces
     {
         Task<Company?> GetByNameAsync(string name);
 
-        //Task<IEnumerable<Company>> GetAllUnverifiedAsync();
-
-        //Task VerifyCompanyAsync(int id);
-
         Task<IEnumerable<Company>> GetByUser(int userId);
-
-        //   Task<IEnumerable<Company>> GetUnverifiedCompaniesByUser(int userId);
-
     }
 }
