@@ -8,6 +8,7 @@ using backend.Application.Interfaces.CategoryInterfaces;
 using backend.Application.Interfaces.UserInterfaces;
 using backend.Application.Interfaces.UserRoleInterfaces;
 using backend.Application.Services;
+using backend.Application.Services.Factory;
 using backend.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -30,6 +31,7 @@ namespace backend.Infrastructure.Configuration
 
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 
+            services.AddSingleton<FileFactory>();
         }
     }
 }
