@@ -16,6 +16,17 @@ namespace backend.Infrastructure.Repositories
             _userManager = userManager;
         }
 
+
+        public async Task<IdentityResult> AddRoleAsync(IdentityUser user, string role)
+        {
+            return await _userManager.AddToRoleAsync(user, role);
+        }
+
+        public async Task<IdentityResult> RemoveRoleAsync(IdentityUser user, string role)
+        {
+            return await _userManager.RemoveFromRoleAsync(user, role);
+        }
+
         public async Task<IEnumerable<string>> GetRolesByUserAsync(IdentityUser user)
         {
             return await _userManager.GetRolesAsync(user);

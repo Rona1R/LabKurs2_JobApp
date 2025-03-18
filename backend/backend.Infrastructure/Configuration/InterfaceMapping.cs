@@ -38,6 +38,9 @@ namespace backend.Infrastructure.Configuration
             services.AddScoped<IEmployerRepository, EmployerRepository>();
             services.AddScoped<IEmployerService, EmployerService>();
 
+            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+            services.AddScoped<IUserRoleService, UserRoleService>();
+
             services.AddSingleton<FileFactory>();
         }
     }
