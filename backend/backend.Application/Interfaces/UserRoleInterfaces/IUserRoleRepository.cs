@@ -9,6 +9,8 @@ namespace backend.Application.Interfaces.UserRoleInterfaces
 {
     public interface IUserRoleRepository
     {
+        Task<IdentityResult> AddRoleAsync(IdentityUser user, string role);
+        Task<IdentityResult> RemoveRoleAsync(IdentityUser user, string role);
         Task<IEnumerable<string>> GetRolesByUserAsync(IdentityUser user);
 
     }

@@ -20,10 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\uploads\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\backend.Application\backend.Application.csproj" />
     <ProjectReference Include="..\backend.Infrastructure\backend.Infrastructure.csproj" />
   </ItemGroup>

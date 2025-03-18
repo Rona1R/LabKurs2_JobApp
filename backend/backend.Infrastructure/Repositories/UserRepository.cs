@@ -27,5 +27,13 @@ namespace backend.Infrastructure.Repositories
         {
             return await _context.User.Include(u=>u.AspNetUser).OrderByDescending(u=>u.Id).ToListAsync();
         }
+
+        public async Task<User?> GetByIdAsync(int id)
+        {
+            return await _context.User.
+                 Include(u => u.AspNetUser).
+                 FirstOrDefaultAsync(u => u.Id == id);
+        }
+
     }
 }

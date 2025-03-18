@@ -5,9 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using backend.Application.Interfaces.Authentication;
 using backend.Application.Interfaces.CategoryInterfaces;
+using backend.Application.Interfaces.CompanyInterfaces;
+using backend.Application.Interfaces.EmployerInterfaces;
 using backend.Application.Interfaces.UserInterfaces;
 using backend.Application.Interfaces.UserRoleInterfaces;
 using backend.Application.Services;
+using backend.Application.Services.Factory;
 using backend.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,12 +27,21 @@ namespace backend.Infrastructure.Configuration
             services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
 
-
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 
+            services.AddScoped<ICompanyRespository, CompanyRepository>();
+            services.AddScoped<ICompanyService, CompanyService>();
+
+            services.AddScoped<IEmployerRepository, EmployerRepository>();
+            services.AddScoped<IEmployerService, EmployerService>();
+
+            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+            services.AddScoped<IUserRoleService, UserRoleService>();
+
+            services.AddSingleton<FileFactory>();
         }
     }
 }
