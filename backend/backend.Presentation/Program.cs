@@ -2,6 +2,8 @@ using backend.Infrastructure.Configuration;
 using backend.Application.Configuration;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using backend.Infrastructure.Data;
+using Microsoft.AspNetCore.Identity;
 
 internal class Program
 {
@@ -32,6 +34,20 @@ internal class Program
             options.JsonSerializerOptions.WriteIndented = true;
         }).AddJsonOptions(x =>
         x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+
+        builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>()
+         .AddDefaultTokenProviders();
+
+        builder.Services.Configure<IdentityOptions>(options =>
+        {
+            options.Password.RequireDigit = true;
+            options.Password.RequireLowercase = true;
+            options.Password.RequireUppercase = true;
+            options.Password.RequireNonAlphanumeric = true;
+            options.Password.RequiredLength = 6;
+            options.Password.RequiredUniqueChars = 1; // Minimum number of unique characters in the password
+        });
 
 
         //builder.Services.AddControllers().AddJsonOptions(x =>

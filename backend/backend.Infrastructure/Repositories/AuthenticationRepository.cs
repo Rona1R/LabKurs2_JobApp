@@ -24,6 +24,38 @@ namespace backend.Infrastructure.Repositories
             _dbContext = dbContext;
             _userManager = userManager;
         }
+        private async Task CreateUserAsync(User user)
+        {
+            await _dbContext.AddAsync(user);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<IdentityResult> CreateAccountAsync(Register register)
+        {
+            var newUser = new IdentityUser()
+            {
+                UserName = register.Username,
+                Email = register.Email,
+            };
+
+            var accountCreation = await _userManager.CreateAsync(newUser, register.Password);
+
+            if (accountCreation.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(newUser, "User");
+
+                var entity = new User()
+                {
+                    Name = register.Name,
+                    LastName = register.LastName,
+                    AspNetUserId = newUser.Id,
+                };
+
+                await CreateUserAsync(entity);
+
+            }
+            return accountCreation;
+        }
 
         public async Task<IdentityUser?> GetUserByEmailAsync(string email)
         {
@@ -34,5 +66,6 @@ namespace backend.Infrastructure.Repositories
         {
             return await _userManager.FindByNameAsync(name);
         }
+
     }
 }

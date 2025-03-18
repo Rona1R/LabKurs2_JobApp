@@ -57,6 +57,26 @@ namespace backend.Application.Services
             {
                 throw new Exception("Ky rol nuk u gjet ne sistem!");
             }
-        }  
+        }
+
+        public async Task<IdentityResult> CreateAccount(Register register)
+        {
+            var ekzistonEmail = await _authenticationRepository.GetUserByEmailAsync(register.Email);
+            var ekzistonUsername = await _authenticationRepository.GetUserByNameAsync(register.Username);
+
+            if (ekzistonEmail != null)
+            {
+
+                throw new EmailTakenException("This email is taken!");
+            }
+
+            if (ekzistonUsername != null)
+            {
+                throw new UsernameTakenException("This username is taken!");
+            }
+
+            return await _authenticationRepository.CreateAccountAsync(register);
+        }
+
     }
 }

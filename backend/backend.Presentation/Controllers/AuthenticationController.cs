@@ -1,4 +1,5 @@
-﻿using backend.Application.Exceptions;
+﻿using backend.Application.DTOs.Request;
+using backend.Application.Exceptions;
 using backend.Application.Interfaces.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,34 @@ namespace backend.Presentation.Controllers
         public AuthenticationController(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
+        }
+
+
+        [HttpPost]
+        [Route("create-account")]
+        public async Task<IActionResult> Register([FromBody] Register register)
+        {
+            try
+            {
+                var accountCreation = await _authenticationService.CreateAccount(register);
+
+                if (accountCreation.Succeeded)
+                {
+                    return Ok("Your Account has been successfully created!");
+                }
+                else
+                {
+                    return BadRequest("Something went wrong with account creation!");
+                }
+            }
+            catch (EmailTakenException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UsernameTakenException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 

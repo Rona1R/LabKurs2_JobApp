@@ -11,7 +11,7 @@ namespace backend.Application.Interfaces.Authentication
     public interface IAuthenticationService
     {
 
-        //Task<IdentityResult> CreateAccount(Register register);
+        Task<IdentityResult> CreateAccount(Register register);
 
         Task<IdentityResult> CreateRole(string role);
 
