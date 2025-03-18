@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using backend.Application.Interfaces.Authentication;
 using backend.Application.Interfaces.CategoryInterfaces;
 using backend.Application.Interfaces.CompanyInterfaces;
+using backend.Application.Interfaces.EmployerInterfaces;
 using backend.Application.Interfaces.UserInterfaces;
 using backend.Application.Interfaces.UserRoleInterfaces;
 using backend.Application.Services;
@@ -26,7 +27,6 @@ namespace backend.Infrastructure.Configuration
             services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
 
-
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
 
@@ -34,6 +34,9 @@ namespace backend.Infrastructure.Configuration
 
             services.AddScoped<ICompanyRespository, CompanyRepository>();
             services.AddScoped<ICompanyService, CompanyService>();
+
+            services.AddScoped<IEmployerRepository, EmployerRepository>();
+            services.AddScoped<IEmployerService, EmployerService>();
 
             services.AddSingleton<FileFactory>();
         }
