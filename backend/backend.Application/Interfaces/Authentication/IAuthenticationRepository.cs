@@ -11,10 +11,8 @@ namespace backend.Application.Interfaces.Authentication
     public interface IAuthenticationRepository
     {
 
-        //Task<IdentityResult> CreateAccountAsync(Register register);
+        Task<IdentityUser?> GetUserByEmailAsync(string email);
 
-        //Task<IdentityUser?> GetUserByEmailAsync(string email);
-
-        //Task<IdentityUser?> GetUserByNameAsync(string name);
+        Task<IdentityUser?> GetUserByNameAsync(string name);
     }
 }

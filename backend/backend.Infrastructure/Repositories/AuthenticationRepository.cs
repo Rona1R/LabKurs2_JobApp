@@ -24,6 +24,15 @@ namespace backend.Infrastructure.Repositories
             _dbContext = dbContext;
             _userManager = userManager;
         }
-  
+
+        public async Task<IdentityUser?> GetUserByEmailAsync(string email)
+        {
+            return await _userManager.FindByEmailAsync(email);
+        }
+
+        public async Task<IdentityUser?> GetUserByNameAsync(string name)
+        {
+            return await _userManager.FindByNameAsync(name);
+        }
     }
 }
