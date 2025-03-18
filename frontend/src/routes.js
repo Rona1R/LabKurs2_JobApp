@@ -5,6 +5,7 @@ import Categories from "pages/Dashboard/Administrator/Categories/Categories";
 import Register from "pages/Authentication/Register/Register";
 import LogIn from "pages/Authentication/LogIn/LogIn";
 import Users from "pages/Dashboard/Administrator/Users/Users";
+import Companies from "pages/Dashboard/Administrator/Companies/Companies";
 
 const routes = [
   {
@@ -32,6 +33,12 @@ const routes = [
         protected : true,
         roles: ["Admin"],
       },
+      {
+        path: "/dashboard/companies",
+        element: Companies,
+        protected : true,
+        roles: ["Admin"],
+      }
     ],
   },
   { path: "/register", element: Register },
