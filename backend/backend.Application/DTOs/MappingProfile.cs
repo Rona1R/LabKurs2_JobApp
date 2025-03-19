@@ -35,6 +35,9 @@ namespace backend.Application.DTOs
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.User.LastName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.AspNetUser.Email))
                 .ForMember(dest => dest.Departament, opt => opt.MapFrom(src => src.Departament.Name));
+
+            CreateMap<DepartamentRequest, Departament>();
+            CreateMap<Departament, DepartamentResponse>();
         }
     }
 }
