@@ -10,6 +10,7 @@ namespace backend.Application.Interfaces.UserInterfaces
 {
     public interface IUserRepository
     {
+        Task<IEnumerable<User>> GeAllUsersAsync();
         Task<IEnumerable<User>> GetAllApplicationUsersAsync();
         Task<User?> GetByIdAsync(int id);
     }

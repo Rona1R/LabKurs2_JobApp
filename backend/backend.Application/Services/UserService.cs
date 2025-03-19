@@ -23,6 +23,11 @@ namespace backend.Application.Services
             this.mapper = mapper;
             _userRoleRepository = userRoleRepository;
         }
+        public async Task<IEnumerable<UserResponse>> GetAllUsersAsync()
+        {
+            var users = await _userRepository.GeAllUsersAsync(); // all regular users (excluding employers)
+            return mapper.Map<IEnumerable<UserResponse>>(users);
+        }
 
         public async Task<IEnumerable<UserWithRoles>> GetAllUsersWithRolesAsync()
         {

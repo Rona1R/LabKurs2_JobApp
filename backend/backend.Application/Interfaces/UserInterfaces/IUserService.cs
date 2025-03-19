@@ -11,6 +11,7 @@ namespace backend.Application.Interfaces.UserInterfaces
 {
     public interface IUserService
     {
+        Task<IEnumerable<UserResponse>> GetAllUsersAsync();
         Task<IEnumerable<UserWithRoles>> GetAllUsersWithRolesAsync();
     }
 }

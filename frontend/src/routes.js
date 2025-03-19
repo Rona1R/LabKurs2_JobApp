@@ -6,6 +6,7 @@ import Register from "pages/Authentication/Register/Register";
 import LogIn from "pages/Authentication/LogIn/LogIn";
 import Users from "pages/Dashboard/Administrator/Users/Users";
 import Companies from "pages/Dashboard/Administrator/Companies/Companies";
+import Employers from "pages/Dashboard/Administrator/Employers/Employers";
 
 const routes = [
   {
@@ -36,6 +37,12 @@ const routes = [
       {
         path: "/dashboard/companies",
         element: Companies,
+        protected : true,
+        roles: ["Admin"],
+      },
+      {
+        path: "/dashboard/employers",
+        element: Employers,
         protected : true,
         roles: ["Admin"],
       }
