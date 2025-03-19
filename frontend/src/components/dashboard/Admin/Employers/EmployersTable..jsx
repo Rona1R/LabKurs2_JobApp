@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import Loading from "components/common/Loading";
 import { EmployeeService } from "api/sevices/EmployerService";
 import CreateEmployer from "./CreateEmployer";
+import UpdateEmployer from "./UpdateEmployer";
 const employerService = new EmployeeService();
 
 export default function EmployersTable() {
@@ -147,6 +148,13 @@ export default function EmployersTable() {
         <CreateEmployer
           refresh={() => setRefreshKey(Date.now())}
           handleClose={() => setShowCreate(false)}
+        />
+      )}
+      {showUpdate && selected && (
+        <UpdateEmployer
+          id={selected}
+          handleClose={() => setShowUpdate(false)}
+          refresh={() => setRefreshKey(Date.now())}
         />
       )}
 
