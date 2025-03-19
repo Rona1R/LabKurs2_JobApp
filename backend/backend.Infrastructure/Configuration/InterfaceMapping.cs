@@ -9,6 +9,7 @@ using backend.Application.Interfaces.CompanyInterfaces;
 using backend.Application.Interfaces.DepartamentInterfaces;
 using backend.Application.Interfaces.EmployerInterfaces;
 using backend.Application.Interfaces.RequirementInterfaces;
+using backend.Application.Interfaces.TagInterfaces;
 using backend.Application.Interfaces.UserInterfaces;
 using backend.Application.Interfaces.UserRoleInterfaces;
 using backend.Application.Services;
@@ -48,6 +49,9 @@ namespace backend.Infrastructure.Configuration
 
             services.AddScoped<IRequirementRepository, RequirementRepository>();
             services.AddScoped<IRequirementService, RequirementService>();
+
+            services.AddScoped<ITagRepository, TagRepository>();
+            services.AddScoped<ITagService, TagService>();
 
             services.AddSingleton<FileFactory>();
         }
