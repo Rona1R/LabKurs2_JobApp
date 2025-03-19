@@ -39,6 +39,7 @@ namespace backend.Application.DTOs
             CreateMap<DepartamentRequest, Departament>();
             CreateMap<Departament, DepartamentResponse>();
 
+            CreateMap<UserRequest, User>();
             CreateMap<User, UserResponse>()
             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.AspNetUser.Email))
              .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.AspNetUser.UserName))
@@ -49,6 +50,13 @@ namespace backend.Application.DTOs
 
             CreateMap<TagRequest, Tag>();
             CreateMap<Tag, TagResponse>();
+
+            CreateMap<InstitutionRequest, Institution>();
+            CreateMap<Institution, InstitutionResponse>();
+
+            CreateMap<LanguageRequest, Language>();
+            CreateMap<Language, LanguageResponse>();
+
         }
     }
 }

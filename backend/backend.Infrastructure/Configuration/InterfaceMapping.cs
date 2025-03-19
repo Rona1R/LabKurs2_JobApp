@@ -8,6 +8,8 @@ using backend.Application.Interfaces.CategoryInterfaces;
 using backend.Application.Interfaces.CompanyInterfaces;
 using backend.Application.Interfaces.DepartamentInterfaces;
 using backend.Application.Interfaces.EmployerInterfaces;
+using backend.Application.Interfaces.InstitutionInterfaces;
+using backend.Application.Interfaces.LanguageInterfaces;
 using backend.Application.Interfaces.RequirementInterfaces;
 using backend.Application.Interfaces.TagInterfaces;
 using backend.Application.Interfaces.UserInterfaces;
@@ -33,8 +35,6 @@ namespace backend.Infrastructure.Configuration
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
 
-            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
-
             services.AddScoped<ICompanyRespository, CompanyRepository>();
             services.AddScoped<ICompanyService, CompanyService>();
 
@@ -52,6 +52,12 @@ namespace backend.Infrastructure.Configuration
 
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<ITagService, TagService>();
+
+            services.AddScoped<IInstitutionRepository, InstitutionRepository>();
+            services.AddScoped<IInstitutionService, InstitutionService>();
+
+            services.AddScoped<ILanguageRepository, LanguageRepository>();  
+            services.AddScoped<ILanguageService, LanguageService>();    
 
             services.AddSingleton<FileFactory>();
         }

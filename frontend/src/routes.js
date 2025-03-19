@@ -7,6 +7,7 @@ import LogIn from "pages/Authentication/LogIn/LogIn";
 import Users from "pages/Dashboard/Administrator/Users/Users";
 import Companies from "pages/Dashboard/Administrator/Companies/Companies";
 import Employers from "pages/Dashboard/Administrator/Employers/Employers";
+import ProfilePage from "pages/User/ProfilePage";
 
 const routes = [
   {
@@ -14,6 +15,7 @@ const routes = [
     layout: UserLayout,
     children: [
       { path: "/", element: Index },
+      { path: "/profile/:id", element: ProfilePage , private: true,},
     ],
   },
   {
