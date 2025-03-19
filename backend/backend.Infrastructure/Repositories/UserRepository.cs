@@ -46,5 +46,11 @@ namespace backend.Infrastructure.Repositories
                  FirstOrDefaultAsync(u => u.Id == id);
         }
 
+        public async Task UpdateAsync(User user)
+        {
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

@@ -29,5 +29,29 @@ namespace backend.Presentation.Controllers
             return Ok(await _userService.GetAllUsersWithRolesAsync());
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var user = await _userService.GetUserDetailsByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
+        }
+
+        [HttpPut("{id}")]
+        public virtual async Task<IActionResult> Update(int id, [FromBody] UserRequest requestDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            await _userService.UpdateAsync(id, requestDto);
+            return NoContent();
+        }
+
     }
 }
