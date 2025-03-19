@@ -57,6 +57,16 @@ namespace backend.Application.DTOs
             CreateMap<LanguageRequest, Language>();
             CreateMap<Language, LanguageResponse>();
 
+            CreateMap<JobRequest, Job>();
+            CreateMap<Job, JobResponse>().ForMember(dest => dest.Company, opt => opt.MapFrom(src => src.Company.Name))
+                                         .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.Name))
+                                         .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Country.Label + "," + src.City))
+                                         .ForMember(dest => dest.PayRange, opt => opt.MapFrom(src => src.MinimalSalary + " - " + src.MaximalSalary + " " + src.Currency));
+
+
+            CreateMap<Job, JobPostings>().ForMember(dest => dest.CompanyLogo, opt => opt.MapFrom(src => src.Company.Logo))
+                                          .ForMember(dest => dest.DaysLeft, opt => opt.Ignore());
+
         }
     }
 }
