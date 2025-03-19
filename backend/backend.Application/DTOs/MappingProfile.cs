@@ -46,6 +46,9 @@ namespace backend.Application.DTOs
 
             CreateMap<RequirementRequest, Requirement>();
             CreateMap<Requirement, RequirementResponse>();
+
+            CreateMap<TagRequest, Tag>();
+            CreateMap<Tag, TagResponse>();
         }
     }
 }
