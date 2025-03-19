@@ -17,10 +17,17 @@ namespace backend.Presentation.Controllers
             _userService = userService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(await _userService.GetAllUsersAsync());
+        }
+
         [HttpGet("WithRoles")]
         public async Task<IActionResult> GetWithRoles()
         {
             return Ok(await _userService.GetAllUsersWithRolesAsync());
         }
+
     }
 }

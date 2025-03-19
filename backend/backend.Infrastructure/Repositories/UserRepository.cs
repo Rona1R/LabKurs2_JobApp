@@ -23,6 +23,17 @@ namespace backend.Infrastructure.Repositories
             _userManager = userManager;
         }
 
+        public async Task<IEnumerable<User>> GeAllUsersAsync() // all users excluding employers
+        {
+            IEnumerable<IdentityUser> users = await _userManager.GetUsersInRoleAsync("Employer");
+            var userIds = users.Select(e => e.Id);
+            return await _context.User
+                .Where(u => !userIds.Contains(u.AspNetUserId))
+                .Include(u => u.AspNetUser)
+                .OrderByDescending(u => u.Id)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<User>> GetAllApplicationUsersAsync()
         {
             return await _context.User.Include(u=>u.AspNetUser).OrderByDescending(u=>u.Id).ToListAsync();

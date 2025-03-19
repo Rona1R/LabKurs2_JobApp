@@ -35,6 +35,20 @@ namespace backend.Application.DTOs
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.User.LastName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.AspNetUser.Email))
                 .ForMember(dest => dest.Departament, opt => opt.MapFrom(src => src.Departament.Name));
+
+            CreateMap<DepartamentRequest, Departament>();
+            CreateMap<Departament, DepartamentResponse>();
+
+            CreateMap<User, UserResponse>()
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.AspNetUser.Email))
+             .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.AspNetUser.UserName))
+            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.AspNetUser.PhoneNumber));
+
+            CreateMap<RequirementRequest, Requirement>();
+            CreateMap<Requirement, RequirementResponse>();
+
+            CreateMap<TagRequest, Tag>();
+            CreateMap<Tag, TagResponse>();
         }
     }
 }
