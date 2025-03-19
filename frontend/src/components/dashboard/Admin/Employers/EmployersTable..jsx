@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import theme from "../../tableTheme";
-import { ThemeProvider ,IconButton} from "@mui/material";
+import { ThemeProvider, IconButton } from "@mui/material";
 import "../../styles/table.css";
 import Button from "@mui/material/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,6 +12,7 @@ import Loading from "components/common/Loading";
 import { EmployeeService } from "api/sevices/EmployerService";
 import CreateEmployer from "./CreateEmployer";
 import UpdateEmployer from "./UpdateEmployer";
+import DeleteEmployer from "./DeleteEmployer";
 const employerService = new EmployeeService();
 
 export default function EmployersTable() {
@@ -154,6 +155,14 @@ export default function EmployersTable() {
         <UpdateEmployer
           id={selected}
           handleClose={() => setShowUpdate(false)}
+          refresh={() => setRefreshKey(Date.now())}
+        />
+      )}
+
+      {showDelete && selected && (
+        <DeleteEmployer
+          id={selected}
+          handleClose={() => setShowDelete(false)}
           refresh={() => setRefreshKey(Date.now())}
         />
       )}
