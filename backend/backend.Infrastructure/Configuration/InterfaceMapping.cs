@@ -10,6 +10,7 @@ using backend.Application.Interfaces.DepartamentInterfaces;
 using backend.Application.Interfaces.EmployerInterfaces;
 using backend.Application.Interfaces.InstitutionInterfaces;
 using backend.Application.Interfaces.JobInterfaces;
+using backend.Application.Interfaces.JobTagInterfaces;
 using backend.Application.Interfaces.LanguageInterfaces;
 using backend.Application.Interfaces.RequirementInterfaces;
 using backend.Application.Interfaces.TagInterfaces;
@@ -62,6 +63,9 @@ namespace backend.Infrastructure.Configuration
 
             services.AddScoped<IJobRepository, JobRepository>();
             services.AddScoped<IJobService, JobService>();
+
+            services.AddScoped<IJobTagRepository, JobTagRepository>();  
+            services.AddScoped<IJobTagService, JobTagService>();    
 
             services.AddSingleton<FileFactory>();
         }
