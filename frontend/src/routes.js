@@ -8,6 +8,7 @@ import Users from "pages/Dashboard/Administrator/Users/Users";
 import Companies from "pages/Dashboard/Administrator/Companies/Companies";
 import Employers from "pages/Dashboard/Administrator/Employers/Employers";
 import ProfilePage from "pages/User/ProfilePage";
+import JobPostings from "pages/Dashboard/Employer/Jobs/JobPostings";
 
 const routes = [
   {
@@ -47,6 +48,12 @@ const routes = [
         element: Employers,
         protected : true,
         roles: ["Admin"],
+      },
+      {
+        path: "/dashboard/jobPostings",
+        protected : true,
+        element: JobPostings,
+        roles: ["Employer"],
       }
     ],
   },
