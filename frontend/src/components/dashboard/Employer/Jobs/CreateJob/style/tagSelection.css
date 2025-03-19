@@ -1,0 +1,16 @@
+.add-tag-button{
+  background-color:#272e51 !important; 
+  color:white;
+  padding: 10px 20px !important;
+  font-size: 16px !important;
+  text-transform: none !important; 
+  border-radius: 8px !important; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important; 
+  transition: background-color 0.3s !important;   
+  font-weight: bold !important;
+}
+
+.add-tag-button:hover{
+    background-color: #1a1f38 !important;
+    color: hsl(206, 100%, 97%) !important;
+}
