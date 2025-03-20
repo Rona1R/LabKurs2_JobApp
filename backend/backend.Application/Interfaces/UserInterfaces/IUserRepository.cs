@@ -13,6 +13,7 @@ namespace backend.Application.Interfaces.UserInterfaces
         Task<IEnumerable<User>> GeAllUsersAsync();
         Task<IEnumerable<User>> GetAllApplicationUsersAsync();
         Task<User?> GetByIdAsync(int id);
+        Task<IdentityResult> UpdateAspNetUser(IdentityUser identityUser);
         Task UpdateAsync(User user);
     }
 }

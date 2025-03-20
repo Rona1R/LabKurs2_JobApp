@@ -52,5 +52,10 @@ namespace backend.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<IdentityResult> UpdateAspNetUser(IdentityUser identityUser)
+        {
+            return await _userManager.UpdateAsync(identityUser);
+        }
+
     }
 }
