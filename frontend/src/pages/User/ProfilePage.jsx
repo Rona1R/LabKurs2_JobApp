@@ -8,6 +8,7 @@ import { FileService } from "api/sevices/FileService";
 import Spinner from "react-bootstrap/Spinner";
 import Loading from "components/common/Loading";
 import { useNotification } from "hooks/useNotification";
+import AboutMe from "components/user/About/AboutMe";
 const userService = new UserService();
 const fileService = new FileService();
 
@@ -200,6 +201,14 @@ export default function ProfilePage() {
               </h5>
               <p className="tw-text-xl tw-text-gray-600">{userProfile.email}</p>
             </div>
+
+            <AboutMe
+              editable={true}
+              userData={userProfile}
+              isLoading={loading}
+              refresh={() => setRefreshKey(Date.now())}
+              // text="A Dedicated Software Engineer with over 5 years of Experience , UI/UX Developer for different prominent companies around the world such as Facebook,Spotify and Netflix"
+            />
 
           </div>
         </Box>
