@@ -10,6 +10,7 @@ import Loading from "components/common/Loading";
 import { useNotification } from "hooks/useNotification";
 import AboutMe from "components/user/About/AboutMe";
 import Education from "components/user/Education/Education";
+import Languages from "components/user/Languages/Languages";
 const userService = new UserService();
 const fileService = new FileService();
 
@@ -215,6 +216,10 @@ export default function ProfilePage() {
             <Divider sx={{ backgroundColor: "gray" }} />
 
             <Education userId={id} />
+
+            <Divider sx={{ backgroundColor: "gray" }} />
+
+            <Languages userId={id} />
           </div>
         </Box>
       </div>
