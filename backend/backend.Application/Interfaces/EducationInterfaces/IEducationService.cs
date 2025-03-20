@@ -8,7 +8,8 @@ using backend.Application.DTOs.Response;
 
 namespace backend.Application.Interfaces.EducationInterfaces
 {
-    public interface IEducationService
+    public interface IEducationService : IBaseService<EducationRequest, EducationResponse>
     {
+        Task<IEnumerable<EducationResponse>> GetByUserAsync(int userId);
     }
 }
