@@ -86,5 +86,23 @@ namespace backend.Application.Services
                 }
             }
         }
+
+        public async Task UpdateEmailAsync(int id, string newEmail)
+        {
+            var account = await _userRepository.GetByIdAsync(id);
+            if (account != null)
+            {
+                var user = await _authenticationRepository.GetUserByEmailAsync(newEmail);
+                if (user != null && user.Id != account.AspNetUserId)
+                {
+                    throw new EmailTakenException("This email is taken!");
+                }
+                else
+                {
+                    account.AspNetUser.Email = newEmail;
+                    await _userRepository.UpdateAspNetUser(account.AspNetUser);
+                }
+            }
+        }
     }
 }

@@ -72,5 +72,25 @@ namespace backend.Presentation.Controllers
             }
         }
 
+
+        [HttpPut("UpdateEmail/{id}")]
+        public virtual async Task<IActionResult> UpdateEmail(int id,[FromQuery] string newEmail)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                await _userService.UpdateEmailAsync(id, newEmail);
+                return NoContent();
+            }
+            catch (EmailTakenException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

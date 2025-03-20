@@ -28,5 +28,9 @@ export class UserService{
     async updateUsername(id,newUsername){
         return await this.axiosInstance.put(`${this.requestMapping}/UpdateUsername/${id}?newUsername=${newUsername}`);
     }
+
+    async updateEmail(id,newEmail){
+        return await this.axiosInstance.put(`${this.requestMapping}/UpdateEmail/${id}?newEmail=${newEmail}`);
+    }
     
 }
