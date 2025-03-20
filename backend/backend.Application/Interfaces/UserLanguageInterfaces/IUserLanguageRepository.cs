@@ -7,7 +7,8 @@ using backend.Domain.Models;
 
 namespace backend.Application.Interfaces.UserLanguageInterfaces
 {
-    public interface IUserLanguageRepository 
+    public interface IUserLanguageRepository : IBaseRepository<UserLanguage>
     {
+        Task<IEnumerable<UserLanguage>> GetByUser(int userId);
     }
 }

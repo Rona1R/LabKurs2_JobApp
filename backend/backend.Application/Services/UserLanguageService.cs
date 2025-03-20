@@ -11,7 +11,16 @@ using backend.Domain.Models;
 
 namespace backend.Application.Services
 {
-    public class UserLanguageService : IUserLanguageService
+    public class UserLanguageService : BaseService<IUserLanguageRepository, UserLanguage, UserLanguageRequest, UserLanguageResponse>, IUserLanguageService
     {
+        public UserLanguageService(IUserLanguageRepository repository, IMapper mapper) : base(repository, mapper)
+        {
+        }
+
+        public async Task<IEnumerable<UserLanguageResponse>> GetByUser(int userId)
+        {
+            var languages = await _repository.GetByUser(userId);
+            return _mapper.Map<IEnumerable<UserLanguageResponse>>(languages);
+        }
     }
 }
