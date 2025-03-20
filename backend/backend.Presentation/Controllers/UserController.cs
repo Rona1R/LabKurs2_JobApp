@@ -53,5 +53,44 @@ namespace backend.Presentation.Controllers
             return NoContent();
         }
 
+        [HttpPut("UpdateUsername/{id}")]
+        public virtual async Task<IActionResult> Update(int id,[FromQuery] string newUsername)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                await _userService.UpdateUsernameAsync(id, newUsername);
+                return NoContent();
+            }
+            catch (UsernameTakenException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpPut("UpdateEmail/{id}")]
+        public virtual async Task<IActionResult> UpdateEmail(int id,[FromQuery] string newEmail)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                await _userService.UpdateEmailAsync(id, newEmail);
+                return NoContent();
+            }
+            catch (EmailTakenException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
