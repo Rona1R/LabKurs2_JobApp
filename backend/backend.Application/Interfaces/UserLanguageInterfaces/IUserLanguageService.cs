@@ -9,7 +9,8 @@ using backend.Domain.Models;
 
 namespace backend.Application.Interfaces.UserLanguageInterfaces
 {
-    public interface IUserLanguageService
+    public interface IUserLanguageService : IBaseService<UserLanguageRequest, UserLanguageResponse>
     {
+        Task<IEnumerable<UserLanguageResponse>> GetByUser(int userId);
     }
 }

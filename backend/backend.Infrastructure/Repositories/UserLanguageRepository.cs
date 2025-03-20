@@ -10,7 +10,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Infrastructure.Repositories
 {
-    public class UserLanguageRepository : IUserLanguageRepository
+    public class UserLanguageRepository : BaseRepository<UserLanguage>, IUserLanguageRepository
     {
+        public UserLanguageRepository(ApplicationDbContext context) : base(context)
+        {
+        }
+
+        public async Task<IEnumerable<UserLanguage>> GetByUser(int userId)
+        {
+            return await _context.UserLanguage.Where(u => u.UserId == userId).Include(u => u.Language).OrderByDescending(u => u.Id).ToListAsync();
+        }
     }
 }

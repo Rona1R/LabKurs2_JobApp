@@ -8,5 +8,10 @@ namespace backend.Application.DTOs.Request
 {
     public class UserLanguageRequest
     {
+        public int UserId { get; set; }
+
+        public int LanguageId { get; set; }
+
+        public string ProficiencyLevel { get; set; }
     }
 }
