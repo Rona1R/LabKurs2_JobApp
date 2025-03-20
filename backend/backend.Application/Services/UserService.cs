@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using backend.Application.DTOs.Request;
 using backend.Application.DTOs.Response;
 using backend.Application.Interfaces.UserInterfaces;
 using backend.Application.Interfaces.UserRoleInterfaces;
@@ -46,6 +47,22 @@ namespace backend.Application.Services
             }
 
             return usersWithRoles;
+        }
+
+        public async Task<UserResponse?> GetUserDetailsByIdAsync(int id)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+            return user != null ? mapper.Map<UserResponse>(user) : default;
+        }
+
+        public virtual async Task UpdateAsync(int id, UserRequest requestDto)
+        {
+            var entity = await _userRepository.GetByIdAsync(id);
+            if (entity != null)
+            {
+                mapper.Map(requestDto, entity);
+                await _userRepository.UpdateAsync(entity);
+            }
         }
     }
 }

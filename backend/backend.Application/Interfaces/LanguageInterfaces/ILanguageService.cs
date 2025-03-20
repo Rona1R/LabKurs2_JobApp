@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using backend.Application.DTOs.Request;
+using backend.Application.DTOs.Response;
 
 namespace backend.Application.Interfaces.LanguageInterfaces
 {
-    public interface ILanguageService
+    public interface ILanguageService : IBaseService<LanguageRequest, LanguageResponse>
     {
     }
 }

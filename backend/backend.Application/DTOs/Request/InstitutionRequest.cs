@@ -8,5 +8,8 @@ namespace backend.Application.DTOs.Request
 {
     public class InstitutionRequest
     {
+        public string Name { get; set; }
+
+        public string Type { get; set; }
     }
 }

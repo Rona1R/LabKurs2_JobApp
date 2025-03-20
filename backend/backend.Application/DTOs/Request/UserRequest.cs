@@ -8,5 +8,15 @@ namespace backend.Application.DTOs.Request
 {
     public class UserRequest
     {
+        public string Name { get; set; }
+
+        public string LastName { get; set; }
+
+        public string ProfileBackground { get; set; }
+
+        public string AboutMe { get; set; }
+
+        public string ProfilePic { get; set; }
+
     }
 }

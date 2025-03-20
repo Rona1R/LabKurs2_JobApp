@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using backend.Domain.Models;
 
 namespace backend.Application.Interfaces.InstitutionInterfaces
 {
-    public interface IInstitutionRepository
+    public interface IInstitutionRepository : IBaseRepository<Institution>
     {
     }
 }

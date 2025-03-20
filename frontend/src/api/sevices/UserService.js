@@ -16,5 +16,14 @@ export class UserService{
     async getAllWithRoles(){
         return await this.axiosInstance.get(`${this.requestMapping}/WithRoles`);
     }
+
+    async getById(id){
+        return await this.axiosInstance.get(`${this.requestMapping}/${id}`);
+    }
+
+    async update(id,data) {
+        return await this.axiosInstance.put(`${this.requestMapping}/${id}`,data);
+    }
+
     
 }

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace backend.Application.DTOs.Request
 {
-    class LanguageRequest
+    public class LanguageRequest
     {
+        public string Name { get; set; }
     }
 }
