@@ -9,6 +9,7 @@ import Companies from "pages/Dashboard/Administrator/Companies/Companies";
 import Employers from "pages/Dashboard/Administrator/Employers/Employers";
 import ProfilePage from "pages/User/ProfilePage";
 import JobPostings from "pages/Dashboard/Employer/Jobs/JobPostings";
+import AccountSettings from "pages/User/AccountSettings";
 import Postings from "pages/Jobs/Postings";
 
 const routes = [
@@ -18,6 +19,7 @@ const routes = [
     children: [
       { path: "/", element: Index },
       { path: "/profile/:id", element: ProfilePage , private: true,},
+      { path: "/account", element: AccountSettings, private: true, },
       { path:"/jobPostings",element:Postings}
     ],
   },
