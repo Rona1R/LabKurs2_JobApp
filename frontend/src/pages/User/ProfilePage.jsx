@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button,Box } from "@mui/material";
+import { Button,Divider,Box } from "@mui/material";
 import "./styles/ProfilePage.css";
 import { useParams } from "react-router";
 import { useEffect } from "react";
@@ -9,6 +9,7 @@ import Spinner from "react-bootstrap/Spinner";
 import Loading from "components/common/Loading";
 import { useNotification } from "hooks/useNotification";
 import AboutMe from "components/user/About/AboutMe";
+import Education from "components/user/Education/Education";
 const userService = new UserService();
 const fileService = new FileService();
 
@@ -210,6 +211,10 @@ export default function ProfilePage() {
               // text="A Dedicated Software Engineer with over 5 years of Experience , UI/UX Developer for different prominent companies around the world such as Facebook,Spotify and Netflix"
             />
 
+
+            <Divider sx={{ backgroundColor: "gray" }} />
+
+            <Education userId={id} />
           </div>
         </Box>
       </div>
