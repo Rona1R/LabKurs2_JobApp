@@ -7,14 +7,18 @@ using backend.Application.Interfaces.Authentication;
 using backend.Application.Interfaces.CategoryInterfaces;
 using backend.Application.Interfaces.CompanyInterfaces;
 using backend.Application.Interfaces.DepartamentInterfaces;
+using backend.Application.Interfaces.EducationInterfaces;
 using backend.Application.Interfaces.EmployerInterfaces;
+using backend.Application.Interfaces.ExperienceInterfaces;
 using backend.Application.Interfaces.InstitutionInterfaces;
 using backend.Application.Interfaces.JobInterfaces;
 using backend.Application.Interfaces.JobTagInterfaces;
 using backend.Application.Interfaces.LanguageInterfaces;
 using backend.Application.Interfaces.RequirementInterfaces;
+using backend.Application.Interfaces.SkillInterfaces;
 using backend.Application.Interfaces.TagInterfaces;
 using backend.Application.Interfaces.UserInterfaces;
+using backend.Application.Interfaces.UserLanguageInterfaces;
 using backend.Application.Interfaces.UserRoleInterfaces;
 using backend.Application.Services;
 using backend.Application.Services.Factory;
@@ -65,7 +69,20 @@ namespace backend.Infrastructure.Configuration
             services.AddScoped<IJobService, JobService>();
 
             services.AddScoped<IJobTagRepository, JobTagRepository>();  
-            services.AddScoped<IJobTagService, JobTagService>();    
+            services.AddScoped<IJobTagService, JobTagService>();
+
+
+            services.AddScoped<IEducationRepository,EducationRepository>();
+            services.AddScoped<IEducationService, EducationService>();
+
+            services.AddScoped<IExperienceRepository, ExperienceRepository>();
+            services.AddScoped<IExperienceService, ExperienceService>();
+
+            services.AddScoped<ISkillRepository, SkillRepository>();
+            services.AddScoped<ISkillService, SkillService>();
+
+            services.AddScoped<IUserLanguageRepository, UserLanguageRepository>();
+            services.AddScoped<IUserLanguageService, UserLanguageService>();
 
             services.AddSingleton<FileFactory>();
         }

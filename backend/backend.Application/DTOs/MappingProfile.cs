@@ -71,6 +71,23 @@ namespace backend.Application.DTOs
             CreateMap<JobTag, JobTagResponse>().ForMember(dest => dest.Tag, opt => opt.MapFrom(src => src.Tag.Name))
                                                .ForMember(dest => dest.Job, opt => opt.MapFrom(src => src.Job.Title));
 
+            CreateMap<EducationRequest, Education>().ForMember(dest => dest.InstitutionName, opt => opt.MapFrom(src => src.ManualInstitutionName));
+            CreateMap<Education, EducationResponse>().ForMember(dest => dest.InstitutionName, opt => opt.MapFrom(src =>
+            src.Institution != null ? src.Institution.Name : "")
+            ).ForMember(dest => dest.ManualInstitutionName, opt => opt.MapFrom(src => src.InstitutionName));
+
+            CreateMap<ExperienceRequest, Experience>().ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.ManualCompanyName));
+            CreateMap<Experience, ExperienceResponse>()
+                .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src =>
+                src.Company != null ? src.Company.Name : ""))
+                .ForMember(dest => dest.ManualCompanyName, opt => opt.MapFrom(src => src.CompanyName));
+
+            CreateMap<SkillRequest, Skill>();
+            CreateMap<Skill, SkillResponse>();
+
+            CreateMap<UserLanguageRequest, UserLanguage>();
+            CreateMap<UserLanguage, UserLanguageResponse>().ForMember(dest => dest.LanguageName, opt => opt.MapFrom(src => src.Language.Name));
+
         }
     }
 }
