@@ -7,7 +7,9 @@ using backend.Domain.Models;
 
 namespace backend.Application.Interfaces.ExperienceInterfaces
 {
-    public interface IExperienceRepository 
+    public interface IExperienceRepository : IBaseRepository<Experience>
     {
+
+        Task<IEnumerable<Experience>> GetByUserAsync(int userId);
     }
 }
