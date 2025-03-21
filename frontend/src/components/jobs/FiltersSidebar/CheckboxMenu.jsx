@@ -59,7 +59,11 @@ export default function CheckboxMenu({
 
   const handleChange = (event) => {
     if (isRadioButton) {
-      setSelected(event.target.name);
+      if(event.target.checked){
+        setSelected(event.target.name);
+      }else{
+        setSelected("");
+      }
     } else {
       const optionValue = event.target.value;
       if (event.target.checked) {

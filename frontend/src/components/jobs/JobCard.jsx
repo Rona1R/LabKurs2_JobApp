@@ -14,6 +14,7 @@ export default function JobCard({title,city,timeLeft,companyLogo}) {
         display: "flex",
         flexDirection: "row",
         boxShadow: "0 4px 6px rgba(39, 38, 38, 0.1)",
+        border: "1px solid rgba(0, 0, 0, 0.12)",
         transition: "box-shadow 0.3s",
         "&:hover": {
           boxShadow: "0 4px 6px rgba(3, 3, 53, 0.23)",

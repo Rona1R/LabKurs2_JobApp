@@ -139,7 +139,7 @@ export default function Postings() {
           </Box>
         ) : (
           <>
-          <Grid container spacing={4} my={4} justifyContent={"center"}>
+          <Grid container spacing={5} my={4} justifyContent={"center"}>
             {postings.map((posting, index) => (
               <Grid size={{ xs: 12, md: 6, xl: 4 }} key={index}>
                 <JobCard
