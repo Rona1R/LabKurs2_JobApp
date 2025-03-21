@@ -11,7 +11,16 @@ using backend.Domain.Models;
 
 namespace backend.Application.Services
 {
-    public class ExperienceService : IExperienceService
+    public class ExperienceService : BaseService<IExperienceRepository, Experience, ExperienceRequest, ExperienceResponse>, IExperienceService
     {
+        public ExperienceService(IExperienceRepository repository, IMapper mapper) : base(repository, mapper)
+        {
+        }
+
+        public async Task<IEnumerable<ExperienceResponse>> GetByUserAsync(int userId)
+        {
+            var experiences = await _repository.GetByUserAsync(userId);
+            return _mapper.Map<IEnumerable<ExperienceResponse>>(experiences);
+        }
     }
 }

@@ -11,6 +11,7 @@ import { useNotification } from "hooks/useNotification";
 import AboutMe from "components/user/About/AboutMe";
 import Education from "components/user/Education/Education";
 import Languages from "components/user/Languages/Languages";
+import Experience from "components/user/WorkExperience/Experience";
 const userService = new UserService();
 const fileService = new FileService();
 
@@ -212,6 +213,9 @@ export default function ProfilePage() {
               // text="A Dedicated Software Engineer with over 5 years of Experience , UI/UX Developer for different prominent companies around the world such as Facebook,Spotify and Netflix"
             />
 
+            <Divider sx={{ backgroundColor: "gray" }} />
+
+            <Experience userId={id} />
 
             <Divider sx={{ backgroundColor: "gray" }} />
 
