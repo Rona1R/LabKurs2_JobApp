@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 import { ExperienceService } from "api/sevices/ExperienceService";
 import Loading from "components/common/Loading";
 import NoDataYet from "components/common/NoDataYet";
+import CreateExperience from "./CreateExperience";
+import UpdateExperience from "./UpdateExperience";
+import DeleteExperience from "./DeleteExperience";
 const experienceService = new ExperienceService();
 
 export default function Experience(props) {
@@ -32,6 +35,30 @@ export default function Experience(props) {
 
   return (
     <>
+      {showCreate && (
+        <CreateExperience
+          userId={props.userId}
+          handleClose={() => setShowCreate(false)}
+          refresh={() => setRefreshKey(Date.now())}
+        />
+      )}
+
+      {showEdit && selected && (
+        <UpdateExperience
+          id={selected}
+          handleClose={() => setShowEdit(false)}
+          refresh={() => setRefreshKey(Date.now())}
+        />
+      )}
+
+      {showDelete && selected && (
+        <DeleteExperience
+          id={selected}
+          handleClose={() => setShowDelete(false)}
+          refresh={() => setRefreshKey(Date.now())}
+        />
+      )
+      }
       <div style={{ margin: "0px 30px" }}>
         <Typography
           variant="h4"
@@ -50,9 +77,6 @@ export default function Experience(props) {
             <AddIcon sx={{fontSize:"2em"}}/>
           </IconButton>
         </Typography>
-        {/* {selected && showEdit && <>Selected Experience : {selected}</>} */}
-        {/* {selected && showDelete && <>Selected to delete : {selected}</>} */}
-        {/* </div> */}
         {loading ? (
           <div style={{ marginTop: "150px", marginBottom: "150px" }}>
             <Loading />
