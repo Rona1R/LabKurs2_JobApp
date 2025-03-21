@@ -1,0 +1,29 @@
+.profile-edit-button,.save-changes-button{
+    background-color: #cdd4ffa0 !important;
+    color: black !important;
+}
+
+.save-changes-button:disabled{
+    background-color: #d2d2d2a0 !important ;
+}
+.disabled-edit{
+    background-color: rgb(240, 240, 240) !important;
+    color: rgb(128, 128, 128) !important;
+}
+
+.cancel-button{
+    background-color:rgb(59, 59, 59) !important;
+    font-weight: bold !important;
+}
+
+.cancel-button:hover{
+    background-color: rgb(30, 29, 29) !important;
+}
+
+.save-changes-button{
+    font-weight: bold !important;
+}
+
+.save-changes-button:hover{
+    background-color: #bbc2efcf !important;
+}
