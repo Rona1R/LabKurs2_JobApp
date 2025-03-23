@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import { SkillService } from "api/sevices/SkillService";
 import Loading from "components/common/Loading";
 import CreateSkill from "./CreateSkill";
+import UpdateSkill from "./UpdateSkill";
+import DeleteSkill from "./DeleteSkill";
 import NoDataYet from "components/common/NoDataYet";
 import AddIcon from '@mui/icons-material/Add';
 const skillService = new SkillService();
@@ -42,6 +44,22 @@ export default function Skills(props) {
         />
       )}
 
+      {showEdit && (
+        <UpdateSkill
+          id={selected}
+          handleClose={() => setShowEdit(false)}
+          refresh={() => setRefreshKey(Date.now())}
+        />
+      )}
+
+      {
+        showDelete && 
+        <DeleteSkill
+          id = {selected}
+          handleClose={() => setShowDelete(false)}
+          refresh={() => setRefreshKey(Date.now())}
+        />
+      }
       <div className="tw-flex tw-gap-3 tw-flex-wrap">
         {loading ? (
           <Loading />
