@@ -48,6 +48,7 @@ export default function Postings() {
 
   useEffect(() => {
     fetchData();
+    console.log("Fetching job postings ....");
   }, [refreshKey,currentPage]);
 
   const handleApplyFilters = () => {

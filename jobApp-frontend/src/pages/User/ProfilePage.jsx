@@ -12,7 +12,7 @@ import AboutMe from "../../components/user/About/AboutMe";
 import Education from "../../components/user/Education/Education";
 import Languages from "../../components/user/Languages/Languages";
 import Experience from "../../components/user/WorkExperience/Experience";
-import Skills from "../../components/user/Skills/Skills";
+import Skills from "src/components/user/Skills/Skills";
 const userService = new UserService();
 const fileService = new FileService();
 

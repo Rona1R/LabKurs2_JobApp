@@ -7,14 +7,16 @@ import {
   Tabs,
   ThemeProvider,
 } from "@mui/material";
-import ProfileForm from "../../components/user/Settings/ProfileForm";
-import PasswordChangeForm from "../../components/user/Settings/PasswordChangeForm";
+// import ProfileForm from "../../components/user/Settings/ProfileForm";
+import PasswordChangeForm from "src/components/user/Settings/PasswordChangeForm";
+// import PasswordChangeForm from "../../components/user/Settings/PasswordChangeForm";
 import Grid from "@mui/material/Grid2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
 import "./styles/AccountSettings.css";
 import tabsTheme from "./styles/TabsTheme";
 import { useState } from "react";
+import ProfileForm from "src/components/user/Settings/ProfileForm";
 
 export default function AccountSettings(){
     const [value, setValue] = useState("General");
