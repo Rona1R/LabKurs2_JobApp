@@ -12,6 +12,7 @@ import AboutMe from "components/user/About/AboutMe";
 import Education from "components/user/Education/Education";
 import Languages from "components/user/Languages/Languages";
 import Experience from "components/user/WorkExperience/Experience";
+import Skills from "components/user/Skills/Skills";
 const userService = new UserService();
 const fileService = new FileService();
 
@@ -204,6 +205,7 @@ export default function ProfilePage() {
               </h5>
               <p className="tw-text-xl tw-text-gray-600">{userProfile.email}</p>
             </div>
+            <Skills userId={id} />
 
             <AboutMe
               editable={true}

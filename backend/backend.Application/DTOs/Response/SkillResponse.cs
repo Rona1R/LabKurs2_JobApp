@@ -8,5 +8,11 @@ namespace backend.Application.DTOs.Response
 {
     public class SkillResponse
     {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public int UserId { get; set; }
+
     }
 }

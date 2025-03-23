@@ -8,7 +8,8 @@ using backend.Application.DTOs.Response;
 
 namespace backend.Application.Interfaces.SkillInterfaces
 {
-    public interface ISkillService 
+    public interface ISkillService : IBaseService<SkillRequest, SkillResponse>
     {
+        Task<IEnumerable<SkillResponse>> GetByUserAsync(int id);
     }
 }

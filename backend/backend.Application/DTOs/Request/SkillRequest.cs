@@ -8,5 +8,8 @@ namespace backend.Application.DTOs.Request
 {
     public class SkillRequest
     {
+        public string Name { get; set; }
+
+        public int UserId { get; set; }
     }
 }

@@ -7,7 +7,8 @@ using backend.Domain.Models;
 
 namespace backend.Application.Interfaces.SkillInterfaces
 {
-    public interface ISkillRepository 
+    public interface ISkillRepository : IBaseRepository<Skill>
     {
+        Task<IEnumerable<Skill>> GetAllByUserAsync(int userId);
     }
 }
