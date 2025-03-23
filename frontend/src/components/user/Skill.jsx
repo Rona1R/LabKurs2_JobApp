@@ -16,20 +16,19 @@ function Skill({ id, skill, editable, showEdit, showDelete, setSelected }) {
   };
 
   return (
-    <div
-      className={`tw-rounded-sm tw-bg-blue-100 tw-pl-10 tw-pr-3 tw-py-2 tw-text-xl tw-font-bold tw-text-blue-800 tw-flex tw-justify-between tw-items-center`}
-    >
-      {skill}
-      {
-        editable && 
-
+    <div className="d-flex justify-content-between align-items-center px-3 py-2 mb-2 rounded" style={{ 
+      backgroundColor: '#e8f0fe', 
+      borderColor: '#89aede', 
+      color: '#2a3f5f' 
+    }}>
+      <span className="fw-bold fs-5" style={{color:"#333699"}}>{skill}</span>
+      {editable && (
         <EditDeleteMenu
           handleEdit={handleEdit}
           handleDelete={handleDelete}
-          iconColor={"hsl(218, 94.40%, 21.20%)"}
-          />
-
-      }
+          iconColor="hsl(218, 94.40%, 21.20%)"
+        />
+      )}
     </div>
   );
 }

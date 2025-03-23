@@ -60,7 +60,7 @@ export default function Skills(props) {
           refresh={() => setRefreshKey(Date.now())}
         />
       }
-      <div className="tw-flex tw-gap-3 tw-flex-wrap">
+      <div className="d-flex flex-wrap gap-3">
         {loading ? (
           <Loading />
         ) : ( 
