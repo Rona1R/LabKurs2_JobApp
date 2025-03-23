@@ -1,0 +1,70 @@
+[{
+  "_id": {
+    "$oid": "67c77332230a3f8d27ac0c64"
+  },
+  "Description": "Test requirement for Test ... ...",
+  "JobId": 7,
+  "CreatedAt": {
+    "$date": "2025-03-05T17:00:04.744Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67c78918d419aeb665b144a7"
+  },
+  "Description": "Requirement 3",
+  "JobId": 7,
+  "CreatedAt": {
+    "$date": "2025-03-04T23:13:28.271Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67c78930d419aeb665b144a9"
+  },
+  "Description": "Requirement 5",
+  "JobId": 7,
+  "CreatedAt": {
+    "$date": "2025-03-04T23:13:52.230Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67c864a0c064c405617a32a2"
+  },
+  "Description": "Requirement 6",
+  "JobId": 7,
+  "CreatedAt": {
+    "$date": "2025-03-05T14:50:08.317Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67c864a0c064c405617a32a3"
+  },
+  "Description": "Requirement 7",
+  "JobId": 7,
+  "CreatedAt": {
+    "$date": "2025-03-05T14:50:08.317Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67c8886fd82ebd676522a082"
+  },
+  "Description": "Must have a Bachelor's degree in Media & Communication , Finance or Business ",
+  "JobId": 8,
+  "CreatedAt": {
+    "$date": "2025-03-05T17:22:55.467Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67c8886fd82ebd676522a083"
+  },
+  "Description": "1 year of experience in SEO Roles or Marketing related Roles",
+  "JobId": 8,
+  "CreatedAt": {
+    "$date": "2025-03-05T17:22:55.467Z"
+  }
+}]
