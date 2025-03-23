@@ -1,0 +1,95 @@
+.background-radial-gradient {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color:   #0A0529;
+  background-image: radial-gradient(
+      circle at 20% 30%,
+      #0A0529 25%,
+      hsl(221, 51%, 15%) 60%,
+      hsl(218, 27%, 22%) 100%
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      hsl(218, 19%, 26%) 20%,
+      hsl(217, 58%, 28%) 50%,
+      hsl(219, 39%, 15%) 100%
+    )
+  /* background-color: hsl(218, 41%, 15%);
+  background-image: radial-gradient(
+      circle at 20% 30%,
+      hsl(219, 56%, 12%) 25%,
+      hsl(220, 49%, 20%) 60%,
+      hsl(218, 45%, 22%) 100%
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      hsl(220, 47%, 10%) 20%,
+      hsl(218, 60%, 25%) 50%,
+      hsl(219, 39%, 15%) 100%
+    ); */
+}
+
+#radius-shape-1 {
+  height: 220px;
+  width: 220px;
+  top: -60px;
+  left: -130px;
+  background: radial-gradient(#46006b, #ad1fff);
+  overflow: hidden;
+}
+
+#radius-shape-2 {
+  border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+  bottom: -60px;
+  right: -110px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(#44006b, #ad1fff);
+  overflow: hidden;
+}
+
+.bg-glass {
+  background-color: hsla(
+    0,
+    0%,
+    100%,
+    0.7
+  ) !important; /* Reduced alpha for more transparency */
+  backdrop-filter: saturate(200%) blur(25px);
+}
+
+.register-text {
+  text-align: center !important;
+}
+
+.register-form {
+  padding: 50px;
+  margin: 10%;
+}
+.sign-up-button {
+  color:hsl(210, 100%, 95%) !important;
+  background-color: #0a0529 !important;
+  width: 100%;
+  font-size: 1em !important;
+  font-weight: bold !important;
+  letter-spacing: 2px !important;
+}
+
+@media screen and (max-width: 600px) {
+  .register-form {
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+  }
+}
+
+
+@media screen and (min-width: 1600px) {
+  .register-form {
+    margin: 60px auto;
+    width : 70%;
+  }
+}
+

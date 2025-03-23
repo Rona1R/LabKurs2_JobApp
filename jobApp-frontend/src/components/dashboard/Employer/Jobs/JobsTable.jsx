@@ -1,0 +1,317 @@
+import React, { useState } from "react";
+import Box from "@mui/material/Box";
+import { DataGrid } from "@mui/x-data-grid";
+import theme from "../../tableTheme";
+import { ThemeProvider } from "@mui/material";
+import "../../styles/table.css";
+import Button from "@mui/material/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useEffect } from "react";
+import Loading from "../../../../components/common/Loading";
+import { IconButton } from "@mui/material";
+import { JobService } from "../../../../api/sevices/JobService";
+import JobDetails from "./Details/JobDetails";
+import CreatePosting from "./CreateJob/CreatePosting";
+import UpdateJob from "./UpdateJob";
+import DeleteJob from "./DeleteJob";
+import JobRquirements from "./Requirements/JobRequirements";
+const jobService = new JobService();
+
+export default function JobsTable() {
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [refreshKey, setRefreshKey] = useState("");
+  const [selected, setSelected] = useState(null);
+  const [showDetails, setShowDetails] = useState(false);
+  const [showRequirements,setShowRequirements] = useState(false);
+  const [showCreate, setShowCreate] = useState(false);
+  const [showUpdate, setShowUpdate] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+
+  const handleEditClick = (id) => {
+    setSelected(id);
+    setShowUpdate(true);
+  };
+
+  const handleDeleteClick = (id) => {
+    setSelected(id);
+    setShowDelete(true);
+  };
+
+  const handleShowDetails = (id) => {
+    setSelected(id);
+    setShowDetails(true);
+  };
+
+  const handleShowRequirements = (id) => {
+    setSelected(id);
+    setShowRequirements(true);
+  };
+  // REMINDER per te ardhmen -> ktu duhet me ja shfaq jobs qe i ka kriju veq employer qe eshte logged in !! pra duhna me
+  // -- pas ni endpoint getJobsByEmployer
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await jobService.getAll();
+        setJobs(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [refreshKey]);
+
+  const columns = [
+    // {
+    //   field: "id",
+    //   headerName: "ID",
+    //   width: 90,
+    //   headerClassName: "super-app-theme--header",
+    //   cellClassName: "super-app-theme--cell custom-cell",
+    // },
+    {
+      field: "title",
+      headerName: "Title",
+      width: 350,
+      editable: true,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell custom-cell",
+    },
+    {
+      field: "description",
+      headerName: "Description",
+      width: 350,
+      editable: true,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell custom-cell",
+    },
+    {
+      field: "location",
+      headerName: "Location",
+      width: 250,
+      editable: true,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell custom-cell",
+    },
+    {
+      field: "employmentType",
+      headerName: "Employment Type",
+      width: 250,
+      editable: true,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell custom-cell",
+    },
+    {
+      field: "payRange",
+      headerName: "Pay Range",
+      width: 250,
+      editable: true,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell custom-cell",
+    },
+    {
+      field: "salaryPeriod",
+      headerName: "Salary Type",
+      width: 250,
+      editable: true,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell custom-cell",
+    },
+    {
+      field: "company",
+      headerName: "Company",
+      width: 250,
+      editable: true,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell custom-cell",
+    },
+    {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 290,
+      editable: true,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+      renderCell: (params) => {
+        const date = new Date(params.value + "Z");
+        const formattedDate = date.toLocaleString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true,
+        }); //.format(date);
+        return <>{formattedDate}</>;
+      },
+    },
+    {
+      field: "deadline",
+      headerName: "Deadline",
+      width: 290,
+      editable: true,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+      renderCell: (params) => {
+        const date = new Date(params.value + "Z");
+        const formattedDate = date.toLocaleString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true,
+        });
+        return <>{formattedDate}</>;
+      },
+    },
+    {
+      field: "requirements",
+      headerName: "Requirements",
+      width: 170,
+      sortable: false,
+      filterable: false,
+      renderCell: (params) => (
+        <>
+          <IconButton
+            className="details-button"
+            onClick={() => handleShowRequirements(params.id)}
+          >
+            <i className="fa-solid fa-circle-info"></i>
+          </IconButton>
+        </>
+      ),
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+    },
+    {
+      field: "details",
+      headerName: "Details",
+      width: 150,
+      sortable: false,
+      filterable: false,
+      renderCell: (params) => (
+        <>
+          <IconButton
+            className="details-button"
+            onClick={() => handleShowDetails(params.id)}
+          >
+            <i className="fa-solid fa-folder-open"></i>
+          </IconButton>
+        </>
+      ),
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+    },
+    {
+      field: "Actions",
+      headerName: "Actions",
+      width: 250,
+      sortable: false,
+      filterable: false,
+      renderCell: (params) => (
+        <>
+          <IconButton
+            onClick={() => handleEditClick(params.id)}
+            className="edit-button"
+          >
+            <i className="fa-solid fa-pen-to-square"></i>
+          </IconButton>
+
+          <IconButton
+            onClick={() => handleDeleteClick(params.id)}
+            className="delete-button"
+          >
+            <i className="fa-solid fa-trash"></i>
+          </IconButton>
+        </>
+      ),
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+    },
+  ];
+
+  const totalWidth = columns.reduce(
+    (acc, column) => acc + (column.width || 0),
+    0
+  );
+
+  return (
+    <>
+      {showDetails && selected && (
+        <JobDetails id={selected} handleClose={() => setShowDetails(false)} />
+      )}
+
+      {showCreate && (
+        <CreatePosting
+          refresh={() => setRefreshKey(Date.now())}
+          handleClose={() => setShowCreate(false)}
+        />
+      )}
+
+      {showUpdate && selected && (
+        <UpdateJob
+          id={selected}
+          refresh={() => setRefreshKey(Date.now())}
+          handleClose={() => setShowUpdate(false)}
+        />
+      )}
+
+      {showDelete && selected && (
+        <DeleteJob
+          id={selected}
+          refresh={() => setRefreshKey(Date.now())}
+          handleClose={() => setShowDelete(false)}
+        />
+      )}
+
+      {
+        showRequirements && selected && (
+          <JobRquirements
+            id = {selected}
+            handleClose={()=>setShowRequirements(false)}
+          />
+        )
+      }
+
+      <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
+        <Button className="create-button" onClick={() => setShowCreate(true)}>
+          <FontAwesomeIcon icon={faPlus} className="create-icon" />
+          Add Posting
+        </Button>
+      </Box>
+      <Box
+        sx={{ width: "100%", overflowX: "auto", padding: "20px" }}
+        className="table-container"
+      >
+        {loading ? (
+          <Loading />
+        ) : (
+          <Box sx={{ width: totalWidth + 50, margin: "0 auto" }}>
+            <ThemeProvider theme={theme}>
+              <DataGrid
+                rows={jobs}
+                columns={columns}
+                initialState={{
+                  pagination: {
+                    paginationModel: {
+                      pageSize: 10,
+                    },
+                  },
+                }}
+                pageSizeOptions={[5, 10, 20]}
+                disableRowSelectionOnClick
+                getRowClassName={(params) => `super-app-theme--row`}
+              />
+            </ThemeProvider>
+          </Box>
+        )}
+      </Box>
+    </>
+  );
+}

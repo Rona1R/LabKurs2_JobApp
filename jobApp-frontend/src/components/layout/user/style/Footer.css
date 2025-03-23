@@ -1,0 +1,22 @@
+.custom-footer a:hover{
+    color:hsl(210, 100%, 80%) ;
+}
+
+.custom-footer a,.footer-contact{
+    color: rgb(240, 240, 240);
+}
+
+.section-title{
+    color:hsl(210, 100%, 80%) ;
+}
+
+.media-link, .footer-contact{
+    display: flex;
+    align-items: center;
+    gap:1.5rem;
+}
+
+.footer-icon{
+    color: hsl(210, 100%, 80%);
+    font-size: 1.8rem;
+}
