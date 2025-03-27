@@ -40,10 +40,9 @@ namespace backend.Infrastructure.Repositories
 
             var update = Builders<JobDetails>.Update
                 .Set(u => u.Requirements, entity.Requirements)
-                .Set(u => u.RequiredSkills,entity.RequiredSkills)
-                .Set(u=> u.NiceToHaveSkills,entity.NiceToHaveSkills)    
-                .Set(u => u.CustomFields, entity.CustomFields);
-
+                .Set(u => u.RequiredSkills, entity.RequiredSkills)
+                .Set(u => u.NiceToHaveSkills, entity.NiceToHaveSkills);   
+   
             await _jobDetails.UpdateOneAsync(filter, update);
         }
     }

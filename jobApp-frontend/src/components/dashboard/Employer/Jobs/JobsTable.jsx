@@ -11,11 +11,12 @@ import { useEffect } from "react";
 import Loading from "../../../../components/common/Loading";
 import { IconButton } from "@mui/material";
 import { JobService } from "../../../../api/sevices/JobService";
-import JobDetails from "./Details/JobDetails";
+import JobTags from "./JobTags/JobTags";
 import CreatePosting from "./CreateJob/CreatePosting";
 import UpdateJob from "./UpdateJob";
 import DeleteJob from "./DeleteJob";
-import JobRquirements from "./Requirements/JobRequirements";
+import JobDetails from "./JobDetails/JobDetails";
+// import JobRquirements from "./Requirements/JobRequirements";
 const jobService = new JobService();
 
 export default function JobsTable() {
@@ -23,11 +24,12 @@ export default function JobsTable() {
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState("");
   const [selected, setSelected] = useState(null);
-  const [showDetails, setShowDetails] = useState(false);
-  const [showRequirements,setShowRequirements] = useState(false);
+  const [showTags, setShowTags] = useState(false);
+  // const [showRequirements,setShowRequirements] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
 
   const handleEditClick = (id) => {
     setSelected(id);
@@ -39,15 +41,21 @@ export default function JobsTable() {
     setShowDelete(true);
   };
 
+  const handleShowTags = (id) => {
+    setSelected(id);
+    setShowTags(true);
+  };
+
   const handleShowDetails = (id) => {
     setSelected(id);
     setShowDetails(true);
-  };
+  }
 
-  const handleShowRequirements = (id) => {
-    setSelected(id);
-    setShowRequirements(true);
-  };
+  // const handleShowRequirements = (id) => {
+  //   setSelected(id);
+  //   setShowRequirements(true);
+  // };
+
   // REMINDER per te ardhmen -> ktu duhet me ja shfaq jobs qe i ka kriju veq employer qe eshte logged in !! pra duhna me
   // -- pas ni endpoint getJobsByEmployer
   useEffect(() => {
@@ -171,8 +179,8 @@ export default function JobsTable() {
       },
     },
     {
-      field: "requirements",
-      headerName: "Requirements",
+      field: "details",
+      headerName: "Details",
       width: 170,
       sortable: false,
       filterable: false,
@@ -180,7 +188,7 @@ export default function JobsTable() {
         <>
           <IconButton
             className="details-button"
-            onClick={() => handleShowRequirements(params.id)}
+            onClick={() => handleShowDetails(params.id)}
           >
             <i className="fa-solid fa-circle-info"></i>
           </IconButton>
@@ -190,8 +198,8 @@ export default function JobsTable() {
       cellClassName: "super-app-theme--cell",
     },
     {
-      field: "details",
-      headerName: "Details",
+      field: "tags",
+      headerName: "Tags",
       width: 150,
       sortable: false,
       filterable: false,
@@ -199,9 +207,9 @@ export default function JobsTable() {
         <>
           <IconButton
             className="details-button"
-            onClick={() => handleShowDetails(params.id)}
+            onClick={() => handleShowTags(params.id)}
           >
-            <i className="fa-solid fa-folder-open"></i>
+            <i className="fa-solid fa-hashtag"></i>
           </IconButton>
         </>
       ),
@@ -243,10 +251,18 @@ export default function JobsTable() {
 
   return (
     <>
-      {showDetails && selected && (
-        <JobDetails id={selected} handleClose={() => setShowDetails(false)} />
+      {showTags && selected && (
+        <JobTags id={selected} handleClose={() => setShowTags(false)} />
       )}
 
+      {
+        showDetails && selected && (
+          <JobDetails 
+            jobId={selected}
+            handleClose={()=>setShowDetails(false)}
+          />
+        )
+      }
       {showCreate && (
         <CreatePosting
           refresh={() => setRefreshKey(Date.now())}
@@ -269,7 +285,7 @@ export default function JobsTable() {
           handleClose={() => setShowDelete(false)}
         />
       )}
-
+{/* 
       {
         showRequirements && selected && (
           <JobRquirements
@@ -277,7 +293,7 @@ export default function JobsTable() {
             handleClose={()=>setShowRequirements(false)}
           />
         )
-      }
+      } */}
 
       <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
         <Button className="create-button" onClick={() => setShowCreate(true)}>

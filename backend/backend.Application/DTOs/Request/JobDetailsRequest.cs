@@ -17,7 +17,5 @@ namespace backend.Application.DTOs.Request
         public List<string>? RequiredSkills { get; set; } = new List<string>();
 
         public List<string>? NiceToHaveSkills { get; set; } = new List<string>();
-
-        public Dictionary<string, string>? CustomFields { get; set; } = new Dictionary<string, string>();
     }
 }

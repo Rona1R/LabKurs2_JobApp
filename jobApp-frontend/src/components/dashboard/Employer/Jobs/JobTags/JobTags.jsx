@@ -8,16 +8,16 @@ import * as React from "react";
 import Modal from "react-bootstrap/Modal";
 import Stack from "@mui/material/Stack";
 import JobTag from "./JobTag";
-import NoDataYet from "../../../../../components/common/NoDataYet";
+import NoDataYet from "../../../../common/NoDataYet";
 import TagSelection from "../CreateJob/TagSelection";
 import { ArrowBack } from "@mui/icons-material";
 import { useNotification } from "../../../../../hooks/useNotification";
 import DeleteJobTag from "./DeleteJobTag";
-import Loading from "../../../../../components/common/Loading";
+import Loading from "../../../../common/Loading";
 const jobTagService = new JobTagService();
 const tagService = new TagService();
 
-export default function JobDetails(props) {
+export default function JobTags(props) {
   const [tags, setTags] = React.useState([]);
   const [tagsToSelect, setTagsToSelect] = React.useState([]);
   const [selectedTag, setSelectedTag] = React.useState(null);
@@ -114,7 +114,7 @@ export default function JobDetails(props) {
               ? "Delete Tag"
               : showTagSelection
               ? "Add Tags"
-              : "Job Details"}{" "}
+              : "Job Tags"}{" "}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

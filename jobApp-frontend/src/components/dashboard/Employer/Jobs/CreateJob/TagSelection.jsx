@@ -11,7 +11,7 @@ import menuTheme from "../../../../../components/dashboard/styles/menuTheme";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import "./style/tagSelection.css";
-import JobTag from "../Details/JobTag";
+import JobTag from "../JobTags/JobTag";
 
 export default function TagSelection({
   tags,

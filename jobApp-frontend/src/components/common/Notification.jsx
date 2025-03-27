@@ -26,7 +26,6 @@ export default function Notification(props) {
     />
   );
   return (
-    props.message && (
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         open={props.isOpen}
@@ -36,5 +35,4 @@ export default function Notification(props) {
         {content}
       </Snackbar>
     )
-  );
 }
