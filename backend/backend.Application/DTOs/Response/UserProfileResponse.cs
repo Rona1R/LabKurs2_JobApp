@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace backend.Application.DTOs.Response
 {
-    public class RequirementResponse
+    public class UserProfileResponse
     {
         public string Id { get; set; }
 
-        public string Description { get; set; }
+        public int UserId { get; set; }
 
-        public int JobId { get; set; }
-
-        public DateTime CreatedAt { get; set; }
+        public Dictionary<string, string> CustomFields { get; set; }
     }
 }

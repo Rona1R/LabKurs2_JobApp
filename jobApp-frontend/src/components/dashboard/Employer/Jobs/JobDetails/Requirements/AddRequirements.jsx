@@ -1,15 +1,15 @@
 import { TextField, Box, ThemeProvider, Button } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import RequirementList from "./RequirementList";
-import formTheme from "../../../../../components/dashboard/styles/formTheme";
-import "../CreateJob/style/tagSelection.css";
+import formTheme from "src/components/dashboard/styles/formTheme";
+import "../../CreateJob/style/tagSelection.css";
+import DetailsList from "../DetailsList";
 
 export default function AddRequirements({
-  selectedRequirement,
-  handleChange,
   addedRequirements,
   addRequirement,
+  selectedRequirement,
+  handleChange,
   removeRequirement,
 }) {
   return (
@@ -21,15 +21,15 @@ export default function AddRequirements({
         >
           <TextField
             required
-            label="Description"
+            label="Requirement"
             variant="outlined"
-            value={selectedRequirement.description}
+            value={selectedRequirement}
             onChange={handleChange}
           />
         </Box>
       </ThemeProvider>
 
-      {selectedRequirement.description && selectedRequirement.description.trim() !== "" && (
+      {selectedRequirement && selectedRequirement.trim() !== "" && (
         <div className="d-flex justify-content-end w-100 mb-3">
           <Button
             variant="contained"
@@ -41,11 +41,13 @@ export default function AddRequirements({
           </Button>
         </div>
       )}
-
-      <RequirementList
-        requirements={addedRequirements}
-        removeFromList={removeRequirement}
-      />
+      {
+        <DetailsList
+          listItems={addedRequirements}
+          handleDelete={removeRequirement}
+          noData="No requirements listed"
+        />
+      }
     </>
   );
 }

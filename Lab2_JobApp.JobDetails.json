@@ -1,0 +1,50 @@
+[{
+  "_id": {
+    "$oid": "67e592ba417d55e8c909bec3"
+  },
+  "JobId": 8,
+  "Requirements": [
+    "Bachelor's degree",
+    "3 Years of experience"
+  ],
+  "RequiredSkills": [
+    "Software Development",
+    "SQL",
+    "Databases"
+  ],
+  "NiceToHaveSkills": [
+    "Architectural Patterns",
+    "Software Architecture"
+  ]
+},
+{
+  "_id": {
+    "$oid": "67e593c0077fc9f4e5ee2754"
+  },
+  "JobId": 7,
+  "Requirements": [
+    "Master's degree in Data Science",
+    "Minimum 2 years of experience"
+  ],
+  "RequiredSkills": [],
+  "NiceToHaveSkills": []
+},
+{
+  "_id": {
+    "$oid": "67e5bb5b155dabf1b635c40d"
+  },
+  "JobId": 9,
+  "Requirements": [
+    "Bachelors degree in Economics, Finance or related field",
+    "2 years of experience in Accounting"
+  ],
+  "RequiredSkills": [
+    "Microeconomics ",
+    "Audit",
+    "Excel"
+  ],
+  "NiceToHaveSkills": [
+    "Data Analytics",
+    "SQL"
+  ]
+}]

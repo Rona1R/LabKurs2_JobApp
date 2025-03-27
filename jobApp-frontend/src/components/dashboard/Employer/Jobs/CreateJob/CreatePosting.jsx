@@ -15,14 +15,16 @@ import TagSelection from "./TagSelection";
 import { TagService } from "../../../../../api/sevices/TagService";
 import { JobService } from "../../../../../api/sevices/JobService";
 import { JobTagService } from "../../../../../api/sevices/JobTagService";
-import AddRequirements from "../Requirements/AddRequirements";
-import { RequirementService } from "../../../../../api/sevices/RequirementService";
+import AddRequirements from "../JobDetails/Requirements/AddRequirements";
+import AddRequiredSkills from "../JobDetails/RequiredSkills/AddRequiredSkills";
+import AddNiceToHaveSkill from "../JobDetails/NiceToHaveSkills/AddNiceToHaveSkill";
+import { JobDetailsService } from "src/api/sevices/JobDetailsService";
 const categoryService = new CategoryService();
 const companyService = new CompanyService();
 const tagService = new TagService();
 const jobService = new JobService();
 const jobTagService = new JobTagService();
-const requirementService = new RequirementService();
+const jobDetailsService = new JobDetailsService();
 
 export default function CreatePosting(props) {
   const loggedInEmployer = 1; // PER SIMULIM !!
@@ -68,30 +70,34 @@ export default function CreatePosting(props) {
   const [loading, setLoading] = React.useState(false);
   const { handleClose } = props;
   const { showNotification } = useNotification();
-  const [requirementToAdd, setRequirementToAdd] = React.useState({
-    description: "",
-    jobId: null,
-  }); 
-  const [addedRequirements, setAddedRequirements] = React.useState([]);
+
+  const [selectedRequirement,setSelectedRequirement] = React.useState("");
+  const [addedRequirements,setAddedRequirements] = React.useState([]);
+
+  const [selectedSkill,setSelectedSkill] = React.useState("");
+  const [addedSkills,setAddedSkills] = React.useState([]);
+
+  const [selectedOptionalSkill,setSelectedOptionalSkill] = React.useState("");
+  const [addedOptionalSkills,setAddedOptionalSkills] = React.useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // me i fetch vetem kompanit e Employer qe eshte logged in ! (se veq per to ka tdrejt me postu shpallje ...)
-        const response = await companyService.getByUser(loggedInEmployer);
-        setCompanies(response.data);
-
-        const categoryResponse = await categoryService.getAll();
+        const [companyResponse, categoryResponse, tagsResponse] = await Promise.all([
+          companyService.getByUser(loggedInEmployer),
+          categoryService.getAll(),
+          tagService.getAll()
+        ]);
+  
+        setCompanies(companyResponse.data);
         setCategories(categoryResponse.data);
-
-        const tagsResponse = await tagService.getAll();
         setTags(tagsResponse.data);
       } catch (err) {
         console.log(err);
         handleClose();
       }
     };
-
+  
     fetchData();
   }, [handleClose]);
 
@@ -159,20 +165,44 @@ export default function CreatePosting(props) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleAddRequirement = () => {
-    setAddedRequirements([...addedRequirements, requirementToAdd]);
-    setRequirementToAdd({ ...requirementToAdd, description: "" });
+  const addRequirement = () => {
+    setAddedRequirements([...addedRequirements,selectedRequirement]);
+    setSelectedRequirement("");
+  }
+
+  const handleRequirement2Change = (e) => {
+     setSelectedRequirement(e.target.value);
   };
 
-  const handleRemoveRequirement = (description) => {
-    setAddedRequirements(
-      addedRequirements.filter((req) => req.description !== description)
-    );
+  const removeRequirement = (req) => { // remove nga lista
+    setAddedRequirements(addedRequirements.filter(addedReq=>addedReq !== req));
+  }
+
+  const addSkill = () => {
+    setAddedSkills([...addedSkills,selectedSkill]);
+    setSelectedSkill("");
+  }
+
+  const handleSkillChange = (e) => {
+     setSelectedSkill(e.target.value);
   };
 
-  const handleRequirementChange = (e) => {
-    setRequirementToAdd({ ...requirementToAdd, description: e.target.value });
+  const removeSkill = (skill) => { // remove nga lista
+    setAddedSkills(addedSkills.filter(addedSkill=> addedSkill !== skill));
+  }
+
+  const addOptionalSkill = () => {
+    setAddedOptionalSkills([...addedOptionalSkills,selectedOptionalSkill]);
+    setSelectedOptionalSkill("");
+  }
+
+  const handleOptionalSkillChange = (e) => {
+     setSelectedOptionalSkill(e.target.value);
   };
+
+  const removeOptionalSkill = (optionalSkill) => { // remove nga lista
+    setAddedOptionalSkills(addedOptionalSkills.filter(addedOptionalSkill=> addedOptionalSkill !== optionalSkill));
+  }
 
   const fetchCitiesForCountry = async (countryCode) => {
     const response = await fetch(
@@ -294,19 +324,15 @@ export default function CreatePosting(props) {
     }
   };
 
-  const insertRequirements = async (jobId) => {
-    const formattedRequirements = addedRequirements.map((req) => ({
-      ...req,
-      jobId : jobId
-    }));
-    try {
-      await requirementService.createRequirements(formattedRequirements);
-    } catch (err) {
-      console.log(err);
-      showNotification("error", "An Unexpected Error Occurred while adding requirements!");
-      handleClose();
+  const insertJobDetails = async (jobId) => {
+    const jobDetailsRequest = {
+      jobId : jobId,
+      requirements : addedRequirements2,
+      requiredSkills : addedSkills,
+      niceToHaveSkills :addedOptionalSkills
     }
-  };
+    await jobDetailsService.create(jobDetailsRequest);
+  }
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -316,14 +342,12 @@ export default function CreatePosting(props) {
 
     const job = await createJob(data);
     if (job) {
-      if(addedRequirements.length > 0){
-        await insertRequirements(job.data.id);
-      }
+      await insertJobDetails(job.data.id);
 
       if(addedTags.length > 0) {
         await insertTags(job.data.id);
       }
-      
+
       setLoading(false);
       props.refresh();
       showNotification("success", "Job was successfully created!");
@@ -364,18 +388,40 @@ export default function CreatePosting(props) {
               step={step}
             />
           )}
-
-          {step === 3 && (
-            <AddRequirements
-              selectedRequirement={requirementToAdd}
-              handleChange={handleRequirementChange}
-              addedRequirements={addedRequirements}
-              addRequirement={handleAddRequirement}
-              removeRequirement={handleRemoveRequirement}
-            />
-          )}
-
-          {step === 4 && (
+          {
+            step === 3 && (
+              <AddRequirements
+                addedRequirements={addedRequirements}
+                addRequirement={addRequirement}
+                selectedRequirement={selectedRequirement}
+                handleChange={handleRequirement2Change}
+                removeRequirement={removeRequirement}
+              />
+            )
+          }
+          {
+            step === 4 && (
+              <AddRequiredSkills
+                addedSkills = {addedSkills}
+                selectedSkill = {selectedSkill}
+                addSkill={addSkill}
+                handleChange={handleSkillChange}
+                removeSkill={removeSkill}
+              />
+            )
+          }
+          {
+            step === 5 && (
+              <AddNiceToHaveSkill 
+                addedOptionalSkills={addedOptionalSkills}
+                selectedOptionalSkill={selectedOptionalSkill}
+                addOptionalSkill={addOptionalSkill}
+                handleChange={handleOptionalSkillChange}
+                removeOptionalSkill={removeOptionalSkill}
+              />
+            )
+          }
+          {step === 6 && (
             <TagSelection
               tags={tags}
               selectedTag={selectedTag}
@@ -385,7 +431,6 @@ export default function CreatePosting(props) {
               removeTag={handleRemoveTag}
             />
           )}
-
           <div className="d-flex justify-content-between align-items-center">
             <div>
               <Typography
@@ -396,7 +441,7 @@ export default function CreatePosting(props) {
                   paddingLeft: "4px",
                 }}
               >
-                Step {step} out 4
+                Step {step} out 6
               </Typography>
             </div>
             <div>
@@ -411,18 +456,18 @@ export default function CreatePosting(props) {
                   }}
                 />
               </IconButton>
-              <IconButton disabled={step === 4} onClick={incrementStep}>
+              <IconButton disabled={step === 6} onClick={incrementStep}>
                 <ArrowForward
                   sx={{
                     fontSize: "1.5em",
-                    color: step === 4 ? "#ccc" : "#1e1b46",
+                    color: step === 6 ? "#ccc" : "#1e1b46",
                   }}
                 />
               </IconButton>
             </div>
           </div>
         </Modal.Body>
-        {step === 4 && (
+        {step === 6 && (
           <Modal.Footer>
             <Button
               onClick={handleSubmit}

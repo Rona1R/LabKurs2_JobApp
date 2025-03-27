@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace backend.Application.DTOs.Request
 {
-    public class RequirementRequest
+    public class UserProfileRequest
     {
-        public string Description { get; set; }
+        public int UserId { get; set; }
 
-        public int JobId { get; set; }
+        public Dictionary<string, string>? CustomFields { get; set; } 
     }
 }

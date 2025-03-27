@@ -11,14 +11,15 @@ using backend.Application.Interfaces.EducationInterfaces;
 using backend.Application.Interfaces.EmployerInterfaces;
 using backend.Application.Interfaces.ExperienceInterfaces;
 using backend.Application.Interfaces.InstitutionInterfaces;
+using backend.Application.Interfaces.JobDetailsInterfaces;
 using backend.Application.Interfaces.JobInterfaces;
 using backend.Application.Interfaces.JobTagInterfaces;
 using backend.Application.Interfaces.LanguageInterfaces;
-using backend.Application.Interfaces.RequirementInterfaces;
 using backend.Application.Interfaces.SkillInterfaces;
 using backend.Application.Interfaces.TagInterfaces;
 using backend.Application.Interfaces.UserInterfaces;
 using backend.Application.Interfaces.UserLanguageInterfaces;
+using backend.Application.Interfaces.UserProfileInterfaces;
 using backend.Application.Interfaces.UserRoleInterfaces;
 using backend.Application.Services;
 using backend.Application.Services.Factory;
@@ -53,9 +54,6 @@ namespace backend.Infrastructure.Configuration
             services.AddScoped<IDepartamentRepository, DepartamentRepository>();
             services.AddScoped<IDepartamentService, DepartamentService>();
 
-            services.AddScoped<IRequirementRepository, RequirementRepository>();
-            services.AddScoped<IRequirementService, RequirementService>();
-
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<ITagService, TagService>();
 
@@ -83,6 +81,12 @@ namespace backend.Infrastructure.Configuration
 
             services.AddScoped<IUserLanguageRepository, UserLanguageRepository>();
             services.AddScoped<IUserLanguageService, UserLanguageService>();
+
+            services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+            services.AddScoped<IUserProfileService, UserProfileService>();
+
+            services.AddScoped<IJobDetailsRepository, JobDetailsRepository>();
+            services.AddScoped<IJobDetailsService, JobDetailsService>();
 
             services.AddSingleton<FileFactory>();
         }

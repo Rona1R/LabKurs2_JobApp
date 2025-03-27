@@ -45,9 +45,6 @@ namespace backend.Application.DTOs
              .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.AspNetUser.UserName))
             .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.AspNetUser.PhoneNumber));
 
-            CreateMap<RequirementRequest, Requirement>();
-            CreateMap<Requirement, RequirementResponse>();
-
             CreateMap<TagRequest, Tag>();
             CreateMap<Tag, TagResponse>();
 
@@ -87,6 +84,12 @@ namespace backend.Application.DTOs
 
             CreateMap<UserLanguageRequest, UserLanguage>();
             CreateMap<UserLanguage, UserLanguageResponse>().ForMember(dest => dest.LanguageName, opt => opt.MapFrom(src => src.Language.Name));
+
+            CreateMap<UserProfileRequest, UserProfile>();
+            CreateMap<UserProfile,  UserProfileResponse>();
+
+            CreateMap<JobDetailsRequest, JobDetails>();
+            CreateMap < JobDetails, JobDetailsResponse>();
 
         }
     }

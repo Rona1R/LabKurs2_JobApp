@@ -5,18 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using backend.Application.DTOs.Request;
 using backend.Application.Helpers;
+using backend.Application.Interfaces.JobDetailsInterfaces;
 using backend.Application.Interfaces.JobInterfaces;
 using backend.Domain.Models;
 using backend.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace backend.Infrastructure.Repositories
 {
     public class JobRepository : BaseRepository<Job>, IJobRepository
     {
-        public JobRepository(ApplicationDbContext context) : base(context)
+        private readonly IJobDetailsRepository jobDetailsRepository;
+        public JobRepository(ApplicationDbContext context, IJobDetailsRepository jobDetailsRepository) : base(context)
         {
+            this.jobDetailsRepository = jobDetailsRepository;
         }
 
         public override async Task DeleteAsync(int id)
@@ -27,6 +29,8 @@ namespace backend.Infrastructure.Repositories
                 job.IsDeleted = true;
                 _context.Update(job);
                 await _context.SaveChangesAsync();
+
+                await jobDetailsRepository.DeleteAsync(id); // removing job details from Mongo
             }
         }
 

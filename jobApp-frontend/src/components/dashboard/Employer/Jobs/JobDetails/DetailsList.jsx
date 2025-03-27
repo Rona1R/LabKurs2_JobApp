@@ -1,18 +1,19 @@
 import { List, ListItem, ListItemText, IconButton, Box } from "@mui/material";
-import NoDataYet from "../../../../../components/common/NoDataYet";
+import NoDataYet from "src/components/common/NoDataYet";
 import "../../../styles/table.css";
 
-export default function RequirementList({
-  requirements,
+export default function DetailsList({
+  listItems,
   handleEdit,
   handleDelete,
-  removeFromList,
+  noData
+//   removeFromList,
 }) {
   return (
     <>
-      {requirements.length > 0 ? (
+      {listItems.length > 0 ? (
         <List>
-          {requirements.map((req, index) => (
+          {listItems.map((item, index) => (
             <ListItem
               key={index}
               sx={{ mb: 3, backgroundColor: "#f5f5f5", borderRadius: "20px" }}
@@ -22,7 +23,7 @@ export default function RequirementList({
               >
                 <Box sx={{ marginLeft: "auto" }}>
                   {handleEdit && (
-                    <IconButton sx={{ fontSize: "15px" }} onClick={()=>handleEdit(req.id)}>
+                    <IconButton sx={{ fontSize: "15px" }} onClick={()=>handleEdit(item)}>
                       <i
                         className="fa-solid fa-pen-to-square"
                         style={{ color: "#0A0529" }}
@@ -30,10 +31,10 @@ export default function RequirementList({
                     </IconButton>
                   )}
 
-                  {handleDelete && ( // deletion from Database
+                  {handleDelete && ( 
                     <IconButton
                       sx={{ fontSize: "15px" }}
-                      onClick={() => handleDelete(req.id)}
+                      onClick={() => handleDelete(item)}
                     >
                       <i
                         className="fa-solid fa-trash"
@@ -41,32 +42,15 @@ export default function RequirementList({
                       ></i>
                     </IconButton>
                   )}
-
-                  {removeFromList && ( // removal from selection list 
-                    <IconButton
-                      sx={{ fontSize: "15px" }}
-                      onClick={() => removeFromList(req.description)}
-                    >
-                      <i
-                        className="fa-solid fa-x"
-                      ></i>
-                    </IconButton>
-                  )}
                 </Box>
-                <ListItemText primary={req.description} />
+                <ListItemText primary={item} />
               </Box>
             </ListItem>
           ))}
         </List>
       ) : (
-        <NoDataYet message="No requirements listed" />
+        <NoDataYet message={noData} />
       )}
-
-      {/* <Box sx={{ display: "flex" }}>
-        <IconButton sx={{ color: "#1e1b46", marginLeft: "auto" }}>
-          <AddIcon sx={{ fontSize: "1.5em" }} />
-        </IconButton>
-      </Box> */}
     </>
   );
 }

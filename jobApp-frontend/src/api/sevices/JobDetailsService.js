@@ -1,15 +1,15 @@
 import { axiosInstance } from "./axioxInstance";
 
-export class RequirementService{
+export class JobDetailsService{
     axiosInstance;
     requestMapping = "";
   
     constructor() {
       this.axiosInstance = axiosInstance;
-      this.requestMapping = "Requirement";
+      this.requestMapping = "JobDetails";
     }
   
-    async createRequirements(data) {
+    async create(data) {
       return await this.axiosInstance.post(this.requestMapping, data);
     }
   
@@ -18,14 +18,10 @@ export class RequirementService{
     }
   
     async getByJob(id) {
-      return await this.axiosInstance.get(`${this.requestMapping}/byJob/${id}`);
-    }
-  
-    async getById(id) {
       return await this.axiosInstance.get(`${this.requestMapping}/${id}`);
     }
   
-    async delete(id) {
-      return await this.axiosInstance.delete(`${this.requestMapping}/${id}`);
-    }
+    // async delete(id) {
+    //   return await this.axiosInstance.delete(`${this.requestMapping}/${id}`);
+    // }
 }
