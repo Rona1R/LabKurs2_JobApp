@@ -1,9 +1,0 @@
-.dashboard-sidebar-link:hover{
-    color: hsl(210, 100%, 80%) !important
-}
-
-
-.dashboard-sidebar-link.active{
-    color: hsl(210, 81%, 82%) !important;
-    border-right: 5px solid hsl(210, 81%, 82%);
-}
