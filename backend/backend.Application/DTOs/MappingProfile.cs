@@ -88,6 +88,9 @@ namespace backend.Application.DTOs
             CreateMap<UserLanguageRequest, UserLanguage>();
             CreateMap<UserLanguage, UserLanguageResponse>().ForMember(dest => dest.LanguageName, opt => opt.MapFrom(src => src.Language.Name));
 
+            CreateMap<UserProfileRequest, UserProfile>();
+            CreateMap<UserProfile,  UserProfileResponse>();
+
         }
     }
 }

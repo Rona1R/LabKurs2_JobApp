@@ -19,6 +19,7 @@ using backend.Application.Interfaces.SkillInterfaces;
 using backend.Application.Interfaces.TagInterfaces;
 using backend.Application.Interfaces.UserInterfaces;
 using backend.Application.Interfaces.UserLanguageInterfaces;
+using backend.Application.Interfaces.UserProfileInterfaces;
 using backend.Application.Interfaces.UserRoleInterfaces;
 using backend.Application.Services;
 using backend.Application.Services.Factory;
@@ -83,6 +84,9 @@ namespace backend.Infrastructure.Configuration
 
             services.AddScoped<IUserLanguageRepository, UserLanguageRepository>();
             services.AddScoped<IUserLanguageService, UserLanguageService>();
+
+            services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+            services.AddScoped<IUserProfileService, UserProfileService>();
 
             services.AddSingleton<FileFactory>();
         }

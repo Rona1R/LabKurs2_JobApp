@@ -6,28 +6,41 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using backend.Application.DTOs.Request;
 using backend.Application.Interfaces.Authentication;
+using backend.Application.Interfaces.UserProfileInterfaces;
 using backend.Domain.Models;
 using backend.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Win32;
+using SharpCompress.Common;
 
 namespace backend.Infrastructure.Repositories
 {
     public class AuthenticationRepository : IAuthenticationRepository
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly IUserProfileRepository _userProfileRepository;
         private readonly UserManager<IdentityUser> _userManager;
 
 
-        public AuthenticationRepository(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
+        public AuthenticationRepository(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager, IUserProfileRepository userProfileRepository)
         {
             _dbContext = dbContext;
             _userManager = userManager;
+            _userProfileRepository = userProfileRepository;
         }
         private async Task CreateUserAsync(User user)
         {
-            await _dbContext.AddAsync(user);
+            var entity = await _dbContext.AddAsync(user);
             await _dbContext.SaveChangesAsync();
+        }
+
+        private async Task CreateProfile(int userId)
+        {
+            var profile = new UserProfile()
+            {
+                UserId = userId,
+            };
+            await _userProfileRepository.AddAsync(profile);
         }
 
         public async Task<IdentityResult> CreateAccountAsync(Register register)
@@ -51,7 +64,8 @@ namespace backend.Infrastructure.Repositories
                     AspNetUserId = newUser.Id,
                 };
 
-                await CreateUserAsync(entity);
+                await CreateUserAsync(entity); //  creating user account (sql)
+                await CreateProfile(entity.Id); // creating user profile (mongoDb)
 
             }
             return accountCreation;
