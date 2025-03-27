@@ -91,6 +91,9 @@ namespace backend.Application.DTOs
             CreateMap<UserProfileRequest, UserProfile>();
             CreateMap<UserProfile,  UserProfileResponse>();
 
+            CreateMap<JobDetailsRequest, JobDetails>();
+            CreateMap < JobDetails, JobDetailsResponse>();
+
         }
     }
 }

@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 
-namespace backend.Domain.Models
+namespace backend.Application.DTOs.Response
 {
-    public class JobDetails
+    public class JobDetailsResponse
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
         public int JobId { get; set; }
