@@ -1,18 +1,11 @@
 import { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
-// import RequirementList from "./RequirementList";
-// import { RequirementService } from "../../../../../api/sevices/RequirementService";
-// import AddRequirements from "./AddRequirements";
 import { IconButton, Typography } from "@mui/material";
 import Button from "react-bootstrap/Button";
 import { Spinner } from "react-bootstrap";
 import "../../../styles/crud.css";
-// import { useNotification } from "../../../../../hooks/useNotification";
-// import Loading from "../../../../../components/common/Loading";
-// import UpdateRequirement from "./UpdateRequirement";
-// import DeleteRequirement from "./DeleteRequirement";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import AddRequirements2 from "./Requirements/AddRequirements2";
+import AddRequirements from "./Requirements/AddRequirements";
 import AddRequiredSkills from "./RequiredSkills/AddRequiredSkills";
 import AddNiceToHaveSkill from "./NiceToHaveSkills/AddNiceToHaveSkill";
 import { JobDetailsService } from "src/api/sevices/JobDetailsService";
@@ -143,7 +136,7 @@ export default function JobDetails({ jobId, handleClose }) {
           {step === 1 && (
             <>
               <p> Requirements </p>
-              <AddRequirements2
+              <AddRequirements
                 addedRequirements={jobDetails.requirements}
                 addRequirement={addRequirement}
                 selectedRequirement={selectedRequirement}
@@ -211,7 +204,7 @@ export default function JobDetails({ jobId, handleClose }) {
                 <ArrowForward
                   sx={{
                     fontSize: "1.5em",
-                    color: step === 6 ? "#ccc" : "#1e1b46",
+                    color: step === 3 ? "#ccc" : "#1e1b46",
                   }}
                 />
               </IconButton>

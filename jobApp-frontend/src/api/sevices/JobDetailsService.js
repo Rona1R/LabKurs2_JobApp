@@ -21,7 +21,7 @@ export class JobDetailsService{
       return await this.axiosInstance.get(`${this.requestMapping}/${id}`);
     }
   
-    async delete(id) {
-      return await this.axiosInstance.delete(`${this.requestMapping}/${id}`);
-    }
+    // async delete(id) {
+    //   return await this.axiosInstance.delete(`${this.requestMapping}/${id}`);
+    // }
 }

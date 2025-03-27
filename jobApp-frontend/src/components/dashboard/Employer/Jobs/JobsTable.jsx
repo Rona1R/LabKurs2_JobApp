@@ -16,7 +16,6 @@ import CreatePosting from "./CreateJob/CreatePosting";
 import UpdateJob from "./UpdateJob";
 import DeleteJob from "./DeleteJob";
 import JobDetails from "./JobDetails/JobDetails";
-// import JobRquirements from "./Requirements/JobRequirements";
 const jobService = new JobService();
 
 export default function JobsTable() {
@@ -25,7 +24,6 @@ export default function JobsTable() {
   const [refreshKey, setRefreshKey] = useState("");
   const [selected, setSelected] = useState(null);
   const [showTags, setShowTags] = useState(false);
-  // const [showRequirements,setShowRequirements] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
@@ -49,12 +47,7 @@ export default function JobsTable() {
   const handleShowDetails = (id) => {
     setSelected(id);
     setShowDetails(true);
-  }
-
-  // const handleShowRequirements = (id) => {
-  //   setSelected(id);
-  //   setShowRequirements(true);
-  // };
+  };
 
   // REMINDER per te ardhmen -> ktu duhet me ja shfaq jobs qe i ka kriju veq employer qe eshte logged in !! pra duhna me
   // -- pas ni endpoint getJobsByEmployer
@@ -75,13 +68,6 @@ export default function JobsTable() {
   }, [refreshKey]);
 
   const columns = [
-    // {
-    //   field: "id",
-    //   headerName: "ID",
-    //   width: 90,
-    //   headerClassName: "super-app-theme--header",
-    //   cellClassName: "super-app-theme--cell custom-cell",
-    // },
     {
       field: "title",
       headerName: "Title",
@@ -255,14 +241,12 @@ export default function JobsTable() {
         <JobTags id={selected} handleClose={() => setShowTags(false)} />
       )}
 
-      {
-        showDetails && selected && (
-          <JobDetails 
-            jobId={selected}
-            handleClose={()=>setShowDetails(false)}
-          />
-        )
-      }
+      {showDetails && selected && (
+        <JobDetails
+          jobId={selected}
+          handleClose={() => setShowDetails(false)}
+        />
+      )}
       {showCreate && (
         <CreatePosting
           refresh={() => setRefreshKey(Date.now())}
@@ -285,16 +269,6 @@ export default function JobsTable() {
           handleClose={() => setShowDelete(false)}
         />
       )}
-{/* 
-      {
-        showRequirements && selected && (
-          <JobRquirements
-            id = {selected}
-            handleClose={()=>setShowRequirements(false)}
-          />
-        )
-      } */}
-
       <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
         <Button className="create-button" onClick={() => setShowCreate(true)}>
           <FontAwesomeIcon icon={faPlus} className="create-icon" />

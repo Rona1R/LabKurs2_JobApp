@@ -11,7 +11,7 @@ namespace backend.Application.Interfaces.JobDetailsInterfaces
     public interface IJobDetailsService
     {
         Task CreateDetailsAsync(JobDetailsRequest request);
-        Task DeleteDetailsAsync(int jobId);
+        //Task DeleteDetailsAsync(int jobId);
         Task<JobDetailsResponse?> GetDetailsByJob(int jobId);
         Task UpdateDetailsAsync(int jobId, JobDetailsRequest request);
     }

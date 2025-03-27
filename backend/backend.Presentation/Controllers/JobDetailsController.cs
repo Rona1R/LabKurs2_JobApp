@@ -50,17 +50,18 @@ namespace backend.Presentation.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{jobId}")]
-        public virtual async Task<IActionResult> Delete(int jobId)
-        {
-            var existingDto = await _jobDetailsService.GetDetailsByJob(jobId);
-            if (existingDto == null)
-            {
-                return NotFound();
-            }
+        // e komentova se ska nevoje mu expose si endpoint qikjo 
+        //[HttpDelete("{jobId}")]
+        //public virtual async Task<IActionResult> Delete(int jobId)
+        //{
+        //    var existingDto = await _jobDetailsService.GetDetailsByJob(jobId);
+        //    if (existingDto == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            await _jobDetailsService.GetDetailsByJob(jobId);
-            return NoContent();
-        }
+        //    await _jobDetailsService.GetDetailsByJob(jobId);
+        //    return NoContent();
+        //}
     }
 }

@@ -15,22 +15,16 @@ import TagSelection from "./TagSelection";
 import { TagService } from "../../../../../api/sevices/TagService";
 import { JobService } from "../../../../../api/sevices/JobService";
 import { JobTagService } from "../../../../../api/sevices/JobTagService";
-// import AddRequirements from "../Requirements/AddRequirements";
-// import { RequirementService } from "../../../../../api/sevices/RequirementService";
-import AddRequirements2 from "../JobDetails/Requirements/AddRequirements2";
+import AddRequirements from "../JobDetails/Requirements/AddRequirements";
 import AddRequiredSkills from "../JobDetails/RequiredSkills/AddRequiredSkills";
 import AddNiceToHaveSkill from "../JobDetails/NiceToHaveSkills/AddNiceToHaveSkill";
 import { JobDetailsService } from "src/api/sevices/JobDetailsService";
-
-
-
 const categoryService = new CategoryService();
 const companyService = new CompanyService();
 const tagService = new TagService();
 const jobService = new JobService();
 const jobTagService = new JobTagService();
 const jobDetailsService = new JobDetailsService();
-// const requirementService = new RequirementService();
 
 export default function CreatePosting(props) {
   const loggedInEmployer = 1; // PER SIMULIM !!
@@ -76,15 +70,9 @@ export default function CreatePosting(props) {
   const [loading, setLoading] = React.useState(false);
   const { handleClose } = props;
   const { showNotification } = useNotification();
-  // const [requirementToAdd, setRequirementToAdd] = React.useState({
-  //   description: "",
-  //   jobId: null,
-  // }); 
-  // const [addedRequirements, setAddedRequirements] = React.useState([]);
 
   const [selectedRequirement,setSelectedRequirement] = React.useState("");
-  const [addedRequirements2,setAddedRequirements2] = React.useState([]);
-
+  const [addedRequirements,setAddedRequirements] = React.useState([]);
 
   const [selectedSkill,setSelectedSkill] = React.useState("");
   const [addedSkills,setAddedSkills] = React.useState([]);
@@ -177,8 +165,8 @@ export default function CreatePosting(props) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const addRequirement2 = () => {
-    setAddedRequirements2([...addedRequirements2,selectedRequirement]);
+  const addRequirement = () => {
+    setAddedRequirements([...addedRequirements,selectedRequirement]);
     setSelectedRequirement("");
   }
 
@@ -186,8 +174,8 @@ export default function CreatePosting(props) {
      setSelectedRequirement(e.target.value);
   };
 
-  const removeRequirement2 = (req) => { // remove nga lista
-    setAddedRequirements2(addedRequirements2.filter(addedReq=>addedReq !== req));
+  const removeRequirement = (req) => { // remove nga lista
+    setAddedRequirements(addedRequirements.filter(addedReq=>addedReq !== req));
   }
 
   const addSkill = () => {
@@ -215,21 +203,6 @@ export default function CreatePosting(props) {
   const removeOptionalSkill = (optionalSkill) => { // remove nga lista
     setAddedOptionalSkills(addedOptionalSkills.filter(addedOptionalSkill=> addedOptionalSkill !== optionalSkill));
   }
-
-  // const handleAddRequirement = () => {
-  //   setAddedRequirements([...addedRequirements, requirementToAdd]);
-  //   setRequirementToAdd({ ...requirementToAdd, description: "" });
-  // };
-
-  // const handleRemoveRequirement = (description) => {
-  //   setAddedRequirements(
-  //     addedRequirements.filter((req) => req.description !== description)
-  //   );
-  // };
-
-  // const handleRequirementChange = (e) => {
-  //   setRequirementToAdd({ ...requirementToAdd, description: e.target.value });
-  // };
 
   const fetchCitiesForCountry = async (countryCode) => {
     const response = await fetch(
@@ -361,20 +334,6 @@ export default function CreatePosting(props) {
     await jobDetailsService.create(jobDetailsRequest);
   }
 
-  // const insertRequirements = async (jobId) => {
-  //   const formattedRequirements = addedRequirements.map((req) => ({
-  //     ...req,
-  //     jobId : jobId
-  //   }));
-  //   try {
-  //     await requirementService.createRequirements(formattedRequirements);
-  //   } catch (err) {
-  //     console.log(err);
-  //     showNotification("error", "An Unexpected Error Occurred while adding requirements!");
-  //     handleClose();
-  //   }
-  // };
-
   const handleSubmit = async () => {
     setLoading(true);
 
@@ -384,14 +343,11 @@ export default function CreatePosting(props) {
     const job = await createJob(data);
     if (job) {
       await insertJobDetails(job.data.id);
-      // if(addedRequirements.length > 0){
-      //   await insertRequirements(job.data.id);
-      // }
 
       if(addedTags.length > 0) {
         await insertTags(job.data.id);
       }
-      
+
       setLoading(false);
       props.refresh();
       showNotification("success", "Job was successfully created!");
@@ -432,28 +388,17 @@ export default function CreatePosting(props) {
               step={step}
             />
           )}
-
-          {/* {step === 3 && (
-            <AddRequirements
-              selectedRequirement={requirementToAdd}
-              handleChange={handleRequirementChange}
-              addedRequirements={addedRequirements}
-              addRequirement={handleAddRequirement}
-              removeRequirement={handleRemoveRequirement}
-            />
-          )} */}
           {
             step === 3 && (
-              <AddRequirements2 
-                addedRequirements={addedRequirements2}
-                addRequirement={addRequirement2}
+              <AddRequirements
+                addedRequirements={addedRequirements}
+                addRequirement={addRequirement}
                 selectedRequirement={selectedRequirement}
                 handleChange={handleRequirement2Change}
-                removeRequirement={removeRequirement2}
+                removeRequirement={removeRequirement}
               />
             )
           }
-
           {
             step === 4 && (
               <AddRequiredSkills
@@ -465,7 +410,6 @@ export default function CreatePosting(props) {
               />
             )
           }
-
           {
             step === 5 && (
               <AddNiceToHaveSkill 
@@ -477,7 +421,6 @@ export default function CreatePosting(props) {
               />
             )
           }
-
           {step === 6 && (
             <TagSelection
               tags={tags}
@@ -488,7 +431,6 @@ export default function CreatePosting(props) {
               removeTag={handleRemoveTag}
             />
           )}
-
           <div className="d-flex justify-content-between align-items-center">
             <div>
               <Typography

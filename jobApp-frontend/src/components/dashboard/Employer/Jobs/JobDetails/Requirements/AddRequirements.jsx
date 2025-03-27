@@ -5,7 +5,7 @@ import formTheme from "src/components/dashboard/styles/formTheme";
 import "../../CreateJob/style/tagSelection.css";
 import DetailsList from "../DetailsList";
 
-export default function AddRequirements2({
+export default function AddRequirements({
   addedRequirements,
   addRequirement,
   selectedRequirement,

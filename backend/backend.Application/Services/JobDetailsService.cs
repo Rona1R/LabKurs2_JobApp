@@ -44,9 +44,9 @@ namespace backend.Application.Services
             return job != null ? _mapper.Map<JobDetailsResponse>(job) : default;
         }
 
-        public async Task DeleteDetailsAsync(int jobId)
-        {
-            await _jobDetailsRepository.DeleteAsync(jobId);
-        }
+        //public async Task DeleteDetailsAsync(int jobId)
+        //{
+        //    await _jobDetailsRepository.DeleteAsync(jobId);
+        //}
     }
 }
