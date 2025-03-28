@@ -11,6 +11,7 @@ export default function AddRequirements({
   selectedRequirement,
   handleChange,
   removeRequirement,
+  handleEdit
 }) {
   return (
     <>
@@ -46,6 +47,7 @@ export default function AddRequirements({
           listItems={addedRequirements}
           handleDelete={removeRequirement}
           noData="No requirements listed"
+          handleEdit={handleEdit}
         />
       }
     </>

@@ -11,6 +11,7 @@ export default function AddNiceToHaveSkills({
   selectedOptionalSkill,
   handleChange,
   removeOptionalSkill,
+  handleEdit
 }) {
   return (
     <>
@@ -46,6 +47,7 @@ export default function AddNiceToHaveSkills({
           listItems={addedOptionalSkills}
           handleDelete={removeOptionalSkill}
           noData = "No optional skills are listed"
+          handleEdit={handleEdit}
         />
       }
     </>

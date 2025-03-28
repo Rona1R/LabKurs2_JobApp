@@ -114,6 +114,27 @@ export default function JobDetails({ jobId, handleClose }) {
     }));
   };
 
+  const handleEditRequirement = (item,index) => {
+    setJobDetails((prevDetails) => ({
+      ...prevDetails,
+      requirements: prevDetails.requirements.map((req, idx) => idx === index ? item : req)
+    }))
+  }
+
+  const handleEditRequiredSkill = (item,index) => {
+    setJobDetails((prevDetails) => ({
+      ...prevDetails,
+      requiredSkills: prevDetails.requiredSkills.map((req, idx) => idx === index ? item : req)
+    }))
+  }
+
+  const handleEditNiceToHaveSkill = (item,index) => {
+    setJobDetails((prevDetails) => ({
+      ...prevDetails,
+      niceToHaveSkills: prevDetails.niceToHaveSkills.map((req, idx) => idx === index ? item : req)
+    }))
+  }
+
   const handleSubmit = async () => {
     setLoading(true);
     try {
@@ -135,39 +156,75 @@ export default function JobDetails({ jobId, handleClose }) {
         <Modal.Body>
           {step === 1 && (
             <>
-              <Typography variant="h5" sx={{mb:3,textAlign:"center",fontWeight:"bold",color:"#1e1b46"}}> Requirements : </Typography>
+              <Typography
+                variant="h5"
+                sx={{
+                  mb: 3,
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  color: "#1e1b46",
+                }}
+              >
+                {" "}
+                Requirements :{" "}
+              </Typography>
               <AddRequirements
                 addedRequirements={jobDetails.requirements}
                 addRequirement={addRequirement}
                 selectedRequirement={selectedRequirement}
                 handleChange={handleRequirementChange}
                 removeRequirement={removeRequirement}
+                handleEdit={handleEditRequirement}
               />
             </>
           )}
 
           {step === 2 && (
             <>
-                           <Typography variant="h5" sx={{mb:3,textAlign:"center",fontWeight:"bold",color:"#1e1b46"}}> Required Skils : </Typography>
+              <Typography
+                variant="h5"
+                sx={{
+                  mb: 3,
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  color: "#1e1b46",
+                }}
+              >
+                {" "}
+                Required Skils :{" "}
+              </Typography>
               <AddRequiredSkills
                 addedSkills={jobDetails.requiredSkills}
                 selectedSkill={selectedSkill}
                 addSkill={addSkill}
                 handleChange={handleSkillChange}
                 removeSkill={removeSkill}
+                handleEdit={handleEditRequiredSkill}
               />
             </>
           )}
 
           {step === 3 && (
             <>
-              <Typography variant="h5" sx={{mb:3,textAlign:"center",fontWeight:"bold",color:"#1e1b46"}}> "Nice to have" Skills: </Typography>
+              <Typography
+                variant="h5"
+                sx={{
+                  mb: 3,
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  color: "#1e1b46",
+                }}
+              >
+                {" "}
+                "Nice to have" Skills:{" "}
+              </Typography>
               <AddNiceToHaveSkill
                 addedOptionalSkills={jobDetails.niceToHaveSkills}
                 selectedOptionalSkill={selectedOptionalSkill}
                 addOptionalSkill={addOptionalSkill}
                 handleChange={handleOptionalSkillChange}
                 removeOptionalSkill={removeOptionalSkill}
+                handleEdit={handleEditNiceToHaveSkill}
               />
             </>
           )}

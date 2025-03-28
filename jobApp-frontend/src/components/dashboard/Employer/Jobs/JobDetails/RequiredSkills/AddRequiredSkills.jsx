@@ -11,6 +11,7 @@ export default function AddRequiredSkills({
   selectedSkill,
   handleChange,
   removeSkill,
+  handleEdit
 }) {
   return (
     <>
@@ -46,6 +47,7 @@ export default function AddRequiredSkills({
           listItems={addedSkills}
           handleDelete={removeSkill}
           noData = "No skills are listed"
+          handleEdit={handleEdit}
         />
       }
     </>
