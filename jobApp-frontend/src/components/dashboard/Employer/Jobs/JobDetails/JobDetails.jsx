@@ -135,7 +135,7 @@ export default function JobDetails({ jobId, handleClose }) {
         <Modal.Body>
           {step === 1 && (
             <>
-              <p> Requirements </p>
+              <Typography variant="h5" sx={{mb:3,textAlign:"center",fontWeight:"bold",color:"#1e1b46"}}> Requirements : </Typography>
               <AddRequirements
                 addedRequirements={jobDetails.requirements}
                 addRequirement={addRequirement}
@@ -148,7 +148,7 @@ export default function JobDetails({ jobId, handleClose }) {
 
           {step === 2 && (
             <>
-              <p> Required Skills </p>
+                           <Typography variant="h5" sx={{mb:3,textAlign:"center",fontWeight:"bold",color:"#1e1b46"}}> Required Skils : </Typography>
               <AddRequiredSkills
                 addedSkills={jobDetails.requiredSkills}
                 selectedSkill={selectedSkill}
@@ -161,7 +161,7 @@ export default function JobDetails({ jobId, handleClose }) {
 
           {step === 3 && (
             <>
-              <p> Nice to have Skills </p>
+              <Typography variant="h5" sx={{mb:3,textAlign:"center",fontWeight:"bold",color:"#1e1b46"}}> "Nice to have" Skills: </Typography>
               <AddNiceToHaveSkill
                 addedOptionalSkills={jobDetails.niceToHaveSkills}
                 selectedOptionalSkill={selectedOptionalSkill}
