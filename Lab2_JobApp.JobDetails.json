@@ -24,27 +24,54 @@
   "JobId": 7,
   "Requirements": [
     "Master's degree in Data Science",
-    "Minimum 2 years of experience"
+    "2+ years of experience"
   ],
   "RequiredSkills": [],
   "NiceToHaveSkills": []
 },
 {
   "_id": {
-    "$oid": "67e5bb5b155dabf1b635c40d"
+    "$oid": "67e6c53e731b0dbcc789226f"
   },
-  "JobId": 9,
-  "Requirements": [
-    "Bachelors degree in Economics, Finance or related field",
-    "2 years of experience in Accounting"
-  ],
-  "RequiredSkills": [
-    "Microeconomics ",
-    "Audit",
-    "Excel"
-  ],
-  "NiceToHaveSkills": [
-    "Data Analytics",
-    "SQL"
-  ]
-}]
+  "JobId": 5,
+  "Requirements": [],
+  "RequiredSkills": [],
+  "NiceToHaveSkills": []
+},
+{
+  "_id": {
+    "$oid": "67e6c544731b0dbcc7892270"
+  },
+  "JobId": 4,
+  "Requirements": [],
+  "RequiredSkills": [],
+  "NiceToHaveSkills": []
+},
+{
+  "_id": {
+    "$oid": "67e6c549731b0dbcc7892271"
+  },
+  "JobId": 3,
+  "Requirements": [],
+  "RequiredSkills": [],
+  "NiceToHaveSkills": []
+},
+{
+  "_id": {
+    "$oid": "67e6c550731b0dbcc7892272"
+  },
+  "JobId": 2,
+  "Requirements": [],
+  "RequiredSkills": [],
+  "NiceToHaveSkills": []
+},
+{
+  "_id": {
+    "$oid": "67e6c554731b0dbcc7892273"
+  },
+  "JobId": 1,
+  "Requirements": [],
+  "RequiredSkills": [],
+  "NiceToHaveSkills": []
+}
+]
