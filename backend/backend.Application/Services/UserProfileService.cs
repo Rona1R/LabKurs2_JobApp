@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using backend.Application.DTOs.Request;
 using backend.Application.DTOs.Response;
+using backend.Application.Interfaces.UserInterfaces;
 using backend.Application.Interfaces.UserProfileInterfaces;
 using backend.Domain.Models;
 
@@ -15,12 +16,14 @@ namespace backend.Application.Services
     {
 
         private readonly IUserProfileRepository _profileRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public UserProfileService(IMapper mapper, IUserProfileRepository profileRepository)
+        public UserProfileService(IMapper mapper, IUserProfileRepository profileRepository, IUserRepository userRepository)
         {
             _mapper = mapper;
             _profileRepository = profileRepository;
+            _userRepository = userRepository;
         }
 
         public async Task CreateProfile(UserProfileRequest userProfileRequest)
@@ -39,11 +42,31 @@ namespace backend.Application.Services
             }
         }
 
-        public async Task<UserProfileResponse?> GetProfileByUser(int userId)
+        public async Task<UserProfileDetails?> GetProfileDetails(int userId)
         {
+            var user = await _userRepository.GetByIdAsync(userId);
             var profile = await _profileRepository.GetByUserId(userId);
-            return profile != null ? _mapper.Map<UserProfileResponse>(profile) : default;
+
+            if(user !=null && profile != null)
+            {
+                var userResponse = _mapper.Map<UserResponse>(user);
+                var profileResponse = _mapper.Map<UserProfileResponse>(profile);
+
+                var profileDetails = new UserProfileDetails()
+                {
+                    User = userResponse,
+                    Profile = profileResponse
+                };
+                return profileDetails;
+            }
+            return null;
         }
+
+        //public async Task<UserProfileResponse?> GetProfileByUser(int userId)
+        //{
+        //    var profile = await _profileRepository.GetByUserId(userId);
+        //    return profile != null ? _mapper.Map<UserProfileResponse>(profile) : default;
+        //}
 
         public async Task DeleteProfile(int userId)
         {

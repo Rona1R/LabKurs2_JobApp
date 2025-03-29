@@ -12,7 +12,9 @@ namespace backend.Application.Interfaces.UserProfileInterfaces
     {
         Task CreateProfile(UserProfileRequest userProfileRequest);
         Task DeleteProfile(int userId);
-        Task<UserProfileResponse?> GetProfileByUser(int userId);
+
+        Task<UserProfileDetails?> GetProfileDetails(int userId);
+        //Task<UserProfileResponse?> GetProfileByUser(int userId);
         Task UpdateProfile(int userId, UserProfileRequest userProfileRequest);
     }
 }

@@ -13,6 +13,7 @@ import Education from "../../components/user/Education/Education";
 import Languages from "../../components/user/Languages/Languages";
 import Experience from "../../components/user/WorkExperience/Experience";
 import Skills from "src/components/user/Skills/Skills";
+import DetailsSection from "src/components/user/ProfileDetails/DetailsSection";
 const userService = new UserService();
 const fileService = new FileService();
 
@@ -158,7 +159,7 @@ export default function ProfilePage() {
               className="w-100 h-100 rounded-circle object-cover"
             />
           </div>
-
+          <DetailsSection/>
           <div className="background-button">
             {image ? (
               <>
