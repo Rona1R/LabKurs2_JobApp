@@ -64,7 +64,7 @@ export default function Education(props) {
         />
       )}
 
-      <div style={{ margin: "0px 30px" }}>
+      <div className="mx-sm-5">
         {/* <div style={{ display: "flex", justifyContent: "center" }}> */}
         <Typography
           variant="h4"
