@@ -30,8 +30,6 @@ export default function ProfilePage() {
   });
   const [profileDetails, setProfileDetails] = useState({
     userId: null,
-    headline: "",
-    socialAccounts: [],
     skills: [],
     openTo: {
       openToWork: "",

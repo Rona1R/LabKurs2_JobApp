@@ -10,7 +10,6 @@ namespace backend.Application.DTOs.Request
     public class UserProfileRequest
     {
         public int UserId { get; set; }
-        public string Headline { get; set; } = string.Empty;
         public List<string> Skills { get; set; } = new List<string>();
 
         public OpenToOptions OpenTo { get; set; } = new OpenToOptions();

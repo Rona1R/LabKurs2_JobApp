@@ -1,0 +1,99 @@
+[{
+  "_id": {
+    "$oid": "67e889ebc5322130b6f898f4"
+  },
+  "UserId": 1,
+  "Skills": [
+    "Backend Development",
+    "Database Mangement",
+    "UI / UX Design",
+    "Graphic Design"
+  ],
+  "OpenTo": {
+    "OpenToWork": "Currently seeking Software engineering roles",
+    "BusinessOpportunities": "Interested in getting invloved in AI Startups",
+    "ProvidingServices": "I offer Software Engineering solutions , Data Management as well as UI/UX design",
+    "Networking": "I am looking to expand my network with those that are passionate about Artificial Intelligence"
+  }
+},
+{
+  "_id": {
+    "$oid": "67e889efc5322130b6f898f5"
+  },
+  "UserId": 2,
+  "Skills": [
+    "Test",
+    "Test 22"
+  ],
+  "OpenTo": {
+    "OpenToWork": "Currently seeking roles as a Video Editor . Portfolio will be provided upon request",
+    "BusinessOpportunities": "",
+    "ProvidingServices": "",
+    "Networking": ""
+  }
+},
+{
+  "_id": {
+    "$oid": "67e889f2c5322130b6f898f6"
+  },
+  "UserId": 3,
+  "Skills": [],
+  "OpenTo": {
+    "OpenToWork": "",
+    "BusinessOpportunities": "",
+    "ProvidingServices": "",
+    "Networking": ""
+  }
+},
+{
+  "_id": {
+    "$oid": "67e889fbc5322130b6f898f7"
+  },
+  "UserId": 4,
+  "Skills": [],
+  "OpenTo": {
+    "OpenToWork": "",
+    "BusinessOpportunities": "",
+    "ProvidingServices": "",
+    "Networking": ""
+  }
+},
+{
+  "_id": {
+    "$oid": "67e889fec5322130b6f898f8"
+  },
+  "UserId": 5,
+  "Skills": [],
+  "OpenTo": {
+    "OpenToWork": "",
+    "BusinessOpportunities": "",
+    "ProvidingServices": "",
+    "Networking": ""
+  }
+},
+{
+  "_id": {
+    "$oid": "67e88a02c5322130b6f898f9"
+  },
+  "UserId": 6,
+  "Skills": [],
+  "OpenTo": {
+    "OpenToWork": "",
+    "BusinessOpportunities": "",
+    "ProvidingServices": "",
+    "Networking": ""
+  }
+},
+{
+  "_id": {
+    "$oid": "67e8b4c6a61ebad06c11726b"
+  },
+  "UserId": 7,
+  "Skills": [],
+  "OpenTo": {
+    "OpenToWork": "",
+    "BusinessOpportunities": "",
+    "ProvidingServices": "",
+    "Networking": ""
+  }
+}]
