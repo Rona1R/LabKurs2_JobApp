@@ -12,9 +12,6 @@ namespace backend.Application.DTOs.Response
         public string Id { get; set; }
 
         public int UserId { get; set; }
-        public string Headline { get; set; }
-        public List<SocialAccount> SocialAccounts { get; set; } //= new List<SocialAccount>();
-
         public List<string> Skills { get; set; }// = new List<string>();
 
         public OpenToOptions OpenTo { get; set; } //= new OpenToOptions();

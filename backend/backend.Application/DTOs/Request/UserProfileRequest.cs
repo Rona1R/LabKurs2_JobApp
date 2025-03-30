@@ -11,8 +11,6 @@ namespace backend.Application.DTOs.Request
     {
         public int UserId { get; set; }
         public string Headline { get; set; } = string.Empty;
-        public List<SocialAccount> SocialAccounts { get; set; } = new List<SocialAccount>();
-
         public List<string> Skills { get; set; } = new List<string>();
 
         public OpenToOptions OpenTo { get; set; } = new OpenToOptions();

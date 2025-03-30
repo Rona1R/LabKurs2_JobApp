@@ -104,6 +104,7 @@ export default function ImageSection({ userProfile, userId, loading,setRefreshKe
             <Button
               onClick={() => setImage(null)}
               className="cancel-background"
+              sx={{fontSize:{xs:"15px",sm:"20px"},textTransform:"none",padding:{sm:"8px 15px"},mr:1}}
             >
               Cancel
             </Button>
@@ -111,6 +112,7 @@ export default function ImageSection({ userProfile, userId, loading,setRefreshKe
               onClick={updateUser}
               className="save-background"
               disabled={loadingSubmit}
+              sx={{fontSize:{xs:"15px",sm:"20px"},textTransform:"none",padding:{sm:"8px 15px"}}}
             >
               {loadingSubmit ? (
                 <>
@@ -139,7 +141,7 @@ export default function ImageSection({ userProfile, userId, loading,setRefreshKe
               onChange={handleUpload}
             />
             <label htmlFor="upload-button-file">
-              <Button component="span" className="change-background">
+              <Button component="span" className="change-background" sx={{fontSize:{xs:"15px",sm:"20px"},padding:{sm:"10px 40px"}}}>
                 Change Background
               </Button>
             </label>

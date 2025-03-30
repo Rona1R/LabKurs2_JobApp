@@ -34,8 +34,6 @@ namespace backend.Infrastructure.Repositories
 
             var update = Builders<UserProfile>.Update
                 .Set(u => u.Skills, entity.Skills)
-                .Set(u => u.SocialAccounts, entity.SocialAccounts)
-                .Set(u => u.Headline, entity.Headline)
                 .Set(u => u.OpenTo, entity.OpenTo);
                
 

@@ -3,8 +3,7 @@ import {
   ListItem,
   ListItemText,
   IconButton,
-  Box,
-  TextField,
+  Box
 } from "@mui/material";
 import NoDataYet from "src/components/common/NoDataYet";
 import "../../../styles/table.css";
@@ -100,29 +99,6 @@ export default function DetailsList({
                       </IconButton>
                     </>
                   )}
-                  {/* {handleEdit && (
-                    <IconButton
-                      sx={{ fontSize: "15px" }}
-                      onClick={() => handleEdit(item)}
-                    >
-                      <i
-                        className="fa-solid fa-pen-to-square"
-                        style={{ color: "#0A0529" }}
-                      ></i>
-                    </IconButton>
-                  )}
-
-                  {handleDelete && (
-                    <IconButton
-                      sx={{ fontSize: "15px" }}
-                      onClick={() => handleDelete(item)}
-                    >
-                      <i
-                        className="fa-solid fa-trash"
-                        style={{ color: "rgb(169, 71, 71)" }}
-                      ></i>
-                    </IconButton>
-                  )} */}
                 </Box>
                 <Box display="flex" gap={1}>
                   <ArrowRightIcon sx={{ fontSize: "35px", color: "#1e1b46" }} />
@@ -135,8 +111,6 @@ export default function DetailsList({
                   ) : (
                     <CustomListItemText primary={item} />
                   )}
-                  {/* <ArrowRightIcon sx={{ fontSize: "35px", color: "#1e1b46" }} />
-                  <CustomListItemText primary={item} /> */}
                 </Box>
               </Box>
             </CustomListItem>

@@ -11,6 +11,7 @@ import Skills from "src/components/user/Skills/Skills";
 import DetailsSection from "src/components/user/ProfileDetails/DetailsSection";
 import { UserProfileService } from "src/api/sevices/UserProfileService";
 import ImageSection from "src/components/user/ProfileDetails/ImageSection";
+import OpenToList from "src/components/user/ProfileDetails/OpenToSection/OpenToList";
 const userProfileService = new UserProfileService();
 
 export default function ProfilePage() {
@@ -27,18 +28,17 @@ export default function ProfilePage() {
     phoneNumber: "",
     aboutMe: "",
   });
-  const [profileDetails,setProfileDetails] = useState({
-    userId :null,
-    headline:"",
-    socialAccounts : [],
-    skills : [],
-    openTo:{
-      isActive : false,
-      selectedOptions:[],
-      customDescription:"",
-      openToRoles:[],
-      openToIndustries:[]
-    }
+  const [profileDetails, setProfileDetails] = useState({
+    userId: null,
+    headline: "",
+    socialAccounts: [],
+    skills: [],
+    openTo: {
+      openToWork: "",
+      businessOpportunities: "",
+      providingServices: "",
+      networking: "",
+    },
   });
 
   useEffect(() => {
@@ -59,8 +59,8 @@ export default function ProfilePage() {
 
   return (
     <div>
-      <ImageSection 
-        userId = {id}
+      <ImageSection
+        userId={id}
         userProfile={userProfile}
         loading={loading}
         setRefreshKey={setRefreshKey}
@@ -68,14 +68,14 @@ export default function ProfilePage() {
       <Box
         sx={{
           backgroundColor: "white",
-          mx: {lg: 20 },
+          mx: { lg: 20 },
           boxShadow: "0px 4px 6px rgba(107, 107, 107, 0.1)",
         }}
       >
         <div className="px-3 px-sm-5 py-2 d-flex flex-column gap-3 pb-6">
           <div
             className="position-relative rounded-circle border border-4 border-white overflow-hidden shadow-md profile-pic-container"
-            style={{ width: "350px", height: "350px", marginTop: "-100px" }}
+            style={{ marginTop: "-100px" }}
           >
             <img
               alt="profile-image"
@@ -89,7 +89,6 @@ export default function ProfilePage() {
               className="w-100 h-100 rounded-circle object-cover"
             />
           </div>
-          <DetailsSection/>
           <div>
             <h3 className="h3 text-dark fw-bold mb-3">
               {userProfile.name} {userProfile.lastName}
@@ -99,7 +98,11 @@ export default function ProfilePage() {
             </h5>
             <p className="lead text-muted">{userProfile.email}</p>
           </div>
-          <Skills userId={id} />
+          <Skills
+            userProfile={profileDetails}
+            loading={loading}
+            refresh={() => setRefreshKey(Date.now())}
+          />
 
           <AboutMe
             editable={true}
@@ -107,7 +110,31 @@ export default function ProfilePage() {
             isLoading={loading}
             refresh={() => setRefreshKey(Date.now())}
           />
+          <DetailsSection
+            profileDetails={profileDetails}
+            refresh={() => setRefreshKey(Date.now())}
+          />
 
+          <OpenToList
+            options={[
+              {
+                title: "Open To Work",
+                description: profileDetails.openTo.openToWork,
+              },
+              {
+                title: "Business Opportunities",
+                description: profileDetails.openTo.businessOpportunities,
+              },
+              {
+                title: "Providing Services",
+                description: profileDetails.openTo.providingServices,
+              },
+              {
+                title: "Networking",
+                description: profileDetails.openTo.networking,
+              },
+            ]}
+          />
           <Divider sx={{ backgroundColor: "gray" }} />
 
           <Experience userId={id} />

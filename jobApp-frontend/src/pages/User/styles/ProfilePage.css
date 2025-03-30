@@ -1,5 +1,21 @@
+.profile-pic-container {
+    width: 340px;
+    height: 340px;
+}
+
 @media screen and (max-width:650px) {
     .profile-pic-container{
-        margin-top: 0 !important;
+        /* margin-top: 0 !important; */
+        width: 200px;
+        height: 200px;
     }
 }
+
+
+@media screen and (max-width:460px) {
+    .profile-pic-container{
+        width: 150px;
+        height: 150px;
+    }
+}
+

@@ -1,16 +1,16 @@
 import React from "react";
 import EditDeleteMenu from "./EditDeleteMenu";
 
-function Skill({ id, skill, editable, showEdit, showDelete, setSelected }) {
+function Skill({ skill, editable, showEdit, showDelete, setSelected }) {
   const handleEdit = () => {
     // open edit modal
-    setSelected(id);
+    setSelected(skill);
     showEdit(true);
   };
 
   const handleDelete = () => {
     // open delete modal;
-    setSelected(id);
+    setSelected(skill);
     showDelete(true);
   };
 
