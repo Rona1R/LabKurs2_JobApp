@@ -52,8 +52,8 @@ export default function OpenToModal({handleClose,profileDetails,refresh}) {
         <Modal.Body>
         <OpenToOption option="Open to work" optionLabel="openToWork" defaultDescription="Show us what roles you are seeking" optionDescription = {profile.openTo.openToWork} saveChanges={saveChanges}/>
         <OpenToOption option="Business Opportunities" optionLabel="businessOpportunities" defaultDescription="Tell us more about what kind of opportunities your're interested in" optionDescription = {profile.openTo.businessOpportunities}  saveChanges={saveChanges}/>
-        <OpenToOption option="Providing Services" optionLabel="providingServices" defaultDescription="Showcase services that you offer" selectedOptions={profile.openTo.selectedOptions} optionDescription = {profile.openTo.providingServices}  saveChanges={saveChanges} />
-        <OpenToOption option="Networking" optionLabel="networking" defaultDescription="Describe what areas you are interested in expanding your network" selectedOptions={profile.openTo.selectedOptions} optionDescription = {profile.openTo.networking} saveChanges={saveChanges}/>
+        <OpenToOption option="Providing Services" optionLabel="providingServices" defaultDescription="Showcase services that you offer" optionDescription = {profile.openTo.providingServices}  saveChanges={saveChanges} />
+        <OpenToOption option="Networking" optionLabel="networking" defaultDescription="Describe what areas you are interested in expanding your network" optionDescription = {profile.openTo.networking} saveChanges={saveChanges}/>
         </Modal.Body>
         <Modal.Footer>
           <Button className="crud-submit" disabled={loading} onClick={handleSubmit}>
