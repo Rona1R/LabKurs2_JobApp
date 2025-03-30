@@ -15,7 +15,6 @@ using backend.Application.Interfaces.JobDetailsInterfaces;
 using backend.Application.Interfaces.JobInterfaces;
 using backend.Application.Interfaces.JobTagInterfaces;
 using backend.Application.Interfaces.LanguageInterfaces;
-using backend.Application.Interfaces.SkillInterfaces;
 using backend.Application.Interfaces.TagInterfaces;
 using backend.Application.Interfaces.UserInterfaces;
 using backend.Application.Interfaces.UserLanguageInterfaces;
@@ -75,9 +74,6 @@ namespace backend.Infrastructure.Configuration
 
             services.AddScoped<IExperienceRepository, ExperienceRepository>();
             services.AddScoped<IExperienceService, ExperienceService>();
-
-            services.AddScoped<ISkillRepository, SkillRepository>();
-            services.AddScoped<ISkillService, SkillService>();
 
             services.AddScoped<IUserLanguageRepository, UserLanguageRepository>();
             services.AddScoped<IUserLanguageService, UserLanguageService>();

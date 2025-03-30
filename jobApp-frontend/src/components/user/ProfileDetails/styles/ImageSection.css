@@ -1,0 +1,45 @@
+.profile-background{
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.background-button{
+    width: fit-content;
+    margin-top: -20px;
+    margin-left: auto;
+    margin-right: 40px;
+    z-index: 10;
+}
+
+.change-background{
+    background-color: hsl(209, 84%, 93%) !important;
+    color: hsl(218, 94.40%, 21.20%) !important;
+    font-weight: bold !important;
+    text-transform: none !important;
+    border-radius: 10px !important;
+}
+
+.save-background{
+    background-color: hsl(56, 100%, 72%) !important;
+    color: hsl(55, 48%, 16%) !important;
+    font-weight: bold !important;
+}
+
+.cancel-background{
+    background-color:rgb(255, 193, 193) !important;
+    color: darkred!important;
+    font-weight: bold !important;
+}
+@media  screen and (max-width:1200px) {
+    .profile-background{
+        height: 350px; 
+    }
+}
+
+@media  screen and (max-width:650px) {
+    .background-button{
+        margin-right: 5px;
+    }
+}

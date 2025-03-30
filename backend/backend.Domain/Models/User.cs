@@ -38,8 +38,6 @@ namespace backend.Domain.Models
         public virtual List<SavedJob> SavedJobs { get; set; }   = new List<SavedJob>();
 
 
-        public virtual List<Skill> Skills { get; set; }  = new List<Skill> ();
-
         public virtual List<Education> Educations { get; set; } = new List <Education> ();
 
         public virtual List<UserLanguage> UserLanguages { get; set; } = new List<UserLanguage> ();

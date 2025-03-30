@@ -16,6 +16,21 @@ namespace backend.Domain.Models
 
         public int UserId { get; set; }
 
-        public Dictionary<string, string> CustomFields { get; set; } = new Dictionary<string, string>();
+        public List<string> Skills { get; set; } = new List<string>();
+
+        public OpenToOptions OpenTo { get; set; } = new OpenToOptions();
     }
+
+    public class OpenToOptions
+    {
+
+        public string OpenToWork { get; set; } = "";
+        
+        public string BusinessOpportunities { get; set; } = "";
+
+        public string ProvidingServices { get; set; } = "";
+
+        public string Networking { get; set; } = "";
+    }
+
 }

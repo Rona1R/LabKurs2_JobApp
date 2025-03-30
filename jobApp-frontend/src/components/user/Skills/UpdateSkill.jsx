@@ -3,44 +3,31 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import "../../dashboard/styles/crud.css";
 import { TextField, Box, ThemeProvider } from "@mui/material";
-import formTheme from "../../../components/dashboard/styles/formTheme";
+import formTheme from "src/components/dashboard/styles/formTheme";
 import Spinner from "react-bootstrap/Spinner";
-import { SkillService } from "../../../api/sevices/SkillService";
-import { useEffect } from "react";
-import { useNotification } from "../../../hooks/useNotification";
-const skillService = new SkillService();
+import { useNotification } from "src/hooks/useNotification";
+import { UserProfileService } from "src/api/sevices/UserProfileService";
 
-export default function UpdateSkill(props) {
-  const [formData, setFormData] = React.useState({
-    name: "",
-    userId: null
-  });
+const userProfileService = new UserProfileService();
+
+export default function UpdateSkill({
+  selected,
+  userProfile,
+  handleClose,
+  refresh,
+}) {
+  const [skillToUpdate, setSkillToUpdate] = React.useState(selected);
   const [error, setError] = React.useState("");
   const [loading, setLoading] = React.useState(false);
-  const {handleClose } = props;
-  const { showNotification } = useNotification(); 
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await skillService.getById(props.id);
-        setFormData(response.data);
-      } catch (err) {
-        console.log(err);
-        handleClose();
-      }
-    };
-
-    fetchData();
-  }, [props.id,handleClose]);
+  const { showNotification } = useNotification();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setSkillToUpdate(e.target.value);
   };
 
   const validate = () => {
-    if (formData.name.trim() === "") {
-      setError("Name can not be empty !");
+    if (skillToUpdate.trim() === "") {
+      setError("Skill can not be empty !");
       return false;
     }
 
@@ -52,19 +39,30 @@ export default function UpdateSkill(props) {
     const isValid = validate();
     if (isValid) {
       try {
-        await skillService.update(props.id, formData);
-        // console.log("Response" + response);
-        props.refresh();
-        showNotification("success","Skill was successfully updated!");
-        props.handleClose();
-      } catch (err) {
-        if (err.response && err.response.status === 400) {
-          setError(err.response.data);
-        } else {
-          showNotification("error","An Unexpected Error Occurred!");
-          props.handleClose();
-          console.log("An Unexpected Error occurred");
+        const index = userProfile.skills.findIndex(
+          (skill) => skill === selected
+        );
+        if (index !== -1) {
+          const updatedSkills = [
+            ...userProfile.skills.slice(0, index),
+            skillToUpdate,
+            ...userProfile.skills.slice(index + 1),
+          ];
+
+          const profile = {
+            ...userProfile,
+            skills: updatedSkills,
+          };
+
+          await userProfileService.update(userProfile.userId,profile);
         }
+        refresh();
+        showNotification("success", "Skill was successfully updated!");
+        handleClose();
+      } catch (err) {
+        console.log(err);
+        showNotification("error", "An Unexpected Error Occurred!");
+        handleClose();
       }
     }
     setLoading(false);
@@ -72,12 +70,7 @@ export default function UpdateSkill(props) {
 
   return (
     <>
-      <Modal
-        show={true}
-        onHide={handleClose}
-        centered
-        className="crud-modal"
-      >
+      <Modal show={true} onHide={handleClose} centered className="crud-modal">
         <Modal.Header closeButton>
           <Modal.Title> Update Skill </Modal.Title>
         </Modal.Header>
@@ -92,7 +85,7 @@ export default function UpdateSkill(props) {
                 name="name"
                 label="Name"
                 variant="outlined"
-                value={formData.name}
+                value={skillToUpdate}
                 error={!!error}
                 helperText={error}
                 onChange={(e) => {
@@ -104,7 +97,11 @@ export default function UpdateSkill(props) {
           </ThemeProvider>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleSubmit} className="crud-submit" disabled={loading}>
+          <Button
+            onClick={handleSubmit}
+            className="crud-submit"
+            disabled={loading}
+          >
             {loading ? (
               <Spinner
                 as="span"

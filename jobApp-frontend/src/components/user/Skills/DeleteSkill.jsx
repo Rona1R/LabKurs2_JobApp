@@ -6,45 +6,40 @@ import { Box, Typography } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "react-bootstrap/Spinner";
-import { SkillService } from "../../../api/sevices/SkillService";
-import { useNotification } from "../../../hooks/useNotification";
-const skillService = new SkillService();
+import { useNotification } from "src/hooks/useNotification";
+import { UserProfileService } from "src/api/sevices/UserProfileService";
+const userProfileService = new UserProfileService();
 
-export default function DeleteSkill(props) {
-  const [selectedSkill, setSelectedSkill] = React.useState({
-    name: "",
-    userId: null,
-  });
-  const { handleClose } = props;
+export default function DeleteSkill({
+  selected,
+  userProfile,
+  handleClose,
+  refresh,
+}) {
   const [loading, setLoading] = React.useState(false);
   const { showNotification } = useNotification();
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await skillService.getById(props.id);
-        setSelectedSkill(response.data);
-      } catch (err) {
-        console.log(err);
-        handleClose();
-      }
-    };
-
-    fetchData();
-  }, [props.id,handleClose]);
 
   const handleDelete = async () => {
     setLoading(true);
     try {
-      await skillService.delete(props.id);
-      props.refresh();
-      showNotification("success","Skill was successfully deleted!");
-      props.handleClose();
-    } catch (err) {
-      showNotification("error","An Unexptected Error Occurred!");;
-      props.handleClose();
-    }
+      const filteredSkills = userProfile.skills.filter(
+        (skill) => skill !== selected
+      );
 
+      const updatedProfile = {
+        ...userProfile,
+        skills: filteredSkills,
+      };
+
+      await userProfileService.update(userProfile.userId, updatedProfile);
+      refresh();
+      showNotification("success", "Skill was successfully updated!");
+      handleClose();
+    } catch (err) {
+      console.log(err);
+      showNotification("error", "An Unexptected Error Occurred!");
+      handleClose();
+    }
     setLoading(false);
   };
 
@@ -58,17 +53,21 @@ export default function DeleteSkill(props) {
           <Typography variant="h5">
             Are you sure that you want to delete the Skill{" "}
             <span style={{ fontWeight: "bold", color: "black" }}>
-              "{selectedSkill.name}" ?
+              {/* "{selected}" ? */}
             </span>
           </Typography>
         </Modal.Body>
         <Modal.Footer>
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button onClick={props.handleClose} className="crud-cancel">
+            <Button onClick={handleClose} className="crud-cancel">
               <FontAwesomeIcon icon={faXmark} style={{ marginRight: "10px" }} />
               Cancel
             </Button>
-            <Button className="crud-confirm" onClick={handleDelete} disabled={loading}>
+            <Button
+              className="crud-confirm"
+              onClick={handleDelete}
+              disabled={loading}
+            >
               {loading ? (
                 <Spinner
                   as="span"

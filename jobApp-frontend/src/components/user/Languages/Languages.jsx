@@ -116,7 +116,7 @@ export default function Languages(props) {
             <List
               component="nav"
               sx={{
-                margin: "40px 30px auto",
+                margin: "40px 20px auto",
                 backgroundColor: "#f7f7f7",
                 borderRadius: "30px",
                 [theme.breakpoints.up("md")]: {

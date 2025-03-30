@@ -1,20 +1,19 @@
-import * as React from "react";
+import { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import "../../../styles/crud.css";
-import { useEffect } from "react";
 import Spinner from "react-bootstrap/Spinner";
-import { useNotification } from "../../../../../hooks/useNotification";
-import { CategoryService } from "../../../../../api/sevices/CategoryService";
-import { CompanyService } from "../../../../../api/sevices/CompanyService";
+import { useNotification } from "src/hooks/useNotification";
+import { CategoryService } from "src/api/sevices/CategoryService";
+import { CompanyService } from "src/api/sevices/CompanyService";
 import JobForm from "./JobForm";
 import { kosovoCities } from "./kosovoCities";
 import { IconButton, Typography } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import TagSelection from "./TagSelection";
-import { TagService } from "../../../../../api/sevices/TagService";
-import { JobService } from "../../../../../api/sevices/JobService";
-import { JobTagService } from "../../../../../api/sevices/JobTagService";
+import { TagService } from "src/api/sevices/TagService";
+import { JobService } from "src/api/sevices/JobService";
+import { JobTagService } from "src/api/sevices/JobTagService";
 import AddRequirements from "../JobDetails/Requirements/AddRequirements";
 import AddRequiredSkills from "../JobDetails/RequiredSkills/AddRequiredSkills";
 import AddNiceToHaveSkill from "../JobDetails/NiceToHaveSkills/AddNiceToHaveSkill";
@@ -28,8 +27,8 @@ const jobDetailsService = new JobDetailsService();
 
 export default function CreatePosting(props) {
   const loggedInEmployer = 1; // PER SIMULIM !!
-  const [step, setStep] = React.useState(1);
-  const [formData, setFormData] = React.useState({
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({
     title: "",
     description: "",
     country: { value: "", label: "" },
@@ -43,17 +42,17 @@ export default function CreatePosting(props) {
     companyId: null,
     categoryId: null,
   });
-  const [selectedCompany, setSelectedCompany] = React.useState(null);
-  const [companies, setCompanies] = React.useState([]);
-  const [selectedCategory, setSelectedCategory] = React.useState(null);
-  const [categories, setCategories] = React.useState([]);
-  const [selectedCountry, setSelectedCountry] = React.useState(null);
-  const [cities, setCities] = React.useState([]);
-  const [selectedCity, setSelectedCity] = React.useState("");
-  const [tags, setTags] = React.useState([]);
-  const [selectedTag, setSelectedTag] = React.useState(null);
-  const [addedTags, setAddedTags] = React.useState([]);
-  const [errors, setErrors] = React.useState({
+  const [selectedCompany, setSelectedCompany] = useState(null);
+  const [companies, setCompanies] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [cities, setCities] = useState([]);
+  const [selectedCity, setSelectedCity] = useState("");
+  const [tags, setTags] = useState([]);
+  const [selectedTag, setSelectedTag] = useState(null);
+  const [addedTags, setAddedTags] = useState([]);
+  const [errors, setErrors] = useState({
     company: "",
     category: "",
     title: "",
@@ -67,18 +66,18 @@ export default function CreatePosting(props) {
     salaryPeriod: "",
     currency: "",
   });
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
   const { handleClose } = props;
   const { showNotification } = useNotification();
 
-  const [selectedRequirement,setSelectedRequirement] = React.useState("");
-  const [addedRequirements,setAddedRequirements] = React.useState([]);
+  const [selectedRequirement,setSelectedRequirement] = useState("");
+  const [addedRequirements,setAddedRequirements] = useState([]);
 
-  const [selectedSkill,setSelectedSkill] = React.useState("");
-  const [addedSkills,setAddedSkills] = React.useState([]);
+  const [selectedSkill,setSelectedSkill] = useState("");
+  const [addedSkills,setAddedSkills] = useState([]);
 
-  const [selectedOptionalSkill,setSelectedOptionalSkill] = React.useState("");
-  const [addedOptionalSkills,setAddedOptionalSkills] = React.useState([]);
+  const [selectedOptionalSkill,setSelectedOptionalSkill] = useState("");
+  const [addedOptionalSkills,setAddedOptionalSkills] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -327,7 +326,7 @@ export default function CreatePosting(props) {
   const insertJobDetails = async (jobId) => {
     const jobDetailsRequest = {
       jobId : jobId,
-      requirements : addedRequirements2,
+      requirements : addedRequirements,
       requiredSkills : addedSkills,
       niceToHaveSkills :addedOptionalSkills
     }

@@ -26,8 +26,6 @@ namespace backend.Infrastructure.Data
 
         public DbSet<Departament> Departament { get; set; }
 
-        public DbSet<Skill> Skill { get; set; }
-
         public DbSet<JobApplication> JobApplication { get; set; }
 
         public DbSet<Job> Job { get; set; }

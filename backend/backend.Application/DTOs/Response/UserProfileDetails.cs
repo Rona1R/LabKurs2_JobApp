@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace backend.Application.DTOs.Response
 {
-    public class SkillResponse
+    public class UserProfileDetails
     {
-        public int Id { get; set; }
+        public UserResponse User { get; set; }
 
-        public string Name { get; set; }
-
-        public int UserId { get; set; }
-
+        public UserProfileResponse Profile { get; set; }    
     }
 }

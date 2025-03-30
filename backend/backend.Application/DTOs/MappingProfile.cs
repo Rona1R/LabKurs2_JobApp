@@ -79,9 +79,6 @@ namespace backend.Application.DTOs
                 src.Company != null ? src.Company.Name : ""))
                 .ForMember(dest => dest.ManualCompanyName, opt => opt.MapFrom(src => src.CompanyName));
 
-            CreateMap<SkillRequest, Skill>();
-            CreateMap<Skill, SkillResponse>();
-
             CreateMap<UserLanguageRequest, UserLanguage>();
             CreateMap<UserLanguage, UserLanguageResponse>().ForMember(dest => dest.LanguageName, opt => opt.MapFrom(src => src.Language.Name));
 
@@ -89,7 +86,7 @@ namespace backend.Application.DTOs
             CreateMap<UserProfile,  UserProfileResponse>();
 
             CreateMap<JobDetailsRequest, JobDetails>();
-            CreateMap < JobDetails, JobDetailsResponse>();
+            CreateMap<JobDetails, JobDetailsResponse>();
 
         }
     }

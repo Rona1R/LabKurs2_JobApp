@@ -10,8 +10,6 @@ using backend.Application.Interfaces.UserProfileInterfaces;
 using backend.Domain.Models;
 using backend.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Win32;
-using SharpCompress.Common;
 
 namespace backend.Infrastructure.Repositories
 {

@@ -1,88 +1,69 @@
 import Skill from "../Skill";
 import { IconButton } from "@mui/material";
 import { useState } from "react";
-import { useEffect } from "react";
-import { SkillService } from "../../../api/sevices/SkillService";
-import Loading from "../../../components/common/Loading";
-import CreateSkill from "./CreateSkill";
+import Loading from "src/components/common/Loading";
 import UpdateSkill from "./UpdateSkill";
 import DeleteSkill from "./DeleteSkill";
 import NoDataYet from "../../../components/common/NoDataYet";
-import AddIcon from '@mui/icons-material/Add';
-const skillService = new SkillService();
+import AddIcon from "@mui/icons-material/Add";
+import AddSkills from "./AddSkills";
 
-export default function Skills(props) {
-  const [selected, setSelected] = useState(null);
-  const [userSkills, setUserSkills] = useState([]);
+export default function Skills({ userProfile, refresh, loading }) {
+  const [selected, setSelected] = useState("");
   const [showEdit, setShowEdit] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [showCreate, setShowCreate] = useState(false);
-  const [refreshKey, setRefreshKey] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await skillService.getByUser(props.userId);
-        setUserSkills(response.data);
-      } catch (err) {
-        console.log(err);
-      }
-      setLoading(false);
-    };
-    fetchData();
-  }, [props.userId, refreshKey]);
 
   return (
     <>
-
       {showCreate && (
-        <CreateSkill
-          userId={props.userId}
+        <AddSkills
+          userProfile={userProfile}
           handleClose={() => setShowCreate(false)}
-          refresh={() => setRefreshKey(Date.now())}
+          refresh={refresh}
         />
       )}
 
       {showEdit && (
         <UpdateSkill
-          id={selected}
+          selected={selected}
+          userProfile={userProfile}
           handleClose={() => setShowEdit(false)}
-          refresh={() => setRefreshKey(Date.now())}
+          refresh={refresh}
         />
       )}
 
-      {
-        showDelete && 
+      {showDelete && (
         <DeleteSkill
-          id = {selected}
+          selected={selected}
+          userProfile={userProfile}
           handleClose={() => setShowDelete(false)}
-          refresh={() => setRefreshKey(Date.now())}
+          refresh={refresh}
         />
-      }
+      )}
       <div className="d-flex flex-wrap gap-3">
         {loading ? (
           <Loading />
-        ) : ( 
-
-          userSkills.length> 0 ? 
-          userSkills.map((skill, index) => (
+        ) : userProfile.skills.length > 0 ? (
+          userProfile.skills.map((skill, index) => (
             <Skill
               key={index}
-              skill={skill.name}
-              id={skill.id}
+              skill={skill}
               editable={true}
               setSelected={setSelected}
               showEdit={setShowEdit}
               showDelete={setShowDelete}
             />
-          )) : <NoDataYet message={"Skills haven't been listed yet"}/>
+          ))
+        ) : (
+          <NoDataYet message={"Skills haven't been listed yet"} />
         )}
         <IconButton
-          sx={{ color: "hsl(218, 94.40%, 21.20%)" }}    
+          sx={{ color: "hsl(218, 94.40%, 21.20%)" }}
           onClick={() => setShowCreate(true)}
         >
-          <AddIcon sx={{fontSize:"2em"}}/>
+          <AddIcon sx={{ fontSize: "2em" }} />
         </IconButton>
       </div>
     </>

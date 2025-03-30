@@ -28,13 +28,14 @@ namespace backend.Infrastructure.Repositories
             return await _profile.Find(r => r.UserId == userId).FirstOrDefaultAsync();
         }
 
-
         public async Task UpdateAsync(UserProfile entity)
         {
             var filter = Builders<UserProfile>.Filter.Eq(x => x.UserId, entity.UserId);
 
             var update = Builders<UserProfile>.Update
-                .Set(u => u.CustomFields, entity.CustomFields);
+                .Set(u => u.Skills, entity.Skills)
+                .Set(u => u.OpenTo, entity.OpenTo);
+               
 
             await _profile.UpdateOneAsync(filter, update);
         }

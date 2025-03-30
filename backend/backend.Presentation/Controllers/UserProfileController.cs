@@ -20,7 +20,8 @@ namespace backend.Presentation.Controllers
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetProfileByUser(int userId)
         {
-            var user = await _userProfileService.GetProfileByUser(userId);
+            var user = await _userProfileService.GetProfileDetails(userId); // detajet e userit (sql edhe mongo)
+            //var user = await _userProfileService.GetProfileByUser(userId);
             if (user == null)
             {
                 return NotFound();
@@ -55,7 +56,7 @@ namespace backend.Presentation.Controllers
         [HttpDelete("{userId}")]
         public virtual async Task<IActionResult> Delete(int userId)
         {
-            var existingDto = await _userProfileService.GetProfileByUser(userId);
+            var existingDto = await _userProfileService.GetProfileDetails(userId);
             if (existingDto == null)
             {
                 return NotFound();

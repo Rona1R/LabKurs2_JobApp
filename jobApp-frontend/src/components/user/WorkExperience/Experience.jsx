@@ -59,7 +59,7 @@ export default function Experience(props) {
         />
       )
       }
-      <div style={{ margin: "0px 30px" }}>
+      <div className="mx-sm-5">
         <Typography
           variant="h4"
           sx={{
