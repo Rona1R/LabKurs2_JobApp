@@ -11,10 +11,11 @@ function CustomDropdown(props) {
           fontFamily: "sans-serif",
           fontWeight: 700,
           letterSpacing: "2px",
-          fontSize: "18px",
+          fontSize: "25px",
           backgroundColor: "inherit",
           boxShadow: "none",
           padding: "0",
+          textTransform:"none"
         }}
       >
         {props.name}

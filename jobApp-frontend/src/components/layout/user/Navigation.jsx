@@ -1,4 +1,3 @@
-import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -18,31 +17,49 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import { CategoryService } from "../../../api/sevices/CategoryService";
+import { useState,useEffect } from "react";
+
 const pages = [
   {
-    name:"Job Postings",
-    path:"/jobPostings"
-  },{
-    name:"Blogs",
-    path:"/"
-  },{
-    name:"About Us",
-    path:"/"
-  }
-]
+    name: "Job Postings",
+    path: "/jobPostings",
+  },
+  {
+    name: "About Us",
+    path: "/",
+  },
+];
 
 const categoryService = new CategoryService();
 
-function Navigation() {
-  const [showUserSidebar, setShowUserSidebar] = React.useState(false);
-  const [showCollapsedNav, setShowCollapsedNav] = React.useState(false);
-  const [categories, setCategories] = React.useState([]);
+function Navigation({ isTransparent = false }) {
+  const [showUserSidebar, setShowUserSidebar] = useState(false);
+  const [showCollapsedNav, setShowCollapsedNav] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [scrolled, setScrolled] = useState(false);
 
   // const [profilePic,setProfilePic] = React.useState("");
   const isMobile = useMediaQuery("(max-width: 900px)");
   const loggedIn = "logged in...";
 
-  React.useEffect(() => {
+  const handleScroll = () => {
+    const offset = window.scrollY;
+    if (offset > 50) {
+      setScrolled(true);
+    } else {
+      setScrolled(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
     if (categories.length === 0) {
       const fetchData = async () => {
         try {
@@ -59,7 +76,6 @@ function Navigation() {
   // const loggedUser = 1;
   // IDE ma e mir, te tdhanat e userit qe ruhen nlocal storage me rujt edhe foton e profilit qe me mujt me ja display on top tnavigation
   // nese e ndrron profilin -> veq ja bon update edhe foton nlocal storage
-
 
   // React.useEffect(()=>{
 
@@ -90,7 +106,17 @@ function Navigation() {
   };
 
   return (
-    <AppBar position="fixed" sx={{ backgroundColor: "#0A0529", zIndex: 1000 }}>
+    <AppBar
+      position="fixed"
+      sx={{
+        /*backgroundColor: "#0A0529"*/ backgroundColor: isTransparent && !scrolled
+          ? "inherit"
+          : "#0A0529",
+        boxShadow: isTransparent ? "none" : "",
+        transition: 'background-color 0.5s ease',
+        zIndex: 1000,
+      }}
+    >
       <Container
         maxWidth={false}
         sx={{
@@ -137,7 +163,7 @@ function Navigation() {
             <CollapsedNavigation
               show={showCollapsedNav && isMobile}
               handleClose={() => setShowCollapsedNav(false)}
-              categories = {categories}
+              categories={categories}
               placement={"start"}
             />
           </Box>
@@ -167,10 +193,9 @@ function Navigation() {
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page,index) => (
+            {pages.map((page, index) => (
               <Button
                 key={index}
-                // onClick={handleCloseNavMenu}
                 sx={{
                   my: 2,
                   color: "white",
@@ -178,7 +203,8 @@ function Navigation() {
                   fontFamily: "sans-serif",
                   fontWeight: 700,
                   letterSpacing: "2px",
-                  fontSize: "18px",
+                  fontSize: "25px",
+                  textTransform: "none",
                 }}
               >
                 <Link to={page.path} style={{ color: "white" }}>

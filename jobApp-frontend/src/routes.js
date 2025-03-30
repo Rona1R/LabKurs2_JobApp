@@ -12,12 +12,16 @@ import JobPostings from "./pages/Dashboard/Employer/Jobs/JobPostings";
 import AccountSettings from "./pages/User/AccountSettings";
 import Postings from "./pages/Jobs/Postings";
 
-const routes = [
+const routes = [,
+  {
+    path:"/",
+    element:Index
+  },
   {
     path: "/",
     layout: UserLayout,
     children: [
-      { path: "/", element: Index },
+      // { path: "/", element: Index },
       { path: "/profile/:id", element: ProfilePage , private: true,},
       { path: "/account", element: AccountSettings, private: true, },
       { path:"/jobPostings",element:Postings}
