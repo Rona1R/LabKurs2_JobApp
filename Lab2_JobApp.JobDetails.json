@@ -31,6 +31,25 @@
 },
 {
   "_id": {
+    "$oid": "67e5bb5b155dabf1b635c40d"
+  },
+  "JobId": 9,
+  "Requirements": [
+    "Bachelor's Degree in Economics , Finance, Accounting or Related Field",
+    "3+ Years of experience in accounting or Audit Roles"
+  ],
+  "RequiredSkills": [
+    "Audit",
+    "Excel"
+  ],
+  "NiceToHaveSkills": [
+    "Data Analytics",
+    "SQL",
+    "Python"
+  ]
+},
+{
+  "_id": {
     "$oid": "67e6c53e731b0dbcc789226f"
   },
   "JobId": 5,
@@ -73,5 +92,22 @@
   "Requirements": [],
   "RequiredSkills": [],
   "NiceToHaveSkills": []
-}
-]
+},
+{
+  "_id": {
+    "$oid": "67e6c5f6731b0dbcc7892274"
+  },
+  "JobId": 10,
+  "Requirements": [
+    "new requirement "
+  ],
+  "RequiredSkills": [
+    "skill",
+    "skill2",
+    "skill3"
+  ],
+  "NiceToHaveSkills": [
+    "s1",
+    "s2"
+  ]
+}]
