@@ -17,7 +17,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
 import CollapsableMenu from "../../components/dashboard/CollapsableMenu";
-import { faBriefcase, faChartPie, faCircleCheck, faClipboard, faComputer,faFolderOpen, faHouse, faList, faMedal, faNoteSticky, faTable, faUniversity, faUser, faUserTie, faX } from "@fortawesome/free-solid-svg-icons";
+import { faBriefcase, faBuilding, faChartPie, faCircleCheck, faClipboard, faComputer,faFolderOpen, faHouse, faList, faMedal, faNoteSticky, faTable, faUniversity, faUser, faUserTie, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../components/dashboard/styles/dashboardSidebar.css";
 import { useLocation } from "react-router-dom";
@@ -71,6 +71,11 @@ const navLinks = [
     name: "Companies",
     path: "/dashboard/companies",
     fontAwesomeIcon: faBriefcase,
+  },
+  {
+    name: "Departments",
+    path: "/dashboard/departments",
+    fontAwesomeIcon: faBuilding,
   },
   {
     name: "Categories",

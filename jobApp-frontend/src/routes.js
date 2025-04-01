@@ -11,6 +11,7 @@ import ProfilePage from "./pages/User/ProfilePage";
 import JobPostings from "./pages/Dashboard/Employer/Jobs/JobPostings";
 import AccountSettings from "./pages/User/AccountSettings";
 import Postings from "./pages/Jobs/Postings";
+import Departments from "./pages/Dashboard/Administrator/Departments/Departments";
 
 const routes = [,
   {
@@ -33,6 +34,12 @@ const routes = [,
     protected : true,
     roles: ["Admin","Employer"],
     children: [
+      {
+        path: "/dashboard/departments",
+        element: Departments,
+        protected : true,
+        roles: ["Admin"],
+      },
       {
         path: "/dashboard/categories",
         element: Categories,
