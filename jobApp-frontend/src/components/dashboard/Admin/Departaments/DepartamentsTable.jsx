@@ -12,6 +12,7 @@ import { DepartamentService } from "../../../../api/sevices/DepartamentService";
 import Loading from "../../../../components/common/Loading";
 import {IconButton} from "@mui/material";
 import CreateDepartament from "./CreateDepartament";
+import UpdateDepartament from "./UpdateDepartament";
 const departamentService = new DepartamentService();
 
 
@@ -156,6 +157,16 @@ export default function DepartamentsTable() {
           refresh={() => setRefreshKey(Date.now())}
         />
       )}
+
+       {
+              showUpdate && selected && (
+                <UpdateDepartament
+                  id = {selected}
+                  handleClose={() => setShowUpdate(false)}
+                  refresh={() => setRefreshKey(Date.now())}
+                />
+              )
+            }
       
       <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
         <Button className="create-button" onClick={() => setShowCreate(true)}>
