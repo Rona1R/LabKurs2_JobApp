@@ -9,5 +9,7 @@ namespace backend.Application.Interfaces.DepartamentInterfaces
 {
     public interface IDepartamentRepository : IBaseRepository<Departament>
     {
+        Task<Departament?> GetByNameAsync(string name);
     }
+
 }
