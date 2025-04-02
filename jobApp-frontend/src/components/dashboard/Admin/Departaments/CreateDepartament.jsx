@@ -4,9 +4,9 @@ import Button from "react-bootstrap/Button";
 import "../../styles/crud.css";
 import { TextField, Box, ThemeProvider } from "@mui/material";
 import formTheme from "../../styles/formTheme";
-import { DepartamentService } from "../../../../api/sevices/DepartamentService";
+import { DepartamentService } from "src/api/sevices/DepartamentService";
 import Spinner from "react-bootstrap/Spinner";
-import { useNotification } from "../../../../hooks/useNotification";
+import { useNotification } from "src/hooks/useNotification";
 const departamentService = new DepartamentService();
 
 export default function CreateDepartament(props) {
@@ -49,16 +49,15 @@ export default function CreateDepartament(props) {
         props.handleClose();
       } catch (err) {
         if (err.response && err.response.status === 400) {
-          setError(err.response.data);
+          setNameError(err.response.data);
         } else {
           showNotification("error","An Unexpected Error occurred!");
           props.handleClose();
           console.log("An Unexpected Error occurred");
         }
       }
-      // console.log("Form data was submitted !");
     }
-    setLoading(false);
+    setLoading(false)
   };
 
   return (
@@ -88,7 +87,7 @@ export default function CreateDepartament(props) {
                 helperText={nameError}
                 onChange={(e) => {
                   handleChange(e);
-                  setError("");
+                  setNameError("");
                 }}
               />
             </Box>
@@ -106,7 +105,7 @@ export default function CreateDepartament(props) {
                 helperText={descriptionError}
                 onChange={(e) => {
                   handleChange(e);
-                  setError("");
+                  setDescriptionError("");
                 }}
               />
             </Box>

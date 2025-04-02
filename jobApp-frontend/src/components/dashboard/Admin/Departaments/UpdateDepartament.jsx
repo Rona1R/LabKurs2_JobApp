@@ -13,13 +13,13 @@ const departamentService = new DepartamentService();
 export default function UpdateDepartament(props) {
   const [formData, setFormData] = React.useState({
     name: "",
-    description:""
+    description: "",
   });
   const [nameError, setNameError] = React.useState("");
   const [descriptionError, setDescriptionError] = React.useState("");
-  const { handleClose} = props;
+  const { handleClose } = props;
   const [loading, setLoading] = React.useState(false);
-  const {showNotification} = useNotification();
+  const { showNotification } = useNotification();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,7 +33,7 @@ export default function UpdateDepartament(props) {
     };
 
     fetchData();
-  }, [props.id/*, setNotification*/, handleClose]);
+  }, [props.id /*, setNotification*/, handleClose]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -45,9 +45,9 @@ export default function UpdateDepartament(props) {
       return false;
     }
     if (formData.description.trim() === "") {
-        setDescriptionError("Description can not be empty !");
-        return false;
-      }
+      setDescriptionError("Description can not be empty !");
+      return false;
+    }
 
     return true;
   };
@@ -60,13 +60,13 @@ export default function UpdateDepartament(props) {
         const response = await departamentService.update(props.id, formData);
         console.log("Response" + response);
         props.refresh();
-        showNotification("success","Departament was successfully updated");
+        showNotification("success", "Departament was successfully updated");
         props.handleClose();
       } catch (err) {
         if (err.response && err.response.status === 400) {
-          setError(err.response.data);
+          setNameError(err.response.data);
         } else {
-          showNotification("error","An Unexpected Error Occurred!");
+          showNotification("error", "An Unexpected Error Occurred!");
           props.handleClose();
           console.log("An Unexpected Error occurred");
         }
@@ -103,7 +103,7 @@ export default function UpdateDepartament(props) {
                 helperText={nameError}
                 onChange={(e) => {
                   handleChange(e);
-                  setError("");
+                  setNameError("");
                 }}
               />
             </Box>
@@ -121,14 +121,18 @@ export default function UpdateDepartament(props) {
                 helperText={descriptionError}
                 onChange={(e) => {
                   handleChange(e);
-                  setError("");
+                  setDescriptionError("");
                 }}
               />
             </Box>
           </ThemeProvider>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleSubmit} className="crud-submit" disabled={loading}>
+          <Button
+            onClick={handleSubmit}
+            className="crud-submit"
+            disabled={loading}
+          >
             {loading ? (
               <Spinner
                 as="span"

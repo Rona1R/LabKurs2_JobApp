@@ -9,9 +9,6 @@ using backend.Application.DTOs.Response;
 using backend.Application.Exceptions;
 using backend.Application.Interfaces.DepartamentInterfaces;
 using backend.Domain.Models;
-using Microsoft.EntityFrameworkCore;
-
-
 
 namespace backend.Application.Services
 {
@@ -35,6 +32,18 @@ namespace backend.Application.Services
             {
                 throw new ExistsException("A Departament with this name already exists!");
             }
+        }
+
+        public override async Task UpdateAsync(int id, DepartamentRequest requestDto)
+        {
+            var exists = await _repository.GetByNameAsync(requestDto.Name);
+
+            if (exists != null && exists.Id != id)
+            {
+                throw new ExistsException("A Department with this name already exists!");
+            }
+
+            await base.UpdateAsync(id, requestDto);
         }
     }
 

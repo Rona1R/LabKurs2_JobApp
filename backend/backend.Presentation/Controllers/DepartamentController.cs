@@ -26,6 +26,17 @@ namespace backend.Presentation.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        public override async Task<IActionResult> Update(int id, [FromBody] DepartamentRequest requestDto)
+        {
+            try
+            {
+                return await base.Update(id, requestDto);
+            }
+            catch (ExistsException ex) {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 
   
