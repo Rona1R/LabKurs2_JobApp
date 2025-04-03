@@ -12,6 +12,8 @@ import { LanguageService } from "../../../../api/sevices/LanguageService";
 import Loading from "../../../../components/common/Loading";
 import CreateLanguage from "./CreateLanguage";
 import {IconButton} from "@mui/material";
+import UpdateLanguages from "./UpdateLanguages";
+import DeleteLanguages from "./DeleteLanguages";
 const languageService = new LanguageService();
 
 export default function LanguagesTable() {
@@ -67,46 +69,6 @@ export default function LanguagesTable() {
       cellClassName: "super-app-theme--cell custom-cell",
     },
     {
-      field: "createdAt",
-      headerName: "Created At",
-      width: 290,
-      editable: true,
-      headerClassName: "super-app-theme--header",
-      cellClassName: "super-app-theme--cell",
-      renderCell: (params) => {
-        const date = new Date(params.value+"Z");
-        const formattedDate = date.toLocaleString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          hour: "numeric",
-          minute: "numeric",
-          hour12: true,
-        }); //.format(date);
-        return <>{formattedDate}</>;
-      },
-    },
-    {
-      field: "updatedAt",
-      headerName: "Updated At",
-      width: 290,
-      editable: true,
-      headerClassName: "super-app-theme--header",
-      cellClassName: "super-app-theme--cell",
-      renderCell: (params) => {
-        const date = new Date(params.value+"Z");
-        const formattedDate = date.toLocaleString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          hour: "numeric",
-          minute: "numeric",
-          hour12: true,
-        }); //.format(date);
-        return <>{formattedDate}</>;
-      },
-    },
-    {
       field: "Actions",
       headerName: "Actions",
       width: 250,
@@ -147,6 +109,28 @@ export default function LanguagesTable() {
           refresh={() => setRefreshKey(Date.now())}
         />
       )}
+
+           {
+              showUpdate && selected && (
+                <UpdateLanguages
+                  id = {selected}
+                  handleClose={() => setShowUpdate(false)}
+                  refresh={() => setRefreshKey(Date.now())}
+                />
+              )
+            }
+
+              {
+                    showDelete && selected && (
+                      <DeleteLanguages
+                        id = {selected}
+                        handleClose={() => setShowDelete(false)}
+                        refresh={() => setRefreshKey(Date.now())}
+                      />
+                    )
+                  }
+
+
 
   
 

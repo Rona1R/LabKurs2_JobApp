@@ -80,7 +80,7 @@ const navLinks = [
   {
     name: "Languages",
     path: "/dashboard/languages",
-    fontAwesomeIcon: faBuilding,
+    fontAwesomeIcon: faFolderOpen,
   },
   {
     name: "Categories",
