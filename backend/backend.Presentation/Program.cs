@@ -21,12 +21,17 @@ internal class Program
 
         var frontendUrl = builder.Configuration["FRONTEND_URL"];
 
+        if (string.IsNullOrEmpty(frontendUrl))
+        {
+            throw new InvalidOperationException("Frontend URL must be configured for CORS.");
+        }
+
         //builder.Services.AddControllers();
         builder.Services.AddCors(opt =>
         {
             opt.AddPolicy(name: "CorsPolicy", builder =>
             {
-                builder.WithOrigins(frontendUrl ?? "")
+                builder.WithOrigins(frontendUrl)
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
