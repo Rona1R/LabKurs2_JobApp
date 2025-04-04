@@ -12,6 +12,11 @@ import JobPostings from "./pages/Dashboard/Employer/Jobs/JobPostings";
 import AccountSettings from "./pages/User/AccountSettings";
 import Postings from "./pages/Jobs/Postings";
 import Departments from "./pages/Dashboard/Administrator/Departments/Departments";
+//import Languages from "./components/user/Languages/Languages";
+import LanguagesAdmin from "./pages/Dashboard/Administrator/Languages/LanguagesAdmin";
+
+
+
 
 const routes = [,
   {
@@ -37,6 +42,12 @@ const routes = [,
       {
         path: "/dashboard/departments",
         element: Departments,
+        protected : true,
+        roles: ["Admin"],
+      },
+      {
+        path: "/dashboard/languages",
+        element: LanguagesAdmin,
         protected : true,
         roles: ["Admin"],
       },
