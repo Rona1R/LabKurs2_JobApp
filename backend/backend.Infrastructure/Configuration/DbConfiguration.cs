@@ -16,7 +16,7 @@ namespace backend.Infrastructure.Configuration
         public static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("Conn")),
+                options.UseSqlServer(configuration["DB_CONNECTION_STRING"]),
                 ServiceLifetime.Scoped);
 
             return services;

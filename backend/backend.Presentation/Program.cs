@@ -4,11 +4,14 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using backend.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
+using DotNetEnv;
+
 
 internal class Program
 {
     private static void Main(string[] args)
     {
+        Env.Load();
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddDomainMappings();
@@ -16,12 +19,14 @@ internal class Program
         builder.Services.AddMongoDb();
         builder.Services.MapInterfaces();
 
+        var frontendUrl = builder.Configuration["FRONTEND_URL"];
+
         //builder.Services.AddControllers();
         builder.Services.AddCors(opt =>
         {
             opt.AddPolicy(name: "CorsPolicy", builder =>
             {
-                builder.WithOrigins("http://localhost:3000","http://localhost:5173")
+                builder.WithOrigins(frontendUrl ?? "")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();

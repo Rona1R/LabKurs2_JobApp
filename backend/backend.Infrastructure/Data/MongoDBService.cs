@@ -13,8 +13,8 @@ namespace backend.Infrastructure.Data
         private readonly IMongoDatabase _database; 
         public MongoDBService(IConfiguration configuration) { 
 
-            var client = new MongoClient(configuration.GetSection("MongoDB:ConnectionString").Value); 
-            _database = client.GetDatabase(configuration.GetSection("MongoDB:DatabaseName").Value); 
+            var client = new MongoClient(configuration["MONGO_CONNECTION_STRING"]); 
+            _database = client.GetDatabase(configuration["MONGO_DB_NAME"]); 
         }
         public IMongoDatabase Database => _database;
     
