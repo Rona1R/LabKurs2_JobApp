@@ -1,4 +1,5 @@
 ﻿using backend.Application.DTOs.Request;
+using backend.Application.DTOs.Request.Auth;
 using backend.Application.Exceptions;
 using backend.Application.Interfaces.Authentication;
 using Microsoft.AspNetCore.Http;
@@ -15,6 +16,21 @@ namespace backend.Presentation.Controllers
         public AuthenticationController(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> Login([FromBody] AuthRequest authRequest)
+        {
+            try
+            {
+                await _authenticationService.Login(authRequest);
+                return Ok("Logged in successfully!");
+            }
+            catch (InvalidCredentialsException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
