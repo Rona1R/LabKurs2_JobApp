@@ -32,6 +32,10 @@ namespace backend.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task<bool> Authenticate(IdentityUser user,string password)
+        {
+            return await _userManager.CheckPasswordAsync(user, password);
+        }
         private async Task CreateProfile(int userId)
         {
             var profile = new UserProfile()

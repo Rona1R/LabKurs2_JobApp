@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using backend.Application.DTOs.Request;
+using backend.Application.DTOs.Request.Auth;
 using backend.Application.Exceptions;
 using backend.Application.Interfaces.Authentication;
 using backend.Domain.Models;
@@ -23,6 +24,22 @@ namespace backend.Application.Services
             _roleManager = roleManager;
         }
 
+        public async Task Login(AuthRequest authRequest)
+        {
+            var user = await _authenticationRepository.GetUserByEmailAsync(authRequest.email);
+            if (user != null )
+            {
+                if (await _authenticationRepository.Authenticate(user, authRequest.password))
+                {
+                    Console.WriteLine("Login successful!");
+                    return;
+                }      
+                
+                throw new InvalidCredentialsException("Invalid credentials!");
+            }
+           
+            throw new InvalidCredentialsException("Invalid credentials!");
+        }
 
         public async Task<IdentityResult> CreateRole(string role)
         {

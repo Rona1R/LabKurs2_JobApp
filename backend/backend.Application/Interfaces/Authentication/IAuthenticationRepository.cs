@@ -10,6 +10,7 @@ namespace backend.Application.Interfaces.Authentication
 {
     public interface IAuthenticationRepository
     {
+        Task<bool> Authenticate(IdentityUser user, string password);
         Task<IdentityResult> CreateAccountAsync(Register register);
 
         Task<IdentityUser?> GetUserByEmailAsync(string email);
