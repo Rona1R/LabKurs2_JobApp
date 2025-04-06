@@ -88,8 +88,8 @@ const navLinks = [
     fontAwesomeIcon: faList,
   },
   {
-    name : "Instituions",
-    path:"/",
+    name : "Institutions",
+    path:"/dashboard/institutions",
     fontAwesomeIcon : faUniversity
   },
   {

@@ -14,14 +14,32 @@ import Postings from "./pages/Jobs/Postings";
 import Departments from "./pages/Dashboard/Administrator/Departments/Departments";
 //import Languages from "./components/user/Languages/Languages";
 import LanguagesAdmin from "./pages/Dashboard/Administrator/Languages/LanguagesAdmin";
-
-
-
+import SomethingWentWrong from "./pages/Error/SomethingWentWrong";
+import AlreadyLoggedIn from "./pages/Error/AlreadyLoggedIn";
+import ServerNotResponding from "./pages/Error/ServerNotResponding";
+import NotFound from "./pages/Error/NotFound";
+import Institutions from "./pages/Dashboard/Administrator/Institutions/Institutions";
 
 const routes = [,
   {
     path:"/",
     element:Index
+  },
+  {
+    path:"/error",
+    element:SomethingWentWrong
+  },
+  {
+    path:"/loggedIn",
+    element: AlreadyLoggedIn
+  },
+  {
+    path:"/serverError",
+    element:ServerNotResponding
+  },
+  {
+    path:"/notFound",
+    element:NotFound
   },
   {
     path: "/",
@@ -80,6 +98,11 @@ const routes = [,
         protected : true,
         element: JobPostings,
         roles: ["Employer"],
+      },{
+        path: "/dashboard/institutions",
+        element: Institutions,
+        protected : true,
+        roles: ["Admin"],
       }
     ],
   },
