@@ -7,7 +7,6 @@ using backend.Application.DTOs.Request;
 using backend.Application.DTOs.Request.Auth;
 using backend.Application.Exceptions;
 using backend.Application.Interfaces.Authentication;
-using backend.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace backend.Application.Services.Authentication
