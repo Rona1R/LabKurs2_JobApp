@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using backend.Application.DTOs.Request;
+using backend.Application.DTOs.Request.Auth;
 using backend.Application.Interfaces.Authentication;
 using backend.Application.Interfaces.UserProfileInterfaces;
 using backend.Domain.Models;
@@ -58,7 +59,7 @@ namespace backend.Infrastructure.Repositories
 
             if (accountCreation.Succeeded)
             {
-                await _userManager.AddToRoleAsync(newUser, "User");
+                await _userManager.AddToRoleAsync(newUser, UserRoles.User);
 
                 var entity = new User()
                 {

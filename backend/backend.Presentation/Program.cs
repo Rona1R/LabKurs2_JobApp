@@ -5,6 +5,7 @@ using System.Text.Json;
 using backend.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using DotNetEnv;
+using Microsoft.OpenApi.Models;
 
 
 internal class Program
@@ -18,6 +19,7 @@ internal class Program
         builder.Services.AddDbContext(builder.Configuration);
         builder.Services.AddMongoDb();
         builder.Services.MapInterfaces();
+        builder.Services.AddJwtConfiguration(builder.Configuration);
 
         var frontendUrl = builder.Configuration["FRONTEND_URL"];
 
@@ -66,7 +68,33 @@ internal class Program
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "JWT API", Version = "v1" });
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Name = "Authorization",
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Description = "JWT Authorization header using the Bearer scheme."
+            });
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+         });
+        }); ;
 
         var app = builder.Build();
 

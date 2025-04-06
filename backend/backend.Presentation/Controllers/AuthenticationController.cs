@@ -27,8 +27,8 @@ namespace backend.Presentation.Controllers
             try
             {
                 var user = await _authenticationService.Login(authRequest);
-                await _tokenService.GenerateTokens(user);
-                return Ok("Logged in successfully!");
+                var tokenResponse = await _tokenService.GenerateTokens(user);
+                return Ok(tokenResponse);
             }
             catch (InvalidCredentialsException ex)
             {
