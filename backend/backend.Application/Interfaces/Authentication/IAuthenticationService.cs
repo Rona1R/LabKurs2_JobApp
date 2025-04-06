@@ -11,11 +11,11 @@ namespace backend.Application.Interfaces.Authentication
 {
     public interface IAuthenticationService
     {
+        Task<IdentityUser> Login(AuthRequest authRequest);
 
         Task<IdentityResult> CreateAccount(Register register);
 
         Task<IdentityResult> CreateRole(string role);
-        Task Login(AuthRequest authRequest);
         Task<IdentityResult> RemoveRole(string role);
 
     }

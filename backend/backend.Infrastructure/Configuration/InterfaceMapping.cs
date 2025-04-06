@@ -21,6 +21,7 @@ using backend.Application.Interfaces.UserLanguageInterfaces;
 using backend.Application.Interfaces.UserProfileInterfaces;
 using backend.Application.Interfaces.UserRoleInterfaces;
 using backend.Application.Services;
+using backend.Application.Services.Authentication;
 using backend.Application.Services.Factory;
 using backend.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
@@ -83,6 +84,8 @@ namespace backend.Infrastructure.Configuration
 
             services.AddScoped<IJobDetailsRepository, JobDetailsRepository>();
             services.AddScoped<IJobDetailsService, JobDetailsService>();
+
+            services.AddScoped<ITokenService, TokenService>();  
 
             services.AddSingleton<FileFactory>();
         }

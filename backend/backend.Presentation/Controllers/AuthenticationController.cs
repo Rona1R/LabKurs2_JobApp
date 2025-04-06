@@ -12,10 +12,12 @@ namespace backend.Presentation.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
+        private readonly ITokenService _tokenService;
 
-        public AuthenticationController(IAuthenticationService authenticationService)
+        public AuthenticationController(IAuthenticationService authenticationService, ITokenService tokenService)
         {
             _authenticationService = authenticationService;
+            _tokenService = tokenService;
         }
 
         [HttpPost]
@@ -24,12 +26,17 @@ namespace backend.Presentation.Controllers
         {
             try
             {
-                await _authenticationService.Login(authRequest);
+                var user = await _authenticationService.Login(authRequest);
+                await _tokenService.GenerateTokens(user);
                 return Ok("Logged in successfully!");
             }
             catch (InvalidCredentialsException ex)
             {
                 return BadRequest(ex.Message);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
         }
 
