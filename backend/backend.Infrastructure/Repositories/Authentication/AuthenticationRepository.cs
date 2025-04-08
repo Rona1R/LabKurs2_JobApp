@@ -13,7 +13,7 @@ using backend.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Infrastructure.Repositories
+namespace backend.Infrastructure.Repositories.Authentication
 {
     public class AuthenticationRepository : IAuthenticationRepository
     {

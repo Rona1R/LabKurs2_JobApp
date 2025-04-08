@@ -3,6 +3,7 @@ using backend.Application.DTOs.Request;
 using backend.Application.DTOs.Request.Auth;
 using backend.Application.Exceptions;
 using backend.Application.Interfaces.Authentication;
+using backend.Infrastructure.Migrations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -17,7 +18,7 @@ namespace backend.Presentation.Controllers
         private readonly ITokenService _tokenService;
         private readonly IConfiguration _configuration;
 
-        public AuthenticationController(IAuthenticationService authenticationService, ITokenService tokenService, IConfiguration configuration = null)
+        public AuthenticationController(IAuthenticationService authenticationService, ITokenService tokenService, IConfiguration configuration)
         {
             _authenticationService = authenticationService;
             _tokenService = tokenService;
@@ -59,6 +60,12 @@ namespace backend.Presentation.Controllers
             }
         }
 
+        [HttpPost("refresh")]
+        public IActionResult Refresh()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+            return Ok(refreshToken);
+        }
 
         [HttpPost]
         [Route("create-account")]

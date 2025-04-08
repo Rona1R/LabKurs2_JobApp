@@ -20,14 +20,16 @@ namespace backend.Application.Services.Authentication
     public class TokenService : ITokenService
     {
         private readonly IAuthenticationRepository _authenticationRepository;
+        private readonly ITokenRepository _tokenRepository;
         private readonly IUserRoleRepository _userRoleRepository;
         private readonly IConfiguration _configuration;
 
-        public TokenService(IAuthenticationRepository authenticationRepository, IUserRoleRepository userRoleRepository, IConfiguration configuration)
+        public TokenService(IAuthenticationRepository authenticationRepository, IUserRoleRepository userRoleRepository, IConfiguration configuration, ITokenRepository tokenRepository)
         {
             _authenticationRepository = authenticationRepository;
             _userRoleRepository = userRoleRepository;
             _configuration = configuration;
+            _tokenRepository = tokenRepository;
         }
 
 
@@ -44,6 +46,14 @@ namespace backend.Application.Services.Authentication
             
             var accessToken = GenerateAccessToken(identityUser,user, roles);
             var refreshToken = GenerateRefreshToken();
+
+            var refresh_validity = _configuration["REFRESH_TOKEN_VALIDITY_IN_DAYS"] ?? throw new InvalidOperationException("Refresh token validity is not set");
+            if (!int.TryParse(refresh_validity, out int tokenValidityInDays))
+            {
+                throw new InvalidOperationException("Refresh token validity is not a valid integer");
+            }
+
+            await _tokenRepository.StoreRefreshToken(user, refreshToken, DateTime.UtcNow.AddDays(tokenValidityInDays));
 
             return new AuthResponse()
             {
