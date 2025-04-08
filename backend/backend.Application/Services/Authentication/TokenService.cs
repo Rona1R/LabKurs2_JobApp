@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using backend.Application.DTOs.Response.Auth;
@@ -42,10 +43,12 @@ namespace backend.Application.Services.Authentication
             var roles = await _userRoleRepository.GetRolesByUserAsync(identityUser);
             
             var accessToken = GenerateAccessToken(identityUser,user, roles);
+            var refreshToken = GenerateRefreshToken();
 
             return new AuthResponse()
             {
                 AccessToken = accessToken,
+                RefreshToken = refreshToken
             };
             //await GenerateAccessToken(user);
         }
@@ -68,6 +71,14 @@ namespace backend.Application.Services.Authentication
             return token;
             //Console.WriteLine("Generating access token for user: "+user.Name);
             //Console.WriteLine("Roles: " + string.Join(", ", roles));
+        }
+
+        private static string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[64];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
         }
 
         private string CreateToken(List<Claim> claims) // gjenerimi i access tokenit

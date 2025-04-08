@@ -1,9 +1,11 @@
-﻿using backend.Application.DTOs.Request;
+﻿using System.Text;
+using backend.Application.DTOs.Request;
 using backend.Application.DTOs.Request.Auth;
 using backend.Application.Exceptions;
 using backend.Application.Interfaces.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace backend.Presentation.Controllers
 {
@@ -13,11 +15,13 @@ namespace backend.Presentation.Controllers
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly ITokenService _tokenService;
+        private readonly IConfiguration _configuration;
 
-        public AuthenticationController(IAuthenticationService authenticationService, ITokenService tokenService)
+        public AuthenticationController(IAuthenticationService authenticationService, ITokenService tokenService, IConfiguration configuration = null)
         {
             _authenticationService = authenticationService;
             _tokenService = tokenService;
+            _configuration = configuration;
         }
 
         [HttpPost]
@@ -28,7 +32,22 @@ namespace backend.Presentation.Controllers
             {
                 var user = await _authenticationService.Login(authRequest);
                 var tokenResponse = await _tokenService.GenerateTokens(user);
-                return Ok(tokenResponse);
+
+                var refresh_validity = _configuration["REFRESH_TOKEN_VALIDITY_IN_DAYS"] ?? throw new InvalidOperationException("Refresh token validity is not set");
+                if (!int.TryParse(refresh_validity, out int tokenValidityInDays))
+                {
+                    throw new InvalidOperationException("Refresh token validity is not a valid integer");
+                }
+
+                Response.Cookies.Append("refreshToken", tokenResponse.RefreshToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTimeOffset.UtcNow.AddDays(tokenValidityInDays)
+                });
+
+                return Ok(tokenResponse.AccessToken);
             }
             catch (InvalidCredentialsException ex)
             {
