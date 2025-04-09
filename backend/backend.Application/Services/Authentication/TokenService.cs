@@ -68,6 +68,11 @@ namespace backend.Application.Services.Authentication
             return await _tokenRepository.GetUserByRefreshToken(refreshToken);
         }
 
+        public async Task RemoveRefreshToken(User user)
+        {
+            await _tokenRepository.RemoveRefreshToken(user);    
+        }
+
         private string GenerateAccessToken(IdentityUser identityUser,User user, IEnumerable<string> roles)
         {
             var claims = new List<Claim>

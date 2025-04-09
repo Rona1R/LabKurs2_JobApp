@@ -122,6 +122,27 @@ namespace backend.Presentation.Controllers
             }
         }
 
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+            if (string.IsNullOrEmpty(refreshToken))
+            {
+                return BadRequest("No refresh token found in cookies.");
+            }
+
+            var user = await _tokenService.GetUserFromRefreshToken(refreshToken);
+            if (user == null)
+            {
+                return Unauthorized("Invalid refresh token.");
+            }
+
+            await _tokenService.RemoveRefreshToken(user);
+            Response.Cookies.Delete("refreshToken");
+
+            return Ok("Successfully logged out.");
+        }
+
 
         [HttpPost]
         [Route("add-role")]

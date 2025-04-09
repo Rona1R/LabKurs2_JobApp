@@ -13,5 +13,6 @@ namespace backend.Application.Interfaces.Authentication
     {
         Task<AuthResponse> GenerateTokens(IdentityUser identityUser);
         Task<User?> GetUserFromRefreshToken(string refreshToken);
+        Task RemoveRefreshToken(User user);
     }
 }
