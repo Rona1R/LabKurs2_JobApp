@@ -53,7 +53,7 @@ namespace backend.Application.Services.Authentication
                 throw new InvalidOperationException("Refresh token validity is not a valid integer");
             }
 
-            await _tokenRepository.StoreRefreshToken(user, refreshToken, DateTime.UtcNow.AddDays(tokenValidityInDays));
+            await _tokenRepository.StoreRefreshToken(user, refreshToken,DateTime.UtcNow.AddDays(tokenValidityInDays));
 
             return new AuthResponse()
             {
@@ -62,6 +62,12 @@ namespace backend.Application.Services.Authentication
             };
             //await GenerateAccessToken(user);
         }
+
+        public async Task<User?> GetUserFromRefreshToken(string refreshToken)
+        {
+            return await _tokenRepository.GetUserByRefreshToken(refreshToken);
+        }
+
         private string GenerateAccessToken(IdentityUser identityUser,User user, IEnumerable<string> roles)
         {
             var claims = new List<Claim>
@@ -100,6 +106,7 @@ namespace backend.Application.Services.Authentication
             {
                 //Issuer = _configuration["JWT_ISSUER"],
                 //Audience = _configuration["JWT_AUDIENCE"],
+
                 Expires = DateTime.UtcNow.AddMinutes(tokenValidityInMinutes),
                 Subject = new ClaimsIdentity(claims),
                 SigningCredentials = new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)

@@ -21,7 +21,7 @@ namespace backend.Infrastructure.Repositories.Authentication
 
         public async Task<User?> GetUserByRefreshToken(string refreshToken)
         {
-            return await _context.User.FirstOrDefaultAsync(x => x.RefreshToken == refreshToken);
+            return await _context.User.Include(u=>u.AspNetUser).FirstOrDefaultAsync(x => x.RefreshToken == refreshToken);
         }
 
         public async Task StoreRefreshToken(User user,string refreshToken,DateTime exp)

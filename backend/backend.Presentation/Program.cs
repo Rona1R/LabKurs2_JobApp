@@ -19,7 +19,7 @@ internal class Program
         builder.Services.AddDbContext(builder.Configuration);
         builder.Services.AddMongoDb();
         builder.Services.MapInterfaces();
-        builder.Services.AddJwtConfiguration(builder.Configuration);
+
 
         var frontendUrl = builder.Configuration["FRONTEND_URL"];
 
@@ -50,6 +50,8 @@ internal class Program
 
         builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>()
          .AddDefaultTokenProviders();
+
+        builder.Services.AddJwtConfiguration(builder.Configuration);
 
         builder.Services.Configure<IdentityOptions>(options =>
         {

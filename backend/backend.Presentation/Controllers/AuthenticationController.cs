@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Threading.Tasks;
 using backend.Application.DTOs.Request;
 using backend.Application.DTOs.Request.Auth;
 using backend.Application.Exceptions;
@@ -61,10 +62,37 @@ namespace backend.Presentation.Controllers
         }
 
         [HttpPost("refresh")]
-        public IActionResult Refresh()
+        public async Task<IActionResult> Refresh()
         {
             var refreshToken = Request.Cookies["refreshToken"];
-            return Ok(refreshToken);
+            if (string.IsNullOrEmpty(refreshToken))
+            {
+                return Unauthorized("Refresh token is missing or invalid.");
+            }
+
+            var user = await _tokenService.GetUserFromRefreshToken(refreshToken);
+            if (user == null || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+            {
+                return Unauthorized();
+            }
+
+            var tokenResponse = await _tokenService.GenerateTokens(user.AspNetUser);
+
+            var refreshValidity = _configuration["REFRESH_TOKEN_VALIDITY_IN_DAYS"]
+                                  ?? throw new InvalidOperationException("Refresh token validity is not set");
+            if (!int.TryParse(refreshValidity, out int tokenValidityInDays))
+            {
+                throw new InvalidOperationException("Refresh token validity is not a valid integer");
+            }
+
+            Response.Cookies.Append("refreshToken", tokenResponse.RefreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTimeOffset.UtcNow.AddDays(tokenValidityInDays)
+            });
+            return Ok(tokenResponse.AccessToken);
         }
 
         [HttpPost]
