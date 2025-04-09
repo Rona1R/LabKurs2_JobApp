@@ -7,10 +7,9 @@ using backend.Application.DTOs.Request;
 using backend.Application.DTOs.Request.Auth;
 using backend.Application.Exceptions;
 using backend.Application.Interfaces.Authentication;
-using backend.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace backend.Application.Services
+namespace backend.Application.Services.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
@@ -24,7 +23,7 @@ namespace backend.Application.Services
             _roleManager = roleManager;
         }
 
-        public async Task Login(AuthRequest authRequest)
+        public async Task<IdentityUser> Login(AuthRequest authRequest)
         {
             var user = await _authenticationRepository.GetUserByEmailAsync(authRequest.email);
             if (user != null )
@@ -32,7 +31,7 @@ namespace backend.Application.Services
                 if (await _authenticationRepository.Authenticate(user, authRequest.password))
                 {
                     Console.WriteLine("Login successful!");
-                    return;
+                    return user;
                 }      
                 
                 throw new InvalidCredentialsException("Invalid credentials!");

@@ -31,7 +31,9 @@ namespace backend.Domain.Models
         public virtual IdentityUser AspNetUser { get; set; }
 
         public String? RefreshToken { get; set; }
-   
+
+        public DateTime? RefreshTokenExpiryTime { get; set; }
+
 
         public virtual List<JobApplication> JobApplications { get; set; } = new List<JobApplication>();
 

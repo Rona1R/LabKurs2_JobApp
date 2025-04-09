@@ -5,13 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using backend.Application.DTOs.Request;
+using backend.Application.DTOs.Request.Auth;
 using backend.Application.Interfaces.Authentication;
 using backend.Application.Interfaces.UserProfileInterfaces;
 using backend.Domain.Models;
 using backend.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
-namespace backend.Infrastructure.Repositories
+namespace backend.Infrastructure.Repositories.Authentication
 {
     public class AuthenticationRepository : IAuthenticationRepository
     {
@@ -57,7 +59,7 @@ namespace backend.Infrastructure.Repositories
 
             if (accountCreation.Succeeded)
             {
-                await _userManager.AddToRoleAsync(newUser, "User");
+                await _userManager.AddToRoleAsync(newUser, UserRoles.User);
 
                 var entity = new User()
                 {
@@ -83,5 +85,10 @@ namespace backend.Infrastructure.Repositories
             return await _userManager.FindByNameAsync(name);
         }
 
+        public async Task<User?> GetUserById(string aspNetUserId)
+        {
+            return await _dbContext.User
+                .FirstOrDefaultAsync(u=>u.AspNetUserId == aspNetUserId);
+        }
     }
 }

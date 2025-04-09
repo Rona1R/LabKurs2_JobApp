@@ -2,6 +2,8 @@
 using backend.Application.DTOs.Response;
 using backend.Application.Exceptions;
 using backend.Application.Interfaces.CategoryInterfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,17 +11,12 @@ namespace backend.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class CategoryController : BaseController<ICategoryService,/*Category,*/ CategoryRequest, CategoryResponse>
     {
         public CategoryController(ICategoryService service) : base(service)
         {
         }
-
-        //private readonly ICategoryService _categoryService;
-        //public CategoryController(IBaseService<Category, CategoryRequest, CategoryResponse> service, ICategoryService categoryService) : base(service)
-        //{
-        //    _categoryService = categoryService;
-        //}
 
         public override async Task<IActionResult> Create([FromBody] CategoryRequest requestDto)
         {
