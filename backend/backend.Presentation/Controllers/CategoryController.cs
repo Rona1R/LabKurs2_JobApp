@@ -2,7 +2,6 @@
 using backend.Application.DTOs.Response;
 using backend.Application.Exceptions;
 using backend.Application.Interfaces.CategoryInterfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +10,7 @@ namespace backend.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class CategoryController : BaseController<ICategoryService,/*Category,*/ CategoryRequest, CategoryResponse>
     {
         public CategoryController(ICategoryService service) : base(service)

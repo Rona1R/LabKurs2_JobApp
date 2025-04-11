@@ -26,7 +26,7 @@ import {
   updateUserPicture,
 } from "./ProfileFormActions/ProfileServices";
 import "./styles/ProfileForm.css";
-import { validateEmail } from "../../../components/common/validationUtils";
+import { validateEmail } from "../../common/utils/validationUtils";
 import { useNotification } from "../../../hooks/useNotification";
 const userService = new UserService();
 

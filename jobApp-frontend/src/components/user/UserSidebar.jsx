@@ -16,6 +16,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import "./UserSidebar.css";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "src/store/authStore";
 
 const theme = createTheme({
   components: {
@@ -52,6 +53,14 @@ const theme = createTheme({
 });
 
 function UserSidebar({ show, handleClose, ...props }) {
+  const {logOut} = useAuthStore();
+
+  const handleLogOut = () => {
+    // handle log out ne backend ....
+    logOut(); 
+    handleClose();
+  }
+
   return (
     <>
       <Offcanvas
@@ -125,7 +134,7 @@ function UserSidebar({ show, handleClose, ...props }) {
                     <ListItemText primary="My Applications" />
                   </ListItemButton>
                 </Link>
-                <ListItemButton onClick={handleClose}>
+                <ListItemButton onClick={handleLogOut}>
                   <ListItemIcon>
                     <LogoutIcon />
                   </ListItemIcon>

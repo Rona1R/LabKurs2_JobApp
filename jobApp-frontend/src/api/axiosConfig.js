@@ -1,5 +1,18 @@
 // axiosConfig.js
 import { axiosInstance } from "./sevices/axioxInstance";
+import { useAuthStore } from "src/store/authStore"; 
+
+axiosInstance.interceptors.request.use((config) => {
+    const token = useAuthStore.getState().accessToken;
+    if (token) {
+        console.log(useAuthStore.getState()?.user);
+        config.headers.Authorization = `Bearer ${token}`;
+    }else{
+        console.log("Access token is missing");
+        // console.log(useAuthStore.getState()?.user);
+    }
+    return config;
+});
 
 //Add a response interceptor
 axiosInstance.interceptors.response.use(
