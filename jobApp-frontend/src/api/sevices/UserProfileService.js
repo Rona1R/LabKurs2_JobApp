@@ -18,8 +18,8 @@ export class UserProfileService{
         return await this.axiosInstance.put(`${this.requestMapping}/${id}`,data);
     }
 
-    async post(data){
-        return await this.axiosInstance.post(`${this.requestMapping}`,data);
-    }
+    // async post(data){
+    //     return await this.axiosInstance.post(`${this.requestMapping}`,data);
+    // }
     
 }

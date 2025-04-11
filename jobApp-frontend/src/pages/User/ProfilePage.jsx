@@ -18,7 +18,7 @@ const userProfileService = new UserProfileService();
 export default function ProfilePage() {
   const { id } = useParams();
   const { user } = useAuth();
-  const isEditable = id === user?.nameid; 
+  const isEditable = id === user?.nameid;
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState("");
   const [userProfile, setUserProfile] = useState({
@@ -61,6 +61,7 @@ export default function ProfilePage() {
   return (
     <div>
       <ImageSection
+        editable={isEditable}
         userId={id}
         userProfile={userProfile}
         loading={loading}
@@ -100,6 +101,7 @@ export default function ProfilePage() {
             <p className="lead text-muted">{userProfile.email}</p>
           </div>
           <Skills
+            editable={isEditable}
             userProfile={profileDetails}
             loading={loading}
             refresh={() => setRefreshKey(Date.now())}
@@ -113,6 +115,7 @@ export default function ProfilePage() {
             refresh={() => setRefreshKey(Date.now())}
           />
           <DetailsSection
+            editable={isEditable}
             profileDetails={profileDetails}
             refresh={() => setRefreshKey(Date.now())}
           />
@@ -139,15 +142,15 @@ export default function ProfilePage() {
           />
           <Divider sx={{ backgroundColor: "gray" }} />
 
-          <Experience userId={id} />
+          <Experience editable={isEditable} userId={id} />
 
           <Divider sx={{ backgroundColor: "gray" }} />
 
-          <Education userId={id} />
+          <Education editable={isEditable} userId={id} />
 
           <Divider sx={{ backgroundColor: "gray" }} />
 
-          <Languages userId={id} />
+          <Languages editable={isEditable} userId={id} />
         </div>
       </Box>
     </div>

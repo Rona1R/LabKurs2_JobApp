@@ -1,6 +1,7 @@
 ﻿using backend.Application.DTOs.Request;
 using backend.Application.DTOs.Response;
 using backend.Application.Interfaces.ExperienceInterfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace backend.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ExperienceController : BaseController<IExperienceService, ExperienceRequest, ExperienceResponse>
     {
         public ExperienceController(IExperienceService service) : base(service)

@@ -9,7 +9,13 @@ import { useNotification } from "src/hooks/useNotification";
 const fileService = new FileService();
 const userService = new UserService();
 
-export default function ImageSection({ userProfile, userId, loading,setRefreshKey }) {
+export default function ImageSection({
+  userProfile,
+  userId,
+  loading,
+  setRefreshKey,
+  editable,
+}) {
   const [image, setImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
@@ -83,9 +89,9 @@ export default function ImageSection({ userProfile, userId, loading,setRefreshKe
             : `url(${
                 image
                   ? image
-                  : userProfile. profileBackground
+                  : userProfile.profileBackground
                   ? `${import.meta.env.VITE_IMAGE_PATH}/${
-                      userProfile. profileBackground
+                      userProfile.profileBackground
                     }`
                   : "/images/static-background-image2.jpg"
               })`,
@@ -98,56 +104,74 @@ export default function ImageSection({ userProfile, userId, loading,setRefreshKe
           </div>
         )}
       </div>
-      <div className="background-button">
-        {image ? (
-          <>
-            <Button
-              onClick={() => setImage(null)}
-              className="cancel-background"
-              sx={{fontSize:{xs:"15px",sm:"20px"},textTransform:"none",padding:{sm:"8px 15px"},mr:1}}
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={updateUser}
-              className="save-background"
-              disabled={loadingSubmit}
-              sx={{fontSize:{xs:"15px",sm:"20px"},textTransform:"none",padding:{sm:"8px 15px"}}}
-            >
-              {loadingSubmit ? (
-                <>
-                  <Spinner
-                    as="span"
-                    animation="border"
-                    size="sm"
-                    role="status"
-                    aria-hidden="true"
-                    style={{ marginRight: "10px" }}
-                  />
-                  Uploading ...
-                </>
-              ) : (
-                <>Save Changes</>
-              )}
-            </Button>
-          </>
-        ) : (
-          <>
-            <input
-              accept="image/*"
-              style={{ display: "none" }}
-              id="upload-button-file"
-              type="file"
-              onChange={handleUpload}
-            />
-            <label htmlFor="upload-button-file">
-              <Button component="span" className="change-background" sx={{fontSize:{xs:"15px",sm:"20px"},padding:{sm:"10px 40px"}}}>
-                Change Background
+      {editable && (
+        <div className="background-button">
+          {image ? (
+            <>
+              <Button
+                onClick={() => setImage(null)}
+                className="cancel-background"
+                sx={{
+                  fontSize: { xs: "15px", sm: "20px" },
+                  textTransform: "none",
+                  padding: { sm: "8px 15px" },
+                  mr: 1,
+                }}
+              >
+                Cancel
               </Button>
-            </label>
-          </>
-        )}
-      </div>
+              <Button
+                onClick={updateUser}
+                className="save-background"
+                disabled={loadingSubmit}
+                sx={{
+                  fontSize: { xs: "15px", sm: "20px" },
+                  textTransform: "none",
+                  padding: { sm: "8px 15px" },
+                }}
+              >
+                {loadingSubmit ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      style={{ marginRight: "10px" }}
+                    />
+                    Uploading ...
+                  </>
+                ) : (
+                  <>Save Changes</>
+                )}
+              </Button>
+            </>
+          ) : (
+            <>
+              <input
+                accept="image/*"
+                style={{ display: "none" }}
+                id="upload-button-file"
+                type="file"
+                onChange={handleUpload}
+              />
+              <label htmlFor="upload-button-file">
+                <Button
+                  component="span"
+                  className="change-background"
+                  sx={{
+                    fontSize: { xs: "15px", sm: "20px" },
+                    padding: { sm: "10px 40px" },
+                  }}
+                >
+                  Change Background
+                </Button>
+              </label>
+            </>
+          )}
+        </div>
+      )}
     </>
   );
 }

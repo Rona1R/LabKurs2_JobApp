@@ -1,6 +1,7 @@
 ﻿using backend.Application.DTOs.Request;
 using backend.Application.DTOs.Response;
 using backend.Application.Interfaces.UserProfileInterfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,7 @@ namespace backend.Presentation.Controllers
         }
 
         [HttpGet("{userId}")]
+        [Authorize]
         public async Task<IActionResult> GetProfileByUser(int userId)
         {
             var user = await _userProfileService.GetProfileDetails(userId); // detajet e userit (sql edhe mongo)
@@ -29,19 +31,21 @@ namespace backend.Presentation.Controllers
             return Ok(user);
         }
 
-        [HttpPost]
-        public virtual async Task<IActionResult> Create([FromBody] UserProfileRequest requestDto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //[HttpPost]
+        //[Authorize]
+        //public virtual async Task<IActionResult> Create([FromBody] UserProfileRequest requestDto)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            await _userProfileService.CreateProfile(requestDto);
-            return Ok();
-        }
+        //    await _userProfileService.CreateProfile(requestDto);
+        //    return Ok();
+        //}
 
         [HttpPut("{userId}")]
+        [Authorize]
         public virtual async Task<IActionResult> Update(int userId, [FromBody] UserProfileRequest requestDto)
         {
             if (!ModelState.IsValid)

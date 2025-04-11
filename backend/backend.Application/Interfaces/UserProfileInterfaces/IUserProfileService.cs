@@ -10,7 +10,7 @@ namespace backend.Application.Interfaces.UserProfileInterfaces
 {
     public interface IUserProfileService
     {
-        Task CreateProfile(UserProfileRequest userProfileRequest);
+        //Task CreateProfile(UserProfileRequest userProfileRequest);
         Task DeleteProfile(int userId);
 
         Task<UserProfileDetails?> GetProfileDetails(int userId);

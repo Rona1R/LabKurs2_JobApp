@@ -5,15 +5,15 @@ import { useState } from "react";
 import Loading from "../../../components/common/Loading";
 import NoDataYet from "../../../components/common/NoDataYet";
 
-export default function AboutMe(props) {
+export default function AboutMe({userData,refresh,isLoading,editable}) {
   const [showEdit, setShowEdit] = useState(false);
 
   return (
     <>
       {showEdit && (
         <EditAboutMe
-          user={props.userData}
-          refresh={props.refresh}
+          user={userData}
+          refresh={refresh}
           handleClose={() => setShowEdit(false)}
         />
       )}
@@ -24,7 +24,7 @@ export default function AboutMe(props) {
           sx={{ color: "#151034", fontWeight: "bold", marginBottom: "1em" }}
         >
           About Me
-          {props.editable && (
+          {editable && (
             <IconButton sx={{ marginLeft: "10px", color: "hsl(218, 94.40%, 21.20%)"  }} onClick={() => setShowEdit(true)}>
               <ModeIcon sx={{fontSize:"1.5em"}}/>
             </IconButton>
@@ -40,8 +40,8 @@ export default function AboutMe(props) {
           }}
         >
           {
-            props.isLoading ? <Loading/> : (props.userData.aboutMe? 
-              props.userData.aboutMe : <NoDataYet message={"No Description added, yet"}/>
+             isLoading ? <Loading/> : (userData.aboutMe? 
+              userData.aboutMe : <NoDataYet message={"No Description added, yet"}/>
              )
           }
         </Typography>

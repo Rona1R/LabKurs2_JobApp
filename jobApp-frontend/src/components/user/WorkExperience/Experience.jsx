@@ -11,7 +11,7 @@ import UpdateExperience from "./UpdateExperience";
 import DeleteExperience from "./DeleteExperience";
 const experienceService = new ExperienceService();
 
-export default function Experience(props) {
+export default function Experience({userId,editable}) {
   const [experiences, setExperiences] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState("");
@@ -23,7 +23,7 @@ export default function Experience(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await experienceService.getByUser(props.userId);
+        const response = await experienceService.getByUser(userId);
         setExperiences(response.data);
       } catch (err) {
         console.log(err);
@@ -31,13 +31,13 @@ export default function Experience(props) {
       setLoading(false);
     };
     fetchData();
-  }, [props.userId, refreshKey]);
+  }, [userId, refreshKey]);
 
   return (
     <>
       {showCreate && (
         <CreateExperience
-          userId={props.userId}
+          userId={userId}
           handleClose={() => setShowCreate(false)}
           refresh={() => setRefreshKey(Date.now())}
         />
@@ -70,12 +70,15 @@ export default function Experience(props) {
           }}
         >
           Experiences
-          <IconButton
-            sx={{ mx:1,color: "hsl(218, 94.40%, 21.20%)" }} 
-            onClick={() => setShowCreate(true)}
-          >
-            <AddIcon sx={{fontSize:"2em"}}/>
-          </IconButton>
+          {
+            editable &&
+            <IconButton
+              sx={{ mx:1,color: "hsl(218, 94.40%, 21.20%)" }} 
+              onClick={() => setShowCreate(true)}
+            >
+              <AddIcon sx={{fontSize:"2em"}}/>
+            </IconButton>
+          }
         </Typography>
         {loading ? (
           <div style={{ marginTop: "150px", marginBottom: "150px" }}>
@@ -102,7 +105,7 @@ export default function Experience(props) {
                   startDate={experience.startDate}
                   endDate={experience.endDate}
                   id={experience.id}
-                  editable={true}
+                  editable={editable}
                   setSelected={setSelected}
                   showEdit={setShowEdit}
                   showDelete={setShowDelete}

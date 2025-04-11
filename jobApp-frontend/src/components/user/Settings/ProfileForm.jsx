@@ -28,11 +28,13 @@ import {
 import "./styles/ProfileForm.css";
 import { validateEmail } from "../../common/utils/validationUtils";
 import { useNotification } from "../../../hooks/useNotification";
+import { useAuth } from "src/context/AuthContext";
 const userService = new UserService();
 
 function ProfileForm() {
   const [image, setImage] = useState(null);
-  const [loggedInUser] = useState(2);
+  const { user } = useAuth();
+  const loggedInUser = user?.nameid;
   const [loading, setLoading] = useState(true);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [editMode, setEditMode] = useState("");
