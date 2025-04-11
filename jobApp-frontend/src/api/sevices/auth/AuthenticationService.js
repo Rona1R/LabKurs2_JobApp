@@ -12,4 +12,8 @@ export class AuthenticationService {
     async logIn(data) {
       return await this.axiosInstance.post(`${this.requestMapping}/login`, data);
     }
+
+    async logOut(){
+      return await this.axiosInstance.post(`${this.requestMapping}/logout`);    
+    }
 }

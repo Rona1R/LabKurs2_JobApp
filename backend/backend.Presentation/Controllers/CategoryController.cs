@@ -10,7 +10,6 @@ namespace backend.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class CategoryController : BaseController<ICategoryService,/*Category,*/ CategoryRequest, CategoryResponse>
     {
         public CategoryController(ICategoryService service) : base(service)

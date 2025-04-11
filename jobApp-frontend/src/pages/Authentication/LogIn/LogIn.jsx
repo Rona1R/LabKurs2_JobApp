@@ -11,12 +11,14 @@ import Grid from "@mui/material/Grid2";
 import AdbIcon from "@mui/icons-material/Adb";
 import "../Register/Register.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { validateEmail } from "src/components/common/utils/validationUtils";
 import { jwtDecode } from "jwt-decode";
 import { AuthenticationService } from "src/api/sevices/auth/AuthenticationService";
 import { Spinner } from "react-bootstrap";
-import { useAuthStore } from "src/store/authStore";
+import { useNotification } from "src/hooks/useNotification";
+import Alert from "src/components/common/Alert";
+import { useAuth } from "src/context/AuthContext";
 const authService = new AuthenticationService();
 
 const theme = createTheme({
@@ -41,10 +43,14 @@ function LogIn() {
     password: "",
   });
   const [loading, setLoading] = useState(false);
-  const { login } = useAuthStore();
+  const [error,setError] = useState("");
+  const { login } = useAuth();
+  const { showNotification } = useNotification();
+  const navigate = useNavigate();
   // const authStore = useAuthStore();
   
   const handleChange = (e) => {
+    setError("");
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setWarnings({ ...warnings, [e.target.name]: "" });
   };
@@ -75,8 +81,15 @@ function LogIn() {
         const accessToken = response.data;
         const userClaims = jwtDecode(accessToken);
         login(userClaims,accessToken);      
-        console.log(userClaims);
+        // showNotification("success","You have successfully logged in");
+        navigate(`/profile/${userClaims.nameid}`);
+        // console.log(userClaims);
       } catch (err) {
+        if(err.response.status === 400){
+          setError(err.response.data);
+        }else{
+          setError("An unexpected Error occurred");
+        }
         console.log(err);
       } finally {
         setLoading(false);
@@ -160,6 +173,9 @@ function LogIn() {
                       />
                     </Grid>
                   </Grid>
+                  {
+                    error && <Alert message={error}/>
+                  }
                   <Button
                     className="sign-up-button"
                     type="submit"

@@ -15,8 +15,10 @@ import ListItemText from "@mui/material/ListItemText";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import "./UserSidebar.css";
-import { Link } from "react-router-dom";
-import { useAuthStore } from "src/store/authStore";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthenticationService } from "src/api/sevices/auth/AuthenticationService";
+import { useAuth } from "src/context/AuthContext";
+const authService = new AuthenticationService();
 
 const theme = createTheme({
   components: {
@@ -53,12 +55,18 @@ const theme = createTheme({
 });
 
 function UserSidebar({ show, handleClose, ...props }) {
-  const {logOut} = useAuthStore();
+  const navigate = useNavigate();
+  const { logOut } = useAuth();
 
-  const handleLogOut = () => {
+  const handleLogOut = async () => {
     // handle log out ne backend ....
     logOut(); 
-    handleClose();
+    try{ 
+      await authService.logOut(); // cookie not being found ???
+    }catch(err){
+      console.log(err);
+    }
+    navigate("/login");
   }
 
   return (

@@ -1,12 +1,12 @@
 // axiosConfig.js
+import { useAuth } from "src/context/AuthContext";
 import { axiosInstance } from "./sevices/axioxInstance";
-import { useAuthStore } from "src/store/authStore"; 
 
 axiosInstance.interceptors.request.use((config) => {
-    const token = useAuthStore.getState().accessToken;
-    if (token) {
-        console.log(useAuthStore.getState()?.user);
-        config.headers.Authorization = `Bearer ${token}`;
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+        
+        config.headers.Authorization = `Bearer ${accessToken}`;
     }else{
         console.log("Access token is missing");
         // console.log(useAuthStore.getState()?.user);
