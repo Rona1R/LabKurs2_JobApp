@@ -18,6 +18,7 @@ import "./UserSidebar.css";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthenticationService } from "src/api/sevices/auth/AuthenticationService";
 import { useAuth } from "src/context/AuthContext";
+import { useNotification } from "src/hooks/useNotification";
 const authService = new AuthenticationService();
 
 const theme = createTheme({
@@ -55,6 +56,7 @@ const theme = createTheme({
 });
 
 function UserSidebar({ show, handleClose, ...props }) {
+  const { showNotification } = useNotification();
   const navigate = useNavigate();
   const { logOut } = useAuth();
 
@@ -62,8 +64,9 @@ function UserSidebar({ show, handleClose, ...props }) {
     // handle log out ne backend ....
     logOut(); 
     try{ 
-      await authService.logOut(); // cookie not being found ??? pse mojj
+      await authService.logOut();
     }catch(err){
+      showNotification("error","An Unexpected Error occurred while logging out !");
       console.log(err);
     }
     navigate("/login");

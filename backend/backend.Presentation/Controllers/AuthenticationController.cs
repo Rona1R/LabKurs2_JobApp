@@ -47,6 +47,7 @@ namespace backend.Presentation.Controllers
                     Secure = true,
                     SameSite = SameSiteMode.None,
                     //SameSite = SameSiteMode.Strict,
+                    //Expires = DateTimeOffset.UtcNow.AddMinutes(2)
                     Expires = DateTimeOffset.UtcNow.AddDays(tokenValidityInDays)
                 });
 
@@ -92,6 +93,7 @@ namespace backend.Presentation.Controllers
                 Secure = true,
                 SameSite = SameSiteMode.None,
                 //SameSite = SameSiteMode.Strict,
+                //Expires = DateTimeOffset.UtcNow.AddMinutes(2)
                 Expires = DateTimeOffset.UtcNow.AddDays(tokenValidityInDays)
             });
             return Ok(tokenResponse.AccessToken);
