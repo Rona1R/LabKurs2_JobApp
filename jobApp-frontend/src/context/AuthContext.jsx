@@ -1,35 +1,43 @@
 import React, {
   createContext,
   useContext,
-  useState
+  useState,
+  useEffect
 } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user] = useState(
-    JSON.parse(localStorage.getItem("user")) || null
-  );
-  const [accessToken] = useState(
-    localStorage.getItem("accessToken") || null
-  );
-
+  const [loggedIn,setLoggedIn] = useState(!!localStorage.getItem("accessToken"));
+  const user = JSON.parse(localStorage.getItem("user")) || null
+  const accessToken = localStorage.getItem("accessToken") || null
+  
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setLoggedIn(!!localStorage.getItem("accessToken"));
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+  
   const login = (user, token) => {
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("accessToken", token);
-    // setUser(user);
-    // setAccessToken(token);
+    setLoggedIn(true);
+    // setUser(JSON.parse(localStorage.getItem("user")));
+    // setAccessToken(localStorage.getItem("accessToken"));
   };
 
   const logOut = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
+    setLoggedIn(false);
     // setUser(null);
     // setAccessToken(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, accessToken, login, logOut }}>
+    <AuthContext.Provider value={{ loggedIn,user, accessToken, login, logOut }}>
       {children}
     </AuthContext.Provider>
   );

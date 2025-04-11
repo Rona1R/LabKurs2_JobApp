@@ -73,6 +73,7 @@ function LogIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    e.stopPropagation();
     if (validate()) {
       setLoading(true);
 
@@ -82,7 +83,7 @@ function LogIn() {
         const userClaims = jwtDecode(accessToken);
         login(userClaims,accessToken);      
         // showNotification("success","You have successfully logged in");
-        navigate(`/profile/${userClaims.nameid}`);
+        navigate(`/profile/${userClaims.nameid}`, { replace: true });
         // console.log(userClaims);
       } catch (err) {
         if(err.response.status === 400){
@@ -179,6 +180,7 @@ function LogIn() {
                   <Button
                     className="sign-up-button"
                     type="submit"
+                    disabled={loading}
                     variant="contained"
                     fullWidth
                     sx={{

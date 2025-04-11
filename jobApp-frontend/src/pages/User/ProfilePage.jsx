@@ -12,10 +12,13 @@ import DetailsSection from "src/components/user/ProfileDetails/DetailsSection";
 import { UserProfileService } from "src/api/sevices/UserProfileService";
 import ImageSection from "src/components/user/ProfileDetails/ImageSection";
 import OpenToList from "src/components/user/ProfileDetails/OpenToSection/OpenToList";
+import { useAuth } from "src/context/AuthContext";
 const userProfileService = new UserProfileService();
 
 export default function ProfilePage() {
   const { id } = useParams();
+  const { user } = useAuth();
+  const isEditable = id === user?.nameid; 
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState("");
   const [userProfile, setUserProfile] = useState({
@@ -103,7 +106,8 @@ export default function ProfilePage() {
           />
 
           <AboutMe
-            editable={true}
+            editable={isEditable}
+            // editable={true}
             userData={userProfile}
             isLoading={loading}
             refresh={() => setRefreshKey(Date.now())}

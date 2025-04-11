@@ -57,6 +57,7 @@ const theme = createTheme({
 
 function UserSidebar({ show, handleClose, ...props }) {
   const { showNotification } = useNotification();
+  const {user} = useAuth();
   const navigate = useNavigate();
   const { logOut } = useAuth();
 
@@ -103,7 +104,7 @@ function UserSidebar({ show, handleClose, ...props }) {
                 className="userSidebarList"
               >
                 {/* per userin qe osht logged in route param ka me qene id-ja qe u rujt kur u bo log in */}
-                <Link to="/profile/1" className="sidebarlink"> 
+                <Link to={`/profile/${user?.nameid}`} className="sidebarlink"> 
                   <ListItemButton onClick={handleClose}>
                     <ListItemIcon>
                       <FontAwesomeIcon icon={faUser} />
