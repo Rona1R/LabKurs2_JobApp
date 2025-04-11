@@ -45,7 +45,8 @@ namespace backend.Presentation.Controllers
                 {
                     HttpOnly = true,
                     Secure = true,
-                    SameSite = SameSiteMode.Strict,
+                    SameSite = SameSiteMode.None,
+                    //SameSite = SameSiteMode.Strict,
                     Expires = DateTimeOffset.UtcNow.AddDays(tokenValidityInDays)
                 });
 

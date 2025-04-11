@@ -62,7 +62,7 @@ function UserSidebar({ show, handleClose, ...props }) {
     // handle log out ne backend ....
     logOut(); 
     try{ 
-      await authService.logOut(); // cookie not being found ???
+      await authService.logOut(); // cookie not being found ??? pse mojj
     }catch(err){
       console.log(err);
     }
