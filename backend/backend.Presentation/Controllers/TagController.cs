@@ -16,5 +16,20 @@ namespace backend.Presentation.Controllers
         public TagController(ITagService service) : base(service)
         {
         }
+
+        //[Authorize(Roles = $"{UserRoles.Admin},{UserRoles.Employer}")]
+        [AllowAnonymous]
+        public override Task<IActionResult> GetAll()
+        {
+            return base.GetAll();
+        }
+
+        [AllowAnonymous]
+        //[Authorize(Roles = $"{UserRoles.Admin},{UserRoles.Employer}")]
+
+        public override Task<IActionResult> GetById(int id)
+        {
+            return base.GetById(id);
+        }
     }
 }

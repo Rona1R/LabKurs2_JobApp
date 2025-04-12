@@ -16,5 +16,17 @@ namespace backend.Presentation.Controllers
         public InstitutionController(IInstitutionService service) : base(service)
         {
         }
+
+        [AllowAnonymous]
+        public override Task<IActionResult> GetAll()
+        {
+            return base.GetAll();
+        }
+
+        [AllowAnonymous]
+        public override Task<IActionResult> GetById(int id)
+        {
+            return base.GetById(id);
+        }
     }
 }

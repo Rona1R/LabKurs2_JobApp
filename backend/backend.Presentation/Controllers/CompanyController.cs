@@ -18,6 +18,19 @@ namespace backend.Presentation.Controllers
         {
         }
 
+        [AllowAnonymous]
+        public override Task<IActionResult> GetAll()
+        {
+            return base.GetAll();
+        }
+
+        [AllowAnonymous]
+
+        public override Task<IActionResult> GetById(int id)
+        {
+            return base.GetById(id);
+        }
+
         [HttpGet("validate")]
         public async Task<IActionResult> Validate(string name)
         {
@@ -45,9 +58,12 @@ namespace backend.Presentation.Controllers
 
         [HttpGet]
         [Route("GetByUser/{id}")]
+
+        [AllowAnonymous]
         public async Task<IActionResult> GetByUser(int id)
         {
            return Ok(await _service.GetByUser(id));
         }
+
     }
 }

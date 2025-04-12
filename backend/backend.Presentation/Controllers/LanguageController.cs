@@ -18,6 +18,20 @@ namespace backend.Presentation.Controllers
         {
         }
 
+        //[Authorize]
+        [AllowAnonymous]
+        public override Task<IActionResult> GetAll()
+        {
+            return base.GetAll();
+        }
+
+
+        [AllowAnonymous]
+        public override Task<IActionResult> GetById(int id)
+        {
+            return base.GetById(id);
+        }
+
         public override async Task<IActionResult> Create([FromBody] LanguageRequest requestDto)
         {
             try
@@ -27,6 +41,7 @@ namespace backend.Presentation.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
 
         public override async Task<IActionResult> Update(int id, [FromBody] LanguageRequest requestDto)
         {
