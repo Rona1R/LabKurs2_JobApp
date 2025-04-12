@@ -1,4 +1,5 @@
 ﻿using backend.Application.DTOs.Request;
+using backend.Application.DTOs.Request.Auth;
 using backend.Application.DTOs.Response;
 using backend.Application.Exceptions;
 using backend.Application.Interfaces.CategoryInterfaces;
@@ -10,6 +11,7 @@ namespace backend.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = UserRoles.Admin)]
     public class CategoryController : BaseController<ICategoryService,/*Category,*/ CategoryRequest, CategoryResponse>
     {
         public CategoryController(ICategoryService service) : base(service)
@@ -36,6 +38,12 @@ namespace backend.Presentation.Controllers
             }catch (ExistsException ex) {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [AllowAnonymous]
+        public override Task<IActionResult> GetAll()
+        {
+            return base.GetAll();
         }
 
         [HttpGet]

@@ -31,7 +31,7 @@ namespace backend.Presentation.Controllers
             return Ok(user);
         }
 
-        //[HttpPost]
+        //[HttpPost] // unused
         //[Authorize]
         //public virtual async Task<IActionResult> Create([FromBody] UserProfileRequest requestDto)
         //{
@@ -57,17 +57,17 @@ namespace backend.Presentation.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{userId}")]
-        public virtual async Task<IActionResult> Delete(int userId)
-        {
-            var existingDto = await _userProfileService.GetProfileDetails(userId);
-            if (existingDto == null)
-            {
-                return NotFound();
-            }
+        //[HttpDelete("{userId}")] // unused
+        //public virtual async Task<IActionResult> Delete(int userId)
+        //{
+        //    var existingDto = await _userProfileService.GetProfileDetails(userId);
+        //    if (existingDto == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            await _userProfileService.DeleteProfile(userId);
-            return NoContent();
-        }
+        //    await _userProfileService.DeleteProfile(userId);
+        //    return NoContent();
+        //}
     }
 }
