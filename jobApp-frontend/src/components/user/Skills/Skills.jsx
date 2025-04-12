@@ -8,12 +8,11 @@ import NoDataYet from "../../../components/common/NoDataYet";
 import AddIcon from "@mui/icons-material/Add";
 import AddSkills from "./AddSkills";
 
-export default function Skills({ userProfile, refresh, loading }) {
+export default function Skills({ userProfile, refresh, loading, editable }) {
   const [selected, setSelected] = useState("");
   const [showEdit, setShowEdit] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
-
 
   return (
     <>
@@ -50,7 +49,7 @@ export default function Skills({ userProfile, refresh, loading }) {
             <Skill
               key={index}
               skill={skill}
-              editable={true}
+              editable={editable}
               setSelected={setSelected}
               showEdit={setShowEdit}
               showDelete={setShowDelete}
@@ -59,12 +58,15 @@ export default function Skills({ userProfile, refresh, loading }) {
         ) : (
           <NoDataYet message={"Skills haven't been listed yet"} />
         )}
-        <IconButton
-          sx={{ color: "hsl(218, 94.40%, 21.20%)" }}
-          onClick={() => setShowCreate(true)}
-        >
-          <AddIcon sx={{ fontSize: "2em" }} />
-        </IconButton>
+
+        {editable && (
+          <IconButton
+            sx={{ color: "hsl(218, 94.40%, 21.20%)" }}
+            onClick={() => setShowCreate(true)}
+          >
+            <AddIcon sx={{ fontSize: "2em" }} />
+          </IconButton>
+        )}
       </div>
     </>
   );

@@ -45,7 +45,9 @@ namespace backend.Presentation.Controllers
                 {
                     HttpOnly = true,
                     Secure = true,
-                    SameSite = SameSiteMode.Strict,
+                    SameSite = SameSiteMode.None,
+                    //SameSite = SameSiteMode.Strict,
+                    //Expires = DateTimeOffset.UtcNow.AddMinutes(2)
                     Expires = DateTimeOffset.UtcNow.AddDays(tokenValidityInDays)
                 });
 
@@ -89,7 +91,9 @@ namespace backend.Presentation.Controllers
             {
                 HttpOnly = true,
                 Secure = true,
-                SameSite = SameSiteMode.Strict,
+                SameSite = SameSiteMode.None,
+                //SameSite = SameSiteMode.Strict,
+                //Expires = DateTimeOffset.UtcNow.AddMinutes(2)
                 Expires = DateTimeOffset.UtcNow.AddDays(tokenValidityInDays)
             });
             return Ok(tokenResponse.AccessToken);

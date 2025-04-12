@@ -15,7 +15,7 @@ import UpdateLanguage from "./UpdateLanguage";
 import DeleteLanguage from "./DeleteLanguage";
 const userLanguageService = new UserLanguageService();
 
-export default function Languages(props) {
+export default function Languages({userId,editable}) {
   const [selected, setSelected] = useState(null);
   const [showCreate,setShowCreate] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
@@ -28,7 +28,7 @@ export default function Languages(props) {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await userLanguageService.getByUser(props.userId);
+        const response = await userLanguageService.getByUser(userId);
         setLanguages(response.data);
       } catch (err) {
         console.log(err);
@@ -36,7 +36,7 @@ export default function Languages(props) {
       setLoading(false);
     };
     fetchData();
-  }, [props.userId, refreshKey]);
+  }, [userId, refreshKey]);
   
   const theme = createTheme({
     components: {
@@ -58,7 +58,7 @@ export default function Languages(props) {
 
       {showCreate && (
         <AddLanguage
-          userId={props.userId}
+          userId={userId}
           handleClose={() => setShowCreate(false)}
           refresh={() => setRefreshKey(Date.now())}
         />
@@ -96,12 +96,16 @@ export default function Languages(props) {
           }}
         >
           Languages
-          <IconButton
-            sx={{ mx: 1, color: "hsl(218, 94.40%, 21.20%)" }}
-            onClick={() => setShowCreate(true)}
-          >
-            <AddIcon sx={{ fontSize: "2em" }} />
-          </IconButton>
+
+          {
+            editable &&
+            <IconButton
+              sx={{ mx: 1, color: "hsl(218, 94.40%, 21.20%)" }}
+              onClick={() => setShowCreate(true)}
+            >
+              <AddIcon sx={{ fontSize: "2em" }} />
+            </IconButton>
+          }
         </Typography>
         <ThemeProvider theme={theme}>
           {loading ? (
@@ -133,7 +137,7 @@ export default function Languages(props) {
               {languages.map((language, index) => (
                 <React.Fragment key={index}>
                   <Language
-                    editable={true}
+                    editable={editable}
                     id={language.id}
                     setSelected={setSelected}
                     showEdit={setShowEdit}

@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Grid2";
 import EducationCard from "../EducationCard";
 import { IconButton, Typography } from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import { EducationService } from "../../../api/sevices/EducationService";
 import { useEffect } from "react";
@@ -12,7 +12,7 @@ import UpdateEducation from "./UpdateEducation";
 import DeleteEducation from "./DeleteEducation";
 const educationService = new EducationService();
 
-export default function Education(props) {
+export default function Education({ userId, editable }) {
   const [educations, setEducations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState("");
@@ -28,7 +28,7 @@ export default function Education(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await educationService.getByUser(props.userId);
+        const response = await educationService.getByUser(userId);
         setEducations(response.data);
       } catch (err) {
         console.log(err);
@@ -36,13 +36,13 @@ export default function Education(props) {
       setLoading(false);
     };
     fetchData();
-  }, [props.userId, refreshKey]);
+  }, [userId, refreshKey]);
 
   return (
     <>
       {showCreate && (
         <CreateEducation
-          userId={props.userId}
+          userId={userId}
           handleClose={() => setShowCreate(false)}
           refresh={() => setRefreshKey(Date.now())}
         />
@@ -76,12 +76,14 @@ export default function Education(props) {
           }}
         >
           Education
-          <IconButton
-            sx={{ mx: 1, color: "hsl(218, 94.40%, 21.20%)" }}
-            onClick={() => setShowCreate(true)}
-          >
-            <AddIcon sx={{ fontSize: "2em" }} />
-          </IconButton>
+          {editable && (
+            <IconButton
+              sx={{ mx: 1, color: "hsl(218, 94.40%, 21.20%)" }}
+              onClick={() => setShowCreate(true)}
+            >
+              <AddIcon sx={{ fontSize: "2em" }} />
+            </IconButton>
+          )}
         </Typography>
         {loading ? (
           <div style={{ marginTop: "150px", marginBottom: "150px" }}>
@@ -109,7 +111,7 @@ export default function Education(props) {
                   field={education.fieldOfStudy}
                   startDate={education.startDate}
                   endDate={education.endDate}
-                  editable={true}
+                  editable={editable}
                   id={education.id}
                   setSelected={setSelected}
                   showEdit={setShowEdit}

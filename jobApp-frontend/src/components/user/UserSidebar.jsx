@@ -15,7 +15,11 @@ import ListItemText from "@mui/material/ListItemText";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import "./UserSidebar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthenticationService } from "src/api/sevices/auth/AuthenticationService";
+import { useAuth } from "src/context/AuthContext";
+import { useNotification } from "src/hooks/useNotification";
+const authService = new AuthenticationService();
 
 const theme = createTheme({
   components: {
@@ -52,6 +56,23 @@ const theme = createTheme({
 });
 
 function UserSidebar({ show, handleClose, ...props }) {
+  const { showNotification } = useNotification();
+  const {user} = useAuth();
+  const navigate = useNavigate();
+  const { logOut } = useAuth();
+
+  const handleLogOut = async () => {
+    // handle log out ne backend ....
+    logOut(); 
+    try{ 
+      await authService.logOut();
+    }catch(err){
+      showNotification("error","An Unexpected Error occurred while logging out !");
+      console.log(err);
+    }
+    navigate("/login");
+  }
+
   return (
     <>
       <Offcanvas
@@ -83,7 +104,7 @@ function UserSidebar({ show, handleClose, ...props }) {
                 className="userSidebarList"
               >
                 {/* per userin qe osht logged in route param ka me qene id-ja qe u rujt kur u bo log in */}
-                <Link to="/profile/1" className="sidebarlink"> 
+                <Link to={`/profile/${user?.nameid}`} className="sidebarlink"> 
                   <ListItemButton onClick={handleClose}>
                     <ListItemIcon>
                       <FontAwesomeIcon icon={faUser} />
@@ -125,7 +146,7 @@ function UserSidebar({ show, handleClose, ...props }) {
                     <ListItemText primary="My Applications" />
                   </ListItemButton>
                 </Link>
-                <ListItemButton onClick={handleClose}>
+                <ListItemButton onClick={handleLogOut}>
                   <ListItemIcon>
                     <LogoutIcon />
                   </ListItemIcon>
