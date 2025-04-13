@@ -6,7 +6,7 @@ import "./styles/Postings.css";
 import { useEffect, useState } from "react";
 import { JobService } from "../../api/sevices/JobService";
 import Loading from "../../components/common/Loading";
-import { Box,Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import NoDataYet from "../../components/common/NoDataYet";
 import ResetButton from "../../components/jobs/ResetButton";
 import CostumPagination from "../../components/jobs/CustomPagination";
@@ -20,10 +20,10 @@ export default function Postings() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchedJob, setSearchedJob] = useState("");
   const [refreshKey, setRefreshKey] = useState("");
-  const [currentPage,setCurrentPage] = useState(1);
-  const [totalPages,setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const [pageSize] = useState(5);
-  const [totalRecords,setTotalRecords] = useState(0);
+  const [totalRecords, setTotalRecords] = useState(0);
   const [filters, setFilters] = useState({
     jobTypes: [],
     salaryTypes: [],
@@ -34,7 +34,12 @@ export default function Postings() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const params = { ...filters, searchTerm: searchedJob, pageNumber:currentPage,pageSize:pageSize }; // 5 postime per faqe , sa per testim 
+      const params = {
+        ...filters,
+        searchTerm: searchedJob,
+        pageNumber: currentPage,
+        pageSize: pageSize,
+      }; // 5 postime per faqe , sa per testim
       const response = await jobService.getPostingsWithFilters(params); // Adjusted to pass params
       setPostings(response.data.items);
       setTotalPages(response.data.totalPages);
@@ -49,7 +54,7 @@ export default function Postings() {
   useEffect(() => {
     fetchData();
     console.log("Fetching job postings ....");
-  }, [refreshKey,currentPage]);
+  }, [refreshKey, currentPage]);
 
   const handleApplyFilters = () => {
     setCurrentPage(1);
@@ -111,7 +116,8 @@ export default function Postings() {
         {!loading && searchedJob.trim("") !== "" && postings.length > 0 && (
           <Box sx={{ mt: 4 }}>
             <Typography variant="h5" sx={{ pb: 3, fontWeight: "bold" }}>
-              Showing results for <span style={{color:"#0A0529"}}>" {searchedJob} "</span>
+              Showing results for{" "}
+              <span style={{ color: "#0A0529" }}>" {searchedJob} "</span>
             </Typography>
             <ResetButton resetSearch={resetSearch} />
           </Box>
@@ -139,28 +145,29 @@ export default function Postings() {
             )}
           </Box>
         ) : (
-          <>
-          <Grid container spacing={5} my={4} justifyContent={"center"}>
-            {postings.map((posting, index) => (
-              <Grid size={{ xs: 12, md: 6, xl: 4 }} key={index}>
-                <JobCard
-                  title={posting.title}
-                  city={posting.city}
-                  timeLeft={posting.daysLeft}
-                  companyLogo={posting.companyLogo}
-                />
-              </Grid>
-            ))}
-          </Grid>
-          {
-            totalRecords > pageSize &&
-            <CostumPagination 
-              total = {totalPages}
-              currentPage = {currentPage}
-              setCurrentPage = {setCurrentPage}
-            />
-          }
-          </>
+          <Box sx={{mx:{md:5,lg:15}}}>
+            <Grid container spacing={6} my={8} justifyContent={"center"}>
+              {postings.map((posting, index) => (
+                <Grid size={{ xs: 12, md: 6, xl: 4 }} key={index}>
+                  <JobCard
+                    title={posting.title}
+                    city={posting.city}
+                    timeLeft={posting.daysLeft}
+                    companyLogo={posting.companyLogo}
+                    category={posting.category}
+                    employmentType={posting.employmentType}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+            {totalRecords > pageSize && (
+              <CostumPagination
+                total={totalPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            )}
+          </Box>
         )}
       </div>
     </>

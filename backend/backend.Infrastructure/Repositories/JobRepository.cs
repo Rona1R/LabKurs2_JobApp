@@ -52,7 +52,7 @@ namespace backend.Infrastructure.Repositories
 
         public async Task<PaginatedResult<Job>> GetFilteredPosts(JobFilterRequest filters)
         {
-            var query = _context.Job.Include(j => j.Company).Where(j => j.IsDeleted == false).OrderByDescending(u => u.Id).AsQueryable();
+            var query = _context.Job.Include(j => j.Company).Include(j=>j.Category).Where(j => j.IsDeleted == false).OrderByDescending(u => u.Id).AsQueryable();
 
             if (!string.IsNullOrEmpty(filters.SearchTerm))
             {
