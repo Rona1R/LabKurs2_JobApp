@@ -93,7 +93,7 @@ export default function UpdateJob(props) {
     const fetchData = async () => {
       try {
         // me i fetch vetem kompanit e Employer qe eshte logged in ! (se veq per to ka tdrejt me postu shpallje ...)
-        const response = await companyService.getByUser(loggedInEmployer);
+        const response = await companyService.getByEmployer(loggedInEmployer);
         setCompanies(response.data);
 
         const categoryResponse = await categoryService.getAll();

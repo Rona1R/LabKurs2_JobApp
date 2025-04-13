@@ -57,8 +57,7 @@ namespace backend.Presentation.Controllers
 
 
         [HttpGet]
-        [Route("GetByUser/{id}")]
-
+        [Route("byEmployer/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetByUser(int id)
         {

@@ -85,7 +85,7 @@ export default function CreatePosting(props) {
     const fetchData = async () => {
       try {
         const [companyResponse, categoryResponse, tagsResponse] = await Promise.all([
-          companyService.getByUser(loggedInEmployer),
+          companyService.getByEmployer(loggedInEmployer),
           categoryService.getAll(),
           tagService.getAll()
         ]);

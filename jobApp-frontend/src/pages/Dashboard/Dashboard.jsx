@@ -17,10 +17,14 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
 import CollapsableMenu from "../../components/dashboard/CollapsableMenu";
-import { faBriefcase, faBuilding, faChartPie, faCircleCheck, faClipboard, faComputer,faFolderOpen, faHouse, faList, faMedal, faNoteSticky, faTable, faUniversity, faUser, faUserTie, faX } from "@fortawesome/free-solid-svg-icons";
+import {
+  faX
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../components/dashboard/styles/dashboardSidebar.css";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "src/context/AuthContext";
+import { getNavLinks } from "src/components/dashboard/navLinks";
 
 const theme = createTheme({
   components: {
@@ -36,93 +40,10 @@ const theme = createTheme({
 });
 const drawerWidth = 350;
 
-const navLinks = [
-  {
-    name: "Home",
-    path: "/",
-    fontAwesomeIcon: faHouse,
-  },
-  {
-    name:"Dashboard",
-    path:"/dashboard",
-    fontAwesomeIcon:faChartPie
-  },
-  {
-    name:"Users",
-    fontAwesomeIcon: faUser,
-    children: [
-      {
-        fontAwesomeIcon: faTable,
-        name:"All Users",
-        path:"/dashboard/users"
-
-      },{
-        fontAwesomeIcon: faUserTie,
-        name:"Employers",
-        path:"/dashboard/employers"
-      },{
-        fontAwesomeIcon: faCircleCheck,
-        name:"Roles",
-        path:"/"
-      }
-    ]
-  },
-  {
-    name: "Companies",
-    path: "/dashboard/companies",
-    fontAwesomeIcon: faBriefcase,
-  },
-  {
-    name: "Departments",
-    path: "/dashboard/departments",
-    fontAwesomeIcon: faBuilding,
-  },
-  {
-    name: "Languages",
-    path: "/dashboard/languages",
-    fontAwesomeIcon: faFolderOpen,
-  },
-  {
-    name: "Categories",
-    path: "/dashboard/categories",
-    fontAwesomeIcon: faList,
-  },
-  {
-    name : "Institutions",
-    path:"/dashboard/institutions",
-    fontAwesomeIcon : faUniversity
-  },
-  {
-    name : "Jobs",
-    fontAwesomeIcon: faBriefcase,
-    children : [
-      {
-        fontAwesomeIcon : faFolderOpen,
-        name : "Postings",
-        path:"/dashboard/jobPostings"
-      },{
-        fontAwesomeIcon : faClipboard,
-        name : "Applications",
-        path:"/"
-      },{
-        fontAwesomeIcon : faComputer,
-        name : "Interviews",
-        path:"/"
-      }
-    ]
-  },
-  {
-    name : "Blogs",
-    fontAwesomeIcon: faNoteSticky,
-    path:"/"
-  },{
-    name: "Testimonials",
-    fontAwesomeIcon:faMedal,
-    path:"/"
-  }
-];
-
 function Dashboard() {
+  const { user } = useAuth();
+  const roles = user?.role;
+  const navLinks = roles ? getNavLinks(roles) : [];
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   // console.log(location);
@@ -141,14 +62,16 @@ function Dashboard() {
               name={item.name}
               fontAwesomeIcon={item.fontAwesomeIcon}
               children={item.children}
-              currentLocation = {location.pathname}
+              currentLocation={location.pathname}
             />
           ) : (
             <ListItem key={index} sx={{ mb: 1 }}>
               <Link
                 to={item.path}
                 style={{ color: "white", width: "100%" }}
-                className={`dashboard-sidebar-link ${location.pathname === item.path ? 'active' : ''}`}
+                className={`dashboard-sidebar-link ${
+                  location.pathname === item.path ? "active" : ""
+                }`}
               >
                 <ListItemButton>
                   <FontAwesomeIcon
@@ -168,7 +91,7 @@ function Dashboard() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ display: "flex"}}>
+      <Box sx={{ display: "flex" }}>
         {/* AppBar                            , ml: { md: `${drawerWidth}px`                                     // ml - margin-left ...*/}
         <AppBar
           position="fixed"
@@ -248,8 +171,7 @@ function Dashboard() {
               position: "absolute",
               top: "20px",
               right: "10px",
-              padding:"0px",
-          
+              padding: "0px",
             }}
             onClick={() => setMobileOpen(false)}
           >
@@ -270,7 +192,7 @@ function Dashboard() {
             width: { md: `calc(100% - ${drawerWidth}px)` },
             ml: { md: `${drawerWidth}px` },
             mt: "100px",
-            overflowX:"hidden"
+            overflowX: "hidden",
           }}
         >
           {/* <Toolbar sx={{padding:"50px"}}/> */}
