@@ -20,6 +20,7 @@ import ServerNotResponding from "./pages/Error/ServerNotResponding";
 import NotFound from "./pages/Error/NotFound";
 import Institutions from "./pages/Dashboard/Administrator/Institutions/Institutions";
 import MyCompanies from "./pages/Dashboard/Employer/Companies/MyCompanies";
+import Tags from "./pages/Dashboard/Administrator/Tags/Tags";
 
 const routes = [,
   {
@@ -107,6 +108,11 @@ const routes = [,
       },{
         path: "/dashboard/institutions",
         element: Institutions,
+        protected : true,
+        roles: ["Admin"],
+      },{
+        path: "/dashboard/tags",
+        element: Tags,
         protected : true,
         roles: ["Admin"],
       }

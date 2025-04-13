@@ -14,6 +14,7 @@ import {
   faUniversity,
   faUser,
   faUserTie,
+  faTag,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const getNavLinks = (role) => {
@@ -71,6 +72,10 @@ export const getNavLinks = (role) => {
       name: "Categories",
       path: "/dashboard/categories",
       fontAwesomeIcon: faList,
+    },{
+      name:"Tags",
+      path: "/dashboard/tags",
+      fontAwesomeIcon: faTag
     },
     {
       name: "Institutions",
