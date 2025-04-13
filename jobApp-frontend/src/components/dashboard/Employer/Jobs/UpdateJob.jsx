@@ -2,22 +2,24 @@ import * as React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import "../../styles/crud.css";
-import { CategoryService } from "../../../../api/sevices/CategoryService";
-import { CompanyService } from "../../../../api/sevices/CompanyService";
-import { JobService } from "../../../../api/sevices/JobService";
+import { CategoryService } from "src/api/sevices/CategoryService";
+import { CompanyService } from "src/api/sevices/CompanyService";
+import { JobService } from "src/api/sevices/JobService";
 import Spinner from "react-bootstrap/Spinner";
-import { useNotification } from "../../../../hooks/useNotification";
+import { useNotification } from "src/hooks/useNotification";
 import JobForm from "./CreateJob/JobForm";
 import { IconButton, Typography } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { kosovoCities } from "./CreateJob/kosovoCities";
+import { useAuth } from "src/context/AuthContext";
 import dayjs from 'dayjs';
 const companyService = new CompanyService();
 const categoryService = new CategoryService();
 const jobService = new JobService();
 
 export default function UpdateJob(props) {
-  const loggedInEmployer = 1; // PER SIMULIM !!
+  const { user } = useAuth();
+  const loggedInEmployer = user?.nameid;
   const [step, setStep] = React.useState(1);
   const [formData, setFormData] = React.useState({
     title: "",

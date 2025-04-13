@@ -18,6 +18,19 @@ namespace backend.Presentation.Controllers
         {
         }
 
+        [AllowAnonymous]
+        public override Task<IActionResult> GetAll()
+        {
+            return base.GetAll();
+        }
+
+
+        [AllowAnonymous]
+        public override Task<IActionResult> GetById(int id)
+        {
+            return base.GetById(id);
+        }
+
         public override async Task<IActionResult> Create([FromBody] CategoryRequest requestDto)
         {
             try
@@ -40,11 +53,6 @@ namespace backend.Presentation.Controllers
             }
         }
 
-        [AllowAnonymous]
-        public override Task<IActionResult> GetAll()
-        {
-            return base.GetAll();
-        }
 
         [HttpGet]
         [Route("test")]

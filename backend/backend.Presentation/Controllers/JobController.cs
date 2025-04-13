@@ -17,6 +17,14 @@ namespace backend.Presentation.Controllers
         {
         }
 
+        [HttpGet("byEmployer/{id}")]
+        public async Task<IActionResult> GetByEmployer(int id)
+        {
+            var jobs = await _service.GetByEmployer(id);
+            return Ok(jobs);
+        }
+
+
         [HttpGet("filteredPosts")]
         [AllowAnonymous]
         public async Task<IActionResult> GetPostings([FromQuery] JobFilterRequest filters)

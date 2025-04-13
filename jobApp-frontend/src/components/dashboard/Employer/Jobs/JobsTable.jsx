@@ -16,9 +16,12 @@ import CreatePosting from "./CreateJob/CreatePosting";
 import UpdateJob from "./UpdateJob";
 import DeleteJob from "./DeleteJob";
 import JobDetails from "./JobDetails/JobDetails";
+import { useAuth } from "src/context/AuthContext";
 const jobService = new JobService();
 
 export default function JobsTable() {
+  const {user} = useAuth();
+  const employerId = user?.nameid;
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState("");
@@ -49,12 +52,10 @@ export default function JobsTable() {
     setShowDetails(true);
   };
 
-  // REMINDER per te ardhmen -> ktu duhet me ja shfaq jobs qe i ka kriju veq employer qe eshte logged in !! pra duhna me
-  // -- pas ni endpoint getJobsByEmployer
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await jobService.getAll();
+        const response = await jobService.getByEmployer(employerId);
         setJobs(response.data);
         setLoading(false);
       } catch (err) {

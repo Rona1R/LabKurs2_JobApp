@@ -39,6 +39,11 @@ namespace backend.Infrastructure.Repositories
             return await _context.Job.Include(u => u.Company).Include(u => u.Category).Where(u => u.IsDeleted == false).OrderByDescending(u => u.Id).ToListAsync();
         }
 
+        public async Task<IEnumerable<Job>> GetByEmployer(int employerId)
+        {
+            return await _context.Job.Include(u => u.Company).Include(u => u.Category).Where(u => u.IsDeleted == false && u.Company.Employer.UserId== employerId).OrderByDescending(u => u.Id).ToListAsync();
+        }
+
         public override async Task<Job?> GetByIdAsync(int id)
         {
             return await _context.Job.Include(u => u.Company).Include(u => u.Category).Where(u => u.Id == id && u.IsDeleted == false).FirstOrDefaultAsync();

@@ -11,6 +11,7 @@ namespace backend.Application.Interfaces.JobInterfaces
 {
     public interface IJobService : IBaseService<JobRequest, JobResponse>
     {
+        Task<IEnumerable<JobResponse>> GetByEmployer(int employerId);
         Task<PaginatedResult<JobPostings>> GetFilteredPosts(JobFilterRequest filters);
     }
 }

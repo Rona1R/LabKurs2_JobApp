@@ -11,6 +11,7 @@ namespace backend.Application.Interfaces.JobInterfaces
 {
     public interface IJobRepository : IBaseRepository<Job>
     {
+        Task<IEnumerable<Job>> GetByEmployer(int employerId);
         Task<PaginatedResult<Job>> GetFilteredPosts(JobFilterRequest filters);
     }
 }
