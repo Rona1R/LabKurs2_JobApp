@@ -1,6 +1,16 @@
-import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Box,
+  Divider,
+  Stack,
+} from "@mui/material";
 import PlaceIcon from "@mui/icons-material/Place";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
+import ArticleIcon from "@mui/icons-material/Article";
 
 export default function JobCard({
   title,
@@ -80,100 +90,54 @@ export default function JobCard({
               </Typography>
             </Box>
           </Box>
-          {/* <Box> */}
-            <Typography
-              variant="body2"
-              sx={{ fontWeight: "bold", color: "#777", fontSize: 18 }}
+          <Divider sx={{ borderColor: "#0A0529", my: 3 }} />
+          <Box
+            sx={{
+              mx:4,
+              backgroundColor: "#f8f9ff",
+              boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <Stack
+              spacing={1.5}
+              alignItems="flex-start"
+              sx={{
+                margin: "0 auto",
+                width: "fit-content",
+                borderRadius: 2,
+                padding: 2
+              }}
             >
-              {category},{employmentType}
-            </Typography>
-          {/* </Box> */}
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: "bold",
+                  fontSize: 20,
+                  color: "rgba(6, 14, 76, 0.88)",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <BusinessCenterIcon sx={{ mr: 3, fontSize: 22 }} />
+                {category}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: "bold",
+                  fontSize: 20,
+                  color: "rgba(5, 9, 35, 0.88)",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <ArticleIcon sx={{ mr: 3, fontSize: 22 }} />
+                {employmentType}
+              </Typography>
+            </Stack>
+          </Box>
         </Box>
       </CardContent>
     </Card>
   );
 }
-
-// import Box from "@mui/material/Box";
-// import Card from "@mui/material/Card";
-// import CardContent from "@mui/material/CardContent";
-// import CardMedia from "@mui/material/CardMedia";
-// import Typography from "@mui/material/Typography";
-// import PlaceIcon from "@mui/icons-material/Place";
-// import AccessTimeIcon from "@mui/icons-material/AccessTime";
-
-// export default function JobCard({title,city,timeLeft,companyLogo}) {
-//   return (
-//     <Card
-//       sx={{
-//         display: "flex",
-//         flexDirection: "row",
-//         boxShadow: "0 4px 6px rgba(39, 38, 38, 0.1)",
-//         border: "1px solid rgba(0, 0, 0, 0.12)",
-//         transition: "box-shadow 0.3s",
-//         "&:hover": {
-//           boxShadow: "0 4px 6px rgba(3, 3, 53, 0.23)",
-//         },
-//       }}
-//     >
-//       <CardMedia
-//         component="img"
-//         sx={{
-//           width: 151,
-//           objectFit: "contain",
-//           height: 151,
-//           margin: "auto",
-//         }}
-//         image={`${import.meta.env.VITE_IMAGE_PATH}/${companyLogo}`}
-//         alt="Company Logo"
-//       />
-//       <CardContent
-//         sx={{
-//           display: "flex",
-//           flexDirection: "column",
-//           justifyContent: "space-between",
-//           alignItems: "center",
-//           width: "100%",
-//           minWidth:0
-//         }}
-//       >
-//         <Typography
-//           component="div"
-//           variant="h5"
-//           noWrap
-//           sx={{ fontWeight: "bold", color: "#0A0833",width:"100%"}}
-//         >
-//           {title}
-//         </Typography>
-//         <Box
-//           sx={{
-//             display: "flex",
-//             flexDirection: "row",
-//             justifyContent: "center",
-//           }}
-//         >
-//           <Box sx={{ mr: 2 }}>
-//             <PlaceIcon sx={{ color: "#0A0833" }} />
-//             <Typography
-//               variant="subtitle1"
-//               component="div"
-//               sx={{ color: "text.secondary", fontWeight: "bold" }}
-//             >
-//               {city}
-//             </Typography>
-//           </Box>
-//           <Box>
-//             <AccessTimeIcon sx={{ color: "#0A0833" }} />
-//             <Typography
-//               variant="subtitle1"
-//               component="div"
-//               sx={{ color: "text.secondary", fontWeight: "bold" }}
-//             >
-//               {timeLeft}
-//             </Typography>
-//           </Box>
-//         </Box>
-//       </CardContent>
-//     </Card>
-//   );
-// }
