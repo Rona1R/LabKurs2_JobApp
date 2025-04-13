@@ -33,6 +33,12 @@ namespace backend.Application.Services
             }
         }
 
+        public async Task <IEnumerable<JobResponse>> GetByEmployer(int employerId)
+        {
+           var jobs = await _repository.GetByEmployer(employerId);
+           return _mapper.Map<IEnumerable<JobResponse>>(jobs);
+        }
+
         public async Task<PaginatedResult<JobPostings>> GetFilteredPosts(JobFilterRequest filters)
         {
             var postings = await _repository.GetFilteredPosts(filters);

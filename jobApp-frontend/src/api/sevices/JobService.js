@@ -5,6 +5,10 @@ export class JobService extends BaseService{
         super("/Job");
     }
 
+    async getByEmployer(id){
+      return await this.axiosInstance.get(`${this.requestMapping}/byEmployer/${id}`);
+    }
+
     async getPostingsWithFilters(params = {}) {
       const queryString = Object.entries(params).reduce((accumulator, [key, value]) => {
           if (Array.isArray(value)) {

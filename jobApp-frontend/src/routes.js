@@ -19,6 +19,7 @@ import AlreadyLoggedIn from "./pages/Error/AlreadyLoggedIn";
 import ServerNotResponding from "./pages/Error/ServerNotResponding";
 import NotFound from "./pages/Error/NotFound";
 import Institutions from "./pages/Dashboard/Administrator/Institutions/Institutions";
+import MyCompanies from "./pages/Dashboard/Employer/Companies/MyCompanies";
 
 const routes = [,
   {
@@ -97,6 +98,11 @@ const routes = [,
         path: "/dashboard/jobPostings",
         protected : true,
         element: JobPostings,
+        roles: ["Employer"],
+      },{
+        path: "/dashboard/myCompanies",
+        protected : true,
+        element: MyCompanies,
         roles: ["Employer"],
       },{
         path: "/dashboard/institutions",

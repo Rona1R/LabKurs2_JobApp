@@ -18,6 +18,7 @@ import AddRequirements from "../JobDetails/Requirements/AddRequirements";
 import AddRequiredSkills from "../JobDetails/RequiredSkills/AddRequiredSkills";
 import AddNiceToHaveSkill from "../JobDetails/NiceToHaveSkills/AddNiceToHaveSkill";
 import { JobDetailsService } from "src/api/sevices/JobDetailsService";
+import { useAuth } from "src/context/AuthContext";
 const categoryService = new CategoryService();
 const companyService = new CompanyService();
 const tagService = new TagService();
@@ -26,7 +27,8 @@ const jobTagService = new JobTagService();
 const jobDetailsService = new JobDetailsService();
 
 export default function CreatePosting(props) {
-  const loggedInEmployer = 1; // PER SIMULIM !!
+  const { user } = useAuth();
+  const loggedInEmployer = user?.nameid;
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     title: "",
@@ -83,7 +85,7 @@ export default function CreatePosting(props) {
     const fetchData = async () => {
       try {
         const [companyResponse, categoryResponse, tagsResponse] = await Promise.all([
-          companyService.getByUser(loggedInEmployer),
+          companyService.getByEmployer(loggedInEmployer),
           categoryService.getAll(),
           tagService.getAll()
         ]);

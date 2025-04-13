@@ -1,4 +1,5 @@
 ﻿using backend.Application.DTOs.Request;
+using backend.Application.DTOs.Request.Auth;
 using backend.Application.Exceptions;
 using backend.Application.Interfaces.UserInterfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -19,12 +20,14 @@ namespace backend.Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        [Authorize(Roles = UserRoles.Admin)]
+        public async Task<IActionResult> Get() // all regular users 
         {
             return Ok(await _userService.GetAllUsersAsync());
         }
 
         [HttpGet("WithRoles")]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> GetWithRoles()
         {
             return Ok(await _userService.GetAllUsersWithRolesAsync());

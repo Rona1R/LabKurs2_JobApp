@@ -1,11 +1,14 @@
 ﻿using backend.Application.DTOs.Request;
+using backend.Application.DTOs.Request.Auth;
 using backend.Application.Interfaces.JobDetailsInterfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = UserRoles.Employer)]
     public class JobDetailsController : ControllerBase
     {
         private readonly IJobDetailsService _jobDetailsService;
