@@ -100,22 +100,20 @@ export default function JobCard({
           >
             <Stack
               spacing={1.5}
-              alignItems="flex-start"
               sx={{
                 margin: "0 auto",
-                width: "fit-content",
-                borderRadius: 2,
+                width:"80%",
                 padding: 2
               }}
             >
               <Typography
                 variant="body2"
+                noWrap
                 sx={{
                   fontWeight: "bold",
                   fontSize: 20,
                   color: "rgba(6, 14, 76, 0.88)",
-                  display: "flex",
-                  alignItems: "center",
+                  textAlign:"start"
                 }}
               >
                 <BusinessCenterIcon sx={{ mr: 3, fontSize: 22 }} />
@@ -123,12 +121,12 @@ export default function JobCard({
               </Typography>
               <Typography
                 variant="body2"
+                noWrap
                 sx={{
                   fontWeight: "bold",
                   fontSize: 20,
                   color: "rgba(5, 9, 35, 0.88)",
-                  display: "flex",
-                  alignItems: "center",
+                  textAlign:"start"
                 }}
               >
                 <ArticleIcon sx={{ mr: 3, fontSize: 22 }} />
