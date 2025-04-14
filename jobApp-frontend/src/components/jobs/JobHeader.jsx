@@ -14,7 +14,7 @@ export default function JobHeader({
   nrOfFilters,
   searchTerm,
   setSearchTerm,
-  searchJob,
+  // searchJob,
   jobTitles,
 }) {
   const [dropdownOpen,setDropdownOpen] = useState(false);
@@ -33,9 +33,9 @@ export default function JobHeader({
   const handleClose = () => {
     setDropdownOpen(false);
   };
-  const handleSearch = () => {
-    searchJob();
-  };
+  // const handleSearch = () => {
+  //   searchJob();
+  // };
 
   // const handleSearch = () => {
   //   searchJob(searchTerm);
@@ -160,7 +160,7 @@ export default function JobHeader({
             </ThemeProvider>
             <Button
               variant="outlined"
-              onClick={handleSearch}
+              // onClick={handleSearch}
               sx={{
                 borderColor: "hsl(210, 100%, 80%)",
                 color: "hsl(210, 100%, 80%)",

@@ -72,10 +72,10 @@ export default function Postings() {
     fetchData();
   };
 
-  const handleSearch = (searchTerm) => {
-    setSearchTerm(searchTerm);
-    debouncedSearch(searchTerm);
-  };
+  // const handleSearch = (searchTerm) => {
+  //   setSearchTerm(searchTerm);
+  //   // debouncedSearch(searchTerm);
+  // };
 
 
   const debouncedSearch = useCallback(
@@ -116,7 +116,7 @@ export default function Postings() {
         showFilters={() => setShowFilters(true)}
         nrOfFilters={nrOfFilters}
         searchTerm={searchTerm}
-        setSearchTerm={handleSearch}
+        setSearchTerm={setSearchTerm}
         // searchJob={searchJob}
         jobTitles={jobTitles}
       />
