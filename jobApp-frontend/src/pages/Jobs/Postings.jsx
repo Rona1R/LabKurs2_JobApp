@@ -3,13 +3,14 @@ import Grid from "@mui/material/Grid2";
 import JobHeader from "../../components/jobs/JobHeader";
 import FilterSidebar from "../../components/jobs/FiltersSidebar/FilterSidebar";
 import "./styles/Postings.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { JobService } from "../../api/sevices/JobService";
 import Loading from "../../components/common/Loading";
 import { Box, Typography } from "@mui/material";
 import NoDataYet from "../../components/common/NoDataYet";
 import ResetButton from "../../components/jobs/ResetButton";
 import CostumPagination from "../../components/jobs/CustomPagination";
+import debounce from "lodash/debounce";
 const jobService = new JobService();
 
 export default function Postings() {
@@ -52,9 +53,13 @@ export default function Postings() {
   };
 
   useEffect(() => {
+    debouncedSearch(searchTerm);
+  }, [searchTerm]);
+
+  useEffect(() => {
     fetchData();
     console.log("Fetching job postings ....");
-  }, [refreshKey, currentPage]);
+  }, [refreshKey,searchedJob,currentPage]);
 
   const handleApplyFilters = () => {
     setCurrentPage(1);
@@ -69,14 +74,25 @@ export default function Postings() {
 
   const handleSearch = (searchTerm) => {
     setSearchTerm(searchTerm);
+    debouncedSearch(searchTerm);
   };
 
-  const searchJob = () => {
-    setCurrentPage(1);
-    setSearchedJob(searchTerm);
-    setRefreshKey(Date.now());
-    setSearchTerm("");
-  };
+
+  const debouncedSearch = useCallback(
+    debounce((term) => {
+      setCurrentPage(1);
+      setSearchedJob(term);
+      // setRefreshKey(Date.now());
+    }, 500),
+    []
+  );
+  
+  // const searchJob = () => {
+  //   setCurrentPage(1);
+  //   setSearchedJob(searchTerm);
+  //   setRefreshKey(Date.now());
+  //   setSearchTerm("");
+  // };
 
   const clearFilters = () => {
     setCurrentPage(1);
@@ -101,7 +117,7 @@ export default function Postings() {
         nrOfFilters={nrOfFilters}
         searchTerm={searchTerm}
         setSearchTerm={handleSearch}
-        searchJob={searchJob}
+        // searchJob={searchJob}
         jobTitles={jobTitles}
       />
       <FilterSidebar
