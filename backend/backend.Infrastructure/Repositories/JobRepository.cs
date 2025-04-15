@@ -56,7 +56,7 @@ namespace backend.Infrastructure.Repositories
 
             if (!string.IsNullOrEmpty(filters.SearchTerm))
             {
-                query = query.Where(p => p.Title.Contains(filters.SearchTerm));
+                query = query.Where(p => p.Title.ToLower().Contains(filters.SearchTerm.ToLower()) || p.Description.ToLower().Contains(filters.SearchTerm.ToLower()));
             }
 
             if (filters.JobTypes.Any())
