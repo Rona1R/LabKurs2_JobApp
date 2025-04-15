@@ -3,43 +3,15 @@ import {
   Typography,
   Button,
   TextField,
-  Autocomplete,
   ThemeProvider,
 } from "@mui/material";
-import menuTheme from "../../components/dashboard/styles/menuTheme";
-import { useState } from "react";
 
-export default function JobHeader({
-  showFilters,
-  nrOfFilters,
-  searchTerm,
-  setSearchTerm,
-  // searchJob,
-  jobTitles,
-}) {
-  const [dropdownOpen,setDropdownOpen] = useState(false);
+import menuTheme from "../dashboard/styles/menuTheme";
 
+export default function JobHeader({ showFilters, nrOfFilters, searchTerm, setSearchTerm }) {
   const handleChange = (e) => {
-    setDropdownOpen(e.target.value.length > 0);
     setSearchTerm(e.target.value);
   };
-
-  const handleOpen = () => {
-    if (searchTerm) {
-      setDropdownOpen(true);
-    }
-  };
-
-  const handleClose = () => {
-    setDropdownOpen(false);
-  };
-  // const handleSearch = () => {
-  //   searchJob();
-  // };
-
-  // const handleSearch = () => {
-  //   searchJob(searchTerm);
-  // }
 
   return (
     <Box
@@ -59,7 +31,6 @@ export default function JobHeader({
           color: "white",
           maxWidth: { xs: "100%", md: "400px", lg: "650px" },
           textAlign: { xs: "center", lg: "left" },
-          minWidth: 0,
         }}
       >
         <Typography
@@ -124,56 +95,26 @@ export default function JobHeader({
             }}
           >
             <ThemeProvider theme={menuTheme}>
-              <Autocomplete
-                freeSolo
-                open = {dropdownOpen}
-                onOpen={handleOpen}
-                onClose={handleClose}
-                sx = {{width: { xs: "100%",lg:"250px" }}}
-                options={jobTitles.map((option) => option)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    placeholder="Search for job ..."
-                    onChange={handleChange}
-                    sx={{
-                      backgroundColor: "hsl(211, 100.00%, 94.30%)",
-                      width: { xs: "100%",lg:"250px" },
-                      borderRadius: "8px",
-                      "& .MuiOutlinedInput-root": {
-                        "& fieldset": { borderColor: "hsl(210, 100%, 80%)" },
-                        "&:hover fieldset": {
-                          borderColor: "hsl(210, 90%, 70%)",
-                        },
-                        "&.Mui-focused fieldset": {
-                          borderColor: "hsl(210, 100%, 60%)",
-                        },
-                      },
-                    }}
-                  />
-                )}
+              <TextField
                 value={searchTerm}
-                onChange={(event, newValue) => {
-                  setSearchTerm(newValue);
+                placeholder="Search for job ..."
+                onChange={handleChange}
+                sx={{
+                  backgroundColor: "hsl(211, 100.00%, 94.30%)",
+                  width: { xs: "100%", lg: "350px" },
+                  borderRadius: "8px",
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": { borderColor: "hsl(210, 100%, 80%)" },
+                    "&:hover fieldset": {
+                      borderColor: "hsl(210, 90%, 70%)",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "hsl(210, 100%, 60%)",
+                    },
+                  },
                 }}
               />
             </ThemeProvider>
-            <Button
-              variant="outlined"
-              // onClick={handleSearch}
-              sx={{
-                borderColor: "hsl(210, 100%, 80%)",
-                color: "hsl(210, 100%, 80%)",
-                fontWeight: "bold",
-                textTransform: "none",
-                "&:hover": { backgroundColor: "hsl(210, 100%, 15%)" },
-                fontSize: "18px",
-                px: 2,
-                py: 1.3,
-              }}
-            >
-              Search
-            </Button>
           </Box>
         </Box>
       </Box>

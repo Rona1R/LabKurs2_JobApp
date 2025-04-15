@@ -72,28 +72,14 @@ export default function Postings() {
     fetchData();
   };
 
-  // const handleSearch = (searchTerm) => {
-  //   setSearchTerm(searchTerm);
-  //   // debouncedSearch(searchTerm);
-  // };
-
-
   const debouncedSearch = useCallback(
     debounce((term) => {
       setCurrentPage(1);
       setSearchedJob(term);
-      // setRefreshKey(Date.now());
     }, 500),
     []
   );
   
-  // const searchJob = () => {
-  //   setCurrentPage(1);
-  //   setSearchedJob(searchTerm);
-  //   setRefreshKey(Date.now());
-  //   setSearchTerm("");
-  // };
-
   const clearFilters = () => {
     setCurrentPage(1);
     setNrOfFilters(0);
@@ -117,8 +103,6 @@ export default function Postings() {
         nrOfFilters={nrOfFilters}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
-        // searchJob={searchJob}
-        jobTitles={jobTitles}
       />
       <FilterSidebar
         isOpen={showFilters}
