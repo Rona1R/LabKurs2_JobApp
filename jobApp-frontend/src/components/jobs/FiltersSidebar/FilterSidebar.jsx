@@ -13,18 +13,20 @@ export default function FilterSidebar({
   setFilters,
   handleApplyFilters,
   clearFilters,
+  companies,
+  categories
 }) {
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [categories] = useState(["IT", "Marketing", "Business"]);
+  // const [categories] = useState(["IT", "Marketing", "Business"]);
 
   const [selectedCompany, setSelectedCompany] = useState("");
-  const [companies] = useState(["Company A", "Company B", "Company C"]);
+  // const [companies] = useState(["Company A", "Company B", "Company C"]);
 
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [countries] = useState(["Kosovo", "Albania", "Sweden"]);
+  // const [selectedCountry, setSelectedCountry] = useState("");
+  // const [countries] = useState(["Kosovo", "Albania", "Sweden"]);
 
-  const [selectedCity, setSelectedCity] = useState("");
-  const [cities] = useState(["Prishtina", "Gjakova", "Prizren"]);
+  // const [selectedCity, setSelectedCity] = useState("");
+  // const [cities] = useState(["Prishtina", "Gjakova", "Prizren"]);
 
   const [payRange, setPayRange] = useState([1000, 5000]);
 
@@ -52,6 +54,22 @@ export default function FilterSidebar({
           boxSizing: "border-box",
           backgroundColor: "#0A0529",
           width: { xs: "100%", sm: "360px" },
+          "&::-webkit-scrollbar": {
+            width: "8px",
+          },
+          "&::-webkit-scrollbar-track": {
+            background: "transparent",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "rgb(203, 195, 255)", 
+            borderRadius: "10px",
+            border: "2px solidrgb(209, 202, 255)",
+          },
+          "&::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: "#888",
+          },
+          scrollbarWidth: "thin", 
+          scrollbarColor: "rgb(203, 195, 255) #0A0529"      
         },
       }}
     >
@@ -92,7 +110,6 @@ export default function FilterSidebar({
           label={"Select Category"}
           all={"All Categories"}
           options={categories}
-          // value,setValue,label,all,options
         />
         <FilterSelect
           value={selectedCompany}
@@ -101,7 +118,7 @@ export default function FilterSidebar({
           all={"All Companies"}
           options={companies}
         />
-        <FilterSelect
+        {/* <FilterSelect
           value={selectedCountry}
           setValue={setSelectedCountry}
           label={"Select Country"}
@@ -115,7 +132,7 @@ export default function FilterSidebar({
           label={"Select City"}
           all={"All Cities"}
           options={cities}
-        />
+        /> */}
 
         <PayRangeFilter value={payRange} onChange={handlePayChange} />
         {/* <CategorySelect/> */}

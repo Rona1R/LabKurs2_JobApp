@@ -2,7 +2,7 @@ import * as React from "react";
 import Pagination from "@mui/material/Pagination";
 import { Container, Box } from "@mui/material";
 
-export default function CostumPagination({
+export default function CustomPagination({
   total,
   currentPage,
   setCurrentPage,

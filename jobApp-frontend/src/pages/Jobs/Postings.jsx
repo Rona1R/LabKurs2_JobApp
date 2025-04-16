@@ -9,9 +9,13 @@ import Loading from "../../components/common/Loading";
 import { Box, Typography } from "@mui/material";
 import NoDataYet from "../../components/common/NoDataYet";
 import ResetButton from "../../components/jobs/ResetButton";
-import CostumPagination from "../../components/jobs/CustomPagination";
+import CustomPagination from "../../components/jobs/CustomPagination";
 import debounce from "lodash/debounce";
+import { CompanyService } from "src/api/sevices/CompanyService";
+import { CategoryService } from "src/api/sevices/CategoryService";
 const jobService = new JobService();
+const companyService = new CompanyService();
+const categoryService = new CategoryService();
 
 export default function Postings() {
   const [postings, setPostings] = useState([]);
@@ -25,12 +29,37 @@ export default function Postings() {
   const [totalPages, setTotalPages] = useState(0);
   const [pageSize] = useState(5);
   const [totalRecords, setTotalRecords] = useState(0);
+  const [sidebarData,setSidebarData] = useState({
+    companies : [],
+    categories : []
+  });
   const [filters, setFilters] = useState({
     jobTypes: [],
     salaryTypes: [],
     datePosted: "",
   });
-  const jobTitles = postings.map((job) => job.title);
+
+  const fetchSidebarData = async () => {
+    try {
+      const [categories, companies] = await Promise.all([
+        categoryService.getAll(),
+        companyService.getAll(),
+      ]);
+      setSidebarData((prev) => ({
+        ...prev,
+        categories: categories.data.map((category) => ({
+          id: category.id,
+          name: category.name,
+        })),
+        companies: companies.data.map((company) => ({
+          id: company.id,
+          name: company.name,
+        })),
+      }));
+    } catch (err) {
+      console.error("Error fetching sidebar data:", err);
+    }
+  };
 
   const fetchData = async () => {
     setLoading(true);
@@ -58,8 +87,12 @@ export default function Postings() {
 
   useEffect(() => {
     fetchData();
-    console.log("Fetching job postings ....");
+    // console.log("Fetching job postings ....");
   }, [refreshKey,searchedJob,currentPage]);
+
+  useEffect(()=>{
+    fetchSidebarData();
+  },[])
 
   const handleApplyFilters = () => {
     setCurrentPage(1);
@@ -109,6 +142,8 @@ export default function Postings() {
         handleClose={() => setShowFilters(false)}
         filters={filters}
         setFilters={setFilters}
+        companies={sidebarData.companies}
+        categories={sidebarData.categories}
         handleApplyFilters={handleApplyFilters}
         clearFilters={clearFilters}
       />
@@ -161,7 +196,7 @@ export default function Postings() {
               ))}
             </Grid>
             {totalRecords > pageSize && (
-              <CostumPagination
+              <CustomPagination
                 total={totalPages}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
