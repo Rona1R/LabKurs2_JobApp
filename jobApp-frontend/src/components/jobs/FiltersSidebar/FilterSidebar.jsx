@@ -16,32 +16,23 @@ export default function FilterSidebar({
   companies,
   categories
 }) {
-  const [selectedCategory, setSelectedCategory] = useState("");
-  // const [categories] = useState(["IT", "Marketing", "Business"]);
+  // const [selectedCategory, setSelectedCategory] = useState("");
+  
 
-  const [selectedCompany, setSelectedCompany] = useState("");
-  // const [companies] = useState(["Company A", "Company B", "Company C"]);
+  // const [selectedCompany, setSelectedCompany] = useState("");
 
-  // const [selectedCountry, setSelectedCountry] = useState("");
-  // const [countries] = useState(["Kosovo", "Albania", "Sweden"]);
-
-  // const [selectedCity, setSelectedCity] = useState("");
-  // const [cities] = useState(["Prishtina", "Gjakova", "Prizren"]);
+  
 
   const [payRange, setPayRange] = useState([1000, 5000]);
 
   const handlePayChange = (event, newValue) => {
     setPayRange(newValue);
   };
-
   const handleFilters = (selected, filterType) => {
-    if (filterType === "jobType") {
-      setFilters({ ...filters, jobTypes: selected });
-    } else if (filterType === "salaryType") {
-      setFilters({ ...filters, salaryTypes: selected });
-    } else if (filterType === "datePosted") {
-      setFilters({ ...filters, datePosted: selected });
-    }
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterType]: selected,
+    }));
   };
 
   return (
@@ -61,7 +52,7 @@ export default function FilterSidebar({
             background: "transparent",
           },
           "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "rgb(203, 195, 255)", 
+            backgroundColor: "hsla(210, 82.50%, 84.30%, 0.85)", 
             borderRadius: "10px",
             border: "2px solidrgb(209, 202, 255)",
           },
@@ -69,7 +60,7 @@ export default function FilterSidebar({
             backgroundColor: "#888",
           },
           scrollbarWidth: "thin", 
-          scrollbarColor: "rgb(203, 195, 255) #0A0529"      
+          scrollbarColor: "hsla(210, 82.50%, 84.30%, 0.85) #0A0529"      
         },
       }}
     >
@@ -89,13 +80,13 @@ export default function FilterSidebar({
           label="Job Type"
           options={["Full-time", "Part-time", "Temporary", "Contractual"]}
           selected={filters.jobTypes}
-          setSelected={(selected) => handleFilters(selected, "jobType")}
+          setSelected={(selected) => handleFilters(selected, "jobTypes")}
         />
         <CheckboxMenu
           label="Salary Type"
           options={["Hourly", "Monthly", "Yearly"]}
           selected={filters.salaryTypes}
-          setSelected={(selected) => handleFilters(selected, "salaryType")}
+          setSelected={(selected) => handleFilters(selected, "salaryTypes")}
         />
         <CheckboxMenu
           label="Date Posted"
@@ -105,43 +96,40 @@ export default function FilterSidebar({
           setSelected={(selected) => handleFilters(selected, "datePosted")}
         />
         <FilterSelect
-          value={selectedCategory}
-          setValue={setSelectedCategory}
+          value={filters.categoryId}
+          setValue={(selected) => handleFilters(selected, "categoryId")}
           label={"Select Category"}
           all={"All Categories"}
           options={categories}
         />
         <FilterSelect
-          value={selectedCompany}
-          setValue={setSelectedCompany}
+          value={filters.companyId}
+          setValue={(selected) => handleFilters(selected, "companyId")}
           label={"Select Company"}
           all={"All Companies"}
           options={companies}
         />
         {/* <FilterSelect
-          value={selectedCountry}
-          setValue={setSelectedCountry}
-          label={"Select Country"}
-          all={"All Countries"}
-          options={countries}
-        />
-
-        <FilterSelect
-          value={selectedCity}
-          setValue={setSelectedCity}
-          label={"Select City"}
-          all={"All Cities"}
-          options={cities}
+          value={filters.categoryId}
+          setValue={(selected) => handleFilters(selected, "categoryId")}
+          label={"Select Category"}
+          all={"All Categories"}
+          options={categories}
         /> */}
-
+        {/* <FilterSelect
+          value={filters.companyId}
+          setValue={(selected) => handleFilters(selected, "companyId")}
+          label={"Select Company"}
+          all={"All Companies"}
+          options={companies}
+        /> */}
         <PayRangeFilter value={payRange} onChange={handlePayChange} />
-        {/* <CategorySelect/> */}
-        {/* <CategorySelect/> */}
+
       </Box>
       <Box
         sx={{
           mx: 2,
-          my: 3,
+          my: 1,
         }}
       >
         <Button

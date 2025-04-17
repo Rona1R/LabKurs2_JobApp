@@ -1,15 +1,15 @@
-import JobCard from "../../components/jobs/JobCard";
+import JobCard from "src/components/jobs/JobCard";
 import Grid from "@mui/material/Grid2";
-import JobHeader from "../../components/jobs/JobHeader";
-import FilterSidebar from "../../components/jobs/FiltersSidebar/FilterSidebar";
+import JobHeader from "src/components/jobs/JobHeader";
+import FilterSidebar from "src/components/jobs/FiltersSidebar/FilterSidebar";
 import "./styles/Postings.css";
 import { useEffect, useState, useCallback } from "react";
-import { JobService } from "../../api/sevices/JobService";
-import Loading from "../../components/common/Loading";
+import { JobService } from "src/api/sevices/JobService";
+import Loading from "src/components/common/Loading";
 import { Box, Typography } from "@mui/material";
-import NoDataYet from "../../components/common/NoDataYet";
-import ResetButton from "../../components/jobs/ResetButton";
-import CustomPagination from "../../components/jobs/CustomPagination";
+import NoDataYet from "src/components/common/NoDataYet";
+import ResetButton from "src/components/jobs/ResetButton";
+import CustomPagination from "src/components/jobs/CustomPagination";
 import debounce from "lodash/debounce";
 import { CompanyService } from "src/api/sevices/CompanyService";
 import { CategoryService } from "src/api/sevices/CategoryService";
@@ -37,6 +37,8 @@ export default function Postings() {
     jobTypes: [],
     salaryTypes: [],
     datePosted: "",
+    categoryId : "",
+    companyId : ""
   });
 
   const fetchSidebarData = async () => {
@@ -116,9 +118,10 @@ export default function Postings() {
   const clearFilters = () => {
     setCurrentPage(1);
     setNrOfFilters(0);
-    setFilters({ jobTypes: [], salaryTypes: [], datePosted: "" });
+    setFilters({ jobTypes: [], salaryTypes: [], datePosted: "",categoryId:"",companyId:"" });
     setSearchedJob("");
     setSearchTerm("");
+    setShowFilters(false);
     setRefreshKey(Date.now());
   };
 
