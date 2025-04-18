@@ -198,10 +198,10 @@ export default function FilterSidebar({
             py: 1,
             fontWeight: "bold",
             fontSize: "large",
-            backgroundColor: "#616161",
-            color: "#FFFFFF",
+            backgroundColor: "#151034",
+            color: "hsla(210, 82.50%, 84.30%, 0.85)",
             "&:hover": {
-              backgroundColor: "#4B4745",
+              backgroundColor: "#0A0529",
             },
           }}
         >

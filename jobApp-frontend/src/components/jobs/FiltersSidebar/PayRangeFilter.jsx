@@ -24,7 +24,7 @@ const PayRangeFilter = ({ value, onChange, min = 0, max=1200 }) => {
         }}
       />
 
-      <Typography variant="body2" sx={{color:"white"}}>
+      <Typography variant="body2" sx={{color:"hsla(210, 82.50%, 84.30%, 0.85)",fontWeight:"bold"}}>
         {formatCurrency(value[0])} – {formatCurrency(value[1])}
       </Typography>
     </Box>

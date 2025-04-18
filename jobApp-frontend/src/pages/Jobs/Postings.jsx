@@ -41,17 +41,16 @@ export default function Postings() {
     categoryId: "",
     companyId: "",
     country: "",
-    city: ""
+    city: "",
   });
-  const [payRange,setPayRange] = useState([0,0])
-
+  const [payRange, setPayRange] = useState([0, 0]);
 
   const fetchSidebarData = async () => {
     try {
       const [categories, companies, maxSalaryResponse] = await Promise.all([
         categoryService.getAll(),
         companyService.getAll(),
-        jobService.getMaxSalary()
+        jobService.getMaxSalary(),
       ]);
       setSidebarData((prev) => ({
         ...prev,
@@ -64,8 +63,8 @@ export default function Postings() {
           name: company.name,
         })),
       }));
-      setMaxSalary(maxSalaryResponse.data); 
-      setPayRange([0,maxSalaryResponse.data]);
+      setMaxSalary(maxSalaryResponse.data);
+      setPayRange([0, maxSalaryResponse.data]);
     } catch (err) {
       console.error("Error fetching sidebar data:", err);
     }
@@ -80,7 +79,7 @@ export default function Postings() {
         pageNumber: currentPage,
         pageSize: pageSize,
         minSalary: payRange[0],
-        ...(payRange[1] !== 0 && { maxSalary: payRange[1] }) // Include maxSalary only if it's different from 0
+        ...(payRange[1] !== 0 && { maxSalary: payRange[1] }), // Include maxSalary only if it's different from 0
       };
       const response = await jobService.getPostingsWithFilters(params); // Adjusted to pass params
       setPostings(response.data.items);
@@ -100,11 +99,11 @@ export default function Postings() {
   useEffect(() => {
     fetchData();
     // console.log("Fetching job postings ....");
-  }, [refreshKey,searchedJob,currentPage]);
+  }, [refreshKey, searchedJob, currentPage]);
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchSidebarData();
-  },[])
+  }, []);
 
   const handleApplyFilters = () => {
     setCurrentPage(1);
@@ -112,7 +111,13 @@ export default function Postings() {
     setNrOfFilters(
       filters.jobTypes.length +
         filters.salaryTypes.length +
-        (filters.datePosted !== "" ? 1 : 0)
+        (filters.datePosted !== "" ? 1 : 0) +
+        (filters.categoryId !== "" ? 1 : 0) +
+        (filters.companyId !== "" ? 1 : 0) +
+        (filters.country !== "" ? 1 : 0) +
+        (filters.city !== "" ? 1 : 0)+
+        (payRange[0] !== 0 ? 1 : 0) +
+        (payRange[1] !== 0 && payRange[1] !== maxSalary ? 1 : 0)
     );
     fetchData();
   };
@@ -124,11 +129,20 @@ export default function Postings() {
     }, 500),
     []
   );
-  
+
   const clearFilters = () => {
     setCurrentPage(1);
     setNrOfFilters(0);
-    setFilters({ jobTypes: [], salaryTypes: [], datePosted: "",categoryId:"",companyId:"",country:"",city:"" });
+    setFilters({
+      jobTypes: [],
+      salaryTypes: [],
+      datePosted: "",
+      categoryId: "",
+      companyId: "",
+      country: "",
+      city: "",
+    });
+    setPayRange([0,maxSalary]);
     setSearchedJob("");
     setSearchTerm("");
     setShowFilters(false);
@@ -196,7 +210,7 @@ export default function Postings() {
             )}
           </Box>
         ) : (
-          <Box sx={{mx:{md:5,lg:15}}}>
+          <Box sx={{ mx: { md: 5, lg: 15 } }}>
             <Grid container spacing={6} my={8} justifyContent={"center"}>
               {postings.map((posting, index) => (
                 <Grid size={{ xs: 12, md: 6, xl: 4 }} key={index}>
