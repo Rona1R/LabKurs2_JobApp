@@ -91,5 +91,11 @@ namespace backend.Infrastructure.Repositories
             return await query.PaginateAsync(filters.PageNumber, filters.PageSize);
         }
 
+        public async Task<decimal> GetMaxSalaryAsync()
+        {
+            return await _context.Job.Where(j => j.IsDeleted == false).MaxAsync(j => j.MaximalSalary);
+        }
+
+        
     }
 }

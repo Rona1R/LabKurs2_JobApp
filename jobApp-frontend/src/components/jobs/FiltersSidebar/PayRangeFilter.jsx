@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography, Slider } from "@mui/material";
 
-const PayRangeFilter = ({ value, onChange, min = 0, max = 10000 }) => {
+const PayRangeFilter = ({ value, onChange, min = 0, max=1200 }) => {
   const formatCurrency = (val) => `€${val.toLocaleString()}`;
 
   return (
@@ -24,7 +24,7 @@ const PayRangeFilter = ({ value, onChange, min = 0, max = 10000 }) => {
         }}
       />
 
-      <Typography variant="body2">
+      <Typography variant="body2" sx={{color:"white"}}>
         {formatCurrency(value[0])} – {formatCurrency(value[1])}
       </Typography>
     </Box>

@@ -29,25 +29,29 @@ export default function Postings() {
   const [totalPages, setTotalPages] = useState(0);
   const [pageSize] = useState(5);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [sidebarData,setSidebarData] = useState({
-    companies : [],
-    categories : []
+  const [maxSalary, setMaxSalary] = useState(0); // State for max salary
+  const [sidebarData, setSidebarData] = useState({
+    companies: [],
+    categories: [],
   });
   const [filters, setFilters] = useState({
     jobTypes: [],
     salaryTypes: [],
     datePosted: "",
-    categoryId : "",
-    companyId : "",
-    country:"",
-    city:""
+    categoryId: "",
+    companyId: "",
+    country: "",
+    city: ""
   });
+  const [payRange,setPayRange] = useState([0,0])
+
 
   const fetchSidebarData = async () => {
     try {
-      const [categories, companies] = await Promise.all([
+      const [categories, companies, maxSalaryResponse] = await Promise.all([
         categoryService.getAll(),
         companyService.getAll(),
+        jobService.getMaxSalary()
       ]);
       setSidebarData((prev) => ({
         ...prev,
@@ -60,6 +64,8 @@ export default function Postings() {
           name: company.name,
         })),
       }));
+      setMaxSalary(maxSalaryResponse.data); 
+      setPayRange([0,maxSalaryResponse.data]);
     } catch (err) {
       console.error("Error fetching sidebar data:", err);
     }
@@ -73,7 +79,9 @@ export default function Postings() {
         searchTerm: searchedJob,
         pageNumber: currentPage,
         pageSize: pageSize,
-      }; // 5 postime per faqe , sa per testim
+        minSalary: payRange[0],
+        ...(payRange[1] !== 0 && { maxSalary: payRange[1] }) // Include maxSalary only if it's different from 0
+      };
       const response = await jobService.getPostingsWithFilters(params); // Adjusted to pass params
       setPostings(response.data.items);
       setTotalPages(response.data.totalPages);
@@ -146,9 +154,12 @@ export default function Postings() {
         isOpen={showFilters}
         handleClose={() => setShowFilters(false)}
         filters={filters}
+        payRange={payRange}
+        setPayRange={setPayRange}
         setFilters={setFilters}
         companies={sidebarData.companies}
         categories={sidebarData.categories}
+        maxSalary={maxSalary}
         handleApplyFilters={handleApplyFilters}
         clearFilters={clearFilters}
       />

@@ -3,7 +3,7 @@ import CheckboxMenu from "./CheckboxMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import FilterSelect from "./FilterSelect";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PayRangeFilter from "./PayRangeFilter";
 import countryList from "react-select-country-list";
 import { fetchCitiesForCountry } from "src/api/sevices/external/fetchCitiesByCountry";
@@ -16,8 +16,11 @@ export default function FilterSidebar({
   setFilters,
   handleApplyFilters,
   clearFilters,
+  payRange,
+  setPayRange,
   companies,
   categories,
+  maxSalary
 }) {
   const [cities, setCities] = useState([]);
   const additionalCountry = [
@@ -33,15 +36,11 @@ export default function FilterSidebar({
       name: country.label,
     })
   );
-  // const [selectedCategory, setSelectedCategory] = useState("");
-
-  // const [selectedCompany, setSelectedCompany] = useState("");
-
-  const [payRange, setPayRange] = useState([1000, 5000]);
 
   const handlePayChange = (event, newValue) => {
     setPayRange(newValue);
   };
+
   const handleFilters = async (selected, filterType) => {
     if (filterType === "country") {
       if (selected === "") {
@@ -165,7 +164,7 @@ export default function FilterSidebar({
           all={"All Companies"}
           options={companies}
         /> */}
-        <PayRangeFilter value={payRange} onChange={handlePayChange} />
+        <PayRangeFilter value={payRange} max={maxSalary} onChange={handlePayChange} />
       </Box>
       <Box
         sx={{
