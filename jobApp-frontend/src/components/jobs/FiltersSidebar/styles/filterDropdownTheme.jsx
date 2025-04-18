@@ -1,6 +1,5 @@
 import { createTheme } from "@mui/material";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
-
 const filterDropdownTheme = createTheme({
   components: {
     MuiMenuItem: {
@@ -10,9 +9,8 @@ const filterDropdownTheme = createTheme({
           fontWeight: "bold",
           paddingTop: "15px",
           paddingBottom: "15px",
-          paddingLeft:"10px",
-          fontSize:"1.1em",
-          // backgroundColor: "#0A0529",
+          paddingLeft: "10px",
+          fontSize: "1.1em",
           "&.Mui-selected": {
             backgroundColor: "rgba(203, 195, 255, 0.25)",
             color: "white",
@@ -23,7 +21,7 @@ const filterDropdownTheme = createTheme({
           "&:hover": {
             backgroundColor: "#0A0529",
             color: "white",
-          },
+          }
         },
       },
     },
@@ -48,10 +46,10 @@ const filterDropdownTheme = createTheme({
             backgroundColor: "#888",
           },
           scrollbarWidth: "thin",
-          scrollbarColor: "hsla(210, 82.50%, 84.30%, 0.85) #120A3A",
+          scrollbarColor: "hsla(210, 82.50%, 84.30%, 0.85) #120A3A"
         },
       },
-    },  
+    },
     MuiInputLabel: {
       styleOverrides: {
         root: {
@@ -60,6 +58,9 @@ const filterDropdownTheme = createTheme({
           fontWeight: "bold",
           "&.MuiInputLabel-shrink": {
             color: "hsl(210, 100.00%, 86.10%)",
+          },
+          "&.Mui-disabled": {
+            color: "rgba(255, 255, 255, 0.78)"
           },
         },
       },
@@ -83,6 +84,12 @@ const filterDropdownTheme = createTheme({
           },
           [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
             borderColor: "hsl(210, 100.00%, 86.10%)",
+          },
+          "&.Mui-disabled": {
+            backgroundColor: "rgba(247, 242, 242, 0.18)",
+            "& .MuiSelect-icon": {
+              color: "rgba(255, 255, 255, 0.5)",
+            }
           },
         },
       },

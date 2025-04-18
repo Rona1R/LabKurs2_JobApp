@@ -5,6 +5,9 @@ import { faX } from "@fortawesome/free-solid-svg-icons";
 import FilterSelect from "./FilterSelect";
 import { useState } from "react";
 import PayRangeFilter from "./PayRangeFilter";
+import countryList from "react-select-country-list";
+import { fetchCitiesForCountry } from "src/api/sevices/external/fetchCitiesByCountry";
+import { kosovoCities } from "src/components/dashboard/Employer/Jobs/CreateJob/kosovoCities";
 
 export default function FilterSidebar({
   isOpen,
@@ -14,21 +17,44 @@ export default function FilterSidebar({
   handleApplyFilters,
   clearFilters,
   companies,
-  categories
+  categories,
 }) {
+  const [cities, setCities] = useState([]);
+  const additionalCountry = [
+    {
+      value: "Kosova",
+      label: "Kosova",
+    },
+  ];
+  const countriesOptions = countryList().getData();
+  const countries = [...additionalCountry, ...countriesOptions].map(
+    (country) => ({
+      id: country.value,
+      name: country.label,
+    })
+  );
   // const [selectedCategory, setSelectedCategory] = useState("");
-  
 
   // const [selectedCompany, setSelectedCompany] = useState("");
-
-  
 
   const [payRange, setPayRange] = useState([1000, 5000]);
 
   const handlePayChange = (event, newValue) => {
     setPayRange(newValue);
   };
-  const handleFilters = (selected, filterType) => {
+  const handleFilters = async (selected, filterType) => {
+    if (filterType === "country") {
+      if (selected === "") {
+        setCities([]);
+      } else {
+        if (selected === "Kosova") {
+          setCities(kosovoCities.map((city) => ({ id: city, name: city })));
+        } else {
+          const filteredCities = await fetchCitiesForCountry(selected);
+          setCities(filteredCities.map((city) => ({ id: city, name: city })));
+        }
+      }
+    }
     setFilters((prevFilters) => ({
       ...prevFilters,
       [filterType]: selected,
@@ -52,15 +78,15 @@ export default function FilterSidebar({
             background: "transparent",
           },
           "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "hsla(210, 82.50%, 84.30%, 0.85)", 
+            backgroundColor: "hsla(210, 82.50%, 84.30%, 0.85)",
             borderRadius: "10px",
             border: "2px solidrgb(209, 202, 255)",
           },
           "&::-webkit-scrollbar-thumb:hover": {
             backgroundColor: "#888",
           },
-          scrollbarWidth: "thin", 
-          scrollbarColor: "hsla(210, 82.50%, 84.30%, 0.85) #0A0529"      
+          scrollbarWidth: "thin",
+          scrollbarColor: "hsla(210, 82.50%, 84.30%, 0.85) #0A0529",
         },
       }}
     >
@@ -109,6 +135,22 @@ export default function FilterSidebar({
           all={"All Companies"}
           options={companies}
         />
+        <FilterSelect
+          value={filters.country}
+          setValue={(selected) => handleFilters(selected, "country")}
+          label={"Select Country"}
+          all={"All Countries"}
+          options={countries}
+        />
+        <FilterSelect
+          value={filters.city}
+          setValue={(selected) => handleFilters(selected, "city")}
+          label={"Select City"}
+          all={"All Cities"}
+          isDisabled={filters.country === ""}
+          options={cities}
+        />
+
         {/* <FilterSelect
           value={filters.categoryId}
           setValue={(selected) => handleFilters(selected, "categoryId")}
@@ -124,7 +166,6 @@ export default function FilterSidebar({
           options={companies}
         /> */}
         <PayRangeFilter value={payRange} onChange={handlePayChange} />
-
       </Box>
       <Box
         sx={{

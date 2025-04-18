@@ -18,7 +18,7 @@ const MenuProps = {
   },
 };
 
-export default function FilterSelect({ value, setValue, label, all, options }) {
+export default function FilterSelect({ value, setValue, label, all, options,isDisabled = false }) {
   //   const [category, setCategory] = useState("");
 
   const handleChange = (event) => {
@@ -29,7 +29,7 @@ export default function FilterSelect({ value, setValue, label, all, options }) {
     <Box sx={{ mx: 2, my: 3 }}>
       <ThemeProvider theme={filterDropdownTheme}>
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+          <InputLabel id="demo-simple-select-label" shrink disabled={isDisabled}>{label}</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
@@ -37,6 +37,7 @@ export default function FilterSelect({ value, setValue, label, all, options }) {
             label={label}
             MenuProps={MenuProps}
             onChange={handleChange}
+            disabled={isDisabled}
             displayEmpty
           >
             <MenuItem value="">

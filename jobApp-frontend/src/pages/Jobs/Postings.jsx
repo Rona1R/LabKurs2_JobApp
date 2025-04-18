@@ -38,7 +38,9 @@ export default function Postings() {
     salaryTypes: [],
     datePosted: "",
     categoryId : "",
-    companyId : ""
+    companyId : "",
+    country:"",
+    city:""
   });
 
   const fetchSidebarData = async () => {
@@ -118,7 +120,7 @@ export default function Postings() {
   const clearFilters = () => {
     setCurrentPage(1);
     setNrOfFilters(0);
-    setFilters({ jobTypes: [], salaryTypes: [], datePosted: "",categoryId:"",companyId:"" });
+    setFilters({ jobTypes: [], salaryTypes: [], datePosted: "",categoryId:"",companyId:"",country:"",city:"" });
     setSearchedJob("");
     setSearchTerm("");
     setShowFilters(false);
