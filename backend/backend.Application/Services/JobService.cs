@@ -64,7 +64,11 @@ namespace backend.Application.Services
                 PageSize = postings.PageSize,
                 TotalPages = postings.TotalPages
             };
+        }
 
+        public async Task<decimal> GetMaxSalaryAsync()
+        {
+            return await _repository.GetMaxSalaryAsync();
         }
     }
 }

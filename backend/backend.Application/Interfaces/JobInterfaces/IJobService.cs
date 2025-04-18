@@ -13,5 +13,6 @@ namespace backend.Application.Interfaces.JobInterfaces
     {
         Task<IEnumerable<JobResponse>> GetByEmployer(int employerId);
         Task<PaginatedResult<JobPostings>> GetFilteredPosts(JobFilterRequest filters);
+        Task<decimal> GetMaxSalaryAsync();
     }
 }

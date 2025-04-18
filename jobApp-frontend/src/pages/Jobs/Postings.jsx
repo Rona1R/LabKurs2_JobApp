@@ -1,16 +1,21 @@
-import JobCard from "../../components/jobs/JobCard";
+import JobCard from "src/components/jobs/JobCard";
 import Grid from "@mui/material/Grid2";
-import JobHeader from "../../components/jobs/JobHeader";
-import FilterSidebar from "../../components/jobs/FiltersSidebar/FilterSidebar";
+import JobHeader from "src/components/jobs/JobHeader";
+import FilterSidebar from "src/components/jobs/FiltersSidebar/FilterSidebar";
 import "./styles/Postings.css";
-import { useEffect, useState } from "react";
-import { JobService } from "../../api/sevices/JobService";
-import Loading from "../../components/common/Loading";
-import { Box,Typography } from "@mui/material";
-import NoDataYet from "../../components/common/NoDataYet";
-import ResetButton from "../../components/jobs/ResetButton";
-import CostumPagination from "../../components/jobs/CustomPagination";
+import { useEffect, useState, useCallback } from "react";
+import { JobService } from "src/api/sevices/JobService";
+import Loading from "src/components/common/Loading";
+import { Box, Typography } from "@mui/material";
+import NoDataYet from "src/components/common/NoDataYet";
+import ResetButton from "src/components/jobs/ResetButton";
+import CustomPagination from "src/components/jobs/CustomPagination";
+import debounce from "lodash/debounce";
+import { CompanyService } from "src/api/sevices/CompanyService";
+import { CategoryService } from "src/api/sevices/CategoryService";
 const jobService = new JobService();
+const companyService = new CompanyService();
+const categoryService = new CategoryService();
 
 export default function Postings() {
   const [postings, setPostings] = useState([]);
@@ -20,21 +25,62 @@ export default function Postings() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchedJob, setSearchedJob] = useState("");
   const [refreshKey, setRefreshKey] = useState("");
-  const [currentPage,setCurrentPage] = useState(1);
-  const [totalPages,setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const [pageSize] = useState(5);
-  const [totalRecords,setTotalRecords] = useState(0);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [maxSalary, setMaxSalary] = useState(0); // State for max salary
+  const [sidebarData, setSidebarData] = useState({
+    companies: [],
+    categories: [],
+  });
   const [filters, setFilters] = useState({
     jobTypes: [],
     salaryTypes: [],
     datePosted: "",
+    categoryId: "",
+    companyId: "",
+    country: "",
+    city: "",
   });
-  const jobTitles = postings.map((job) => job.title);
+  const [payRange, setPayRange] = useState([0, 0]);
+
+  const fetchSidebarData = async () => {
+    try {
+      const [categories, companies, maxSalaryResponse] = await Promise.all([
+        categoryService.getAll(),
+        companyService.getAll(),
+        jobService.getMaxSalary(),
+      ]);
+      setSidebarData((prev) => ({
+        ...prev,
+        categories: categories.data.map((category) => ({
+          id: category.id,
+          name: category.name,
+        })),
+        companies: companies.data.map((company) => ({
+          id: company.id,
+          name: company.name,
+        })),
+      }));
+      setMaxSalary(maxSalaryResponse.data);
+      setPayRange([0, maxSalaryResponse.data]);
+    } catch (err) {
+      console.error("Error fetching sidebar data:", err);
+    }
+  };
 
   const fetchData = async () => {
     setLoading(true);
     try {
-      const params = { ...filters, searchTerm: searchedJob, pageNumber:currentPage,pageSize:pageSize }; // 5 postime per faqe , sa per testim 
+      const params = {
+        ...filters,
+        searchTerm: searchedJob,
+        pageNumber: currentPage,
+        pageSize: pageSize,
+        minSalary: payRange[0],
+        ...(payRange[1] !== 0 && { maxSalary: payRange[1] }), // Include maxSalary only if it's different from 0
+      };
       const response = await jobService.getPostingsWithFilters(params); // Adjusted to pass params
       setPostings(response.data.items);
       setTotalPages(response.data.totalPages);
@@ -47,9 +93,17 @@ export default function Postings() {
   };
 
   useEffect(() => {
+    debouncedSearch(searchTerm);
+  }, [searchTerm]);
+
+  useEffect(() => {
     fetchData();
-    console.log("Fetching job postings ....");
-  }, [refreshKey,currentPage]);
+    // console.log("Fetching job postings ....");
+  }, [refreshKey, searchedJob, currentPage]);
+
+  useEffect(() => {
+    fetchSidebarData();
+  }, []);
 
   const handleApplyFilters = () => {
     setCurrentPage(1);
@@ -57,28 +111,41 @@ export default function Postings() {
     setNrOfFilters(
       filters.jobTypes.length +
         filters.salaryTypes.length +
-        (filters.datePosted !== "" ? 1 : 0)
+        (filters.datePosted !== "" ? 1 : 0) +
+        (filters.categoryId !== "" ? 1 : 0) +
+        (filters.companyId !== "" ? 1 : 0) +
+        (filters.country !== "" ? 1 : 0) +
+        (filters.city !== "" ? 1 : 0)+
+        (payRange[0] !== 0 ? 1 : 0) +
+        (payRange[1] !== 0 && payRange[1] !== maxSalary ? 1 : 0)
     );
     fetchData();
   };
 
-  const handleSearch = (searchTerm) => {
-    setSearchTerm(searchTerm);
-  };
-
-  const searchJob = () => {
-    setCurrentPage(1);
-    setSearchedJob(searchTerm);
-    setRefreshKey(Date.now());
-    setSearchTerm("");
-  };
+  const debouncedSearch = useCallback(
+    debounce((term) => {
+      setCurrentPage(1);
+      setSearchedJob(term);
+    }, 500),
+    []
+  );
 
   const clearFilters = () => {
     setCurrentPage(1);
     setNrOfFilters(0);
-    setFilters({ jobTypes: [], salaryTypes: [], datePosted: "" });
+    setFilters({
+      jobTypes: [],
+      salaryTypes: [],
+      datePosted: "",
+      categoryId: "",
+      companyId: "",
+      country: "",
+      city: "",
+    });
+    setPayRange([0,maxSalary]);
     setSearchedJob("");
     setSearchTerm("");
+    setShowFilters(false);
     setRefreshKey(Date.now());
   };
 
@@ -95,15 +162,18 @@ export default function Postings() {
         showFilters={() => setShowFilters(true)}
         nrOfFilters={nrOfFilters}
         searchTerm={searchTerm}
-        setSearchTerm={handleSearch}
-        searchJob={searchJob}
-        jobTitles={jobTitles}
+        setSearchTerm={setSearchTerm}
       />
       <FilterSidebar
         isOpen={showFilters}
         handleClose={() => setShowFilters(false)}
         filters={filters}
+        payRange={payRange}
+        setPayRange={setPayRange}
         setFilters={setFilters}
+        companies={sidebarData.companies}
+        categories={sidebarData.categories}
+        maxSalary={maxSalary}
         handleApplyFilters={handleApplyFilters}
         clearFilters={clearFilters}
       />
@@ -111,7 +181,8 @@ export default function Postings() {
         {!loading && searchedJob.trim("") !== "" && postings.length > 0 && (
           <Box sx={{ mt: 4 }}>
             <Typography variant="h5" sx={{ pb: 3, fontWeight: "bold" }}>
-              Showing results for <span style={{color:"#0A0529"}}>" {searchedJob} "</span>
+              Showing results for{" "}
+              <span style={{ color: "#0A0529" }}>" {searchedJob} "</span>
             </Typography>
             <ResetButton resetSearch={resetSearch} />
           </Box>
@@ -139,28 +210,29 @@ export default function Postings() {
             )}
           </Box>
         ) : (
-          <>
-          <Grid container spacing={5} my={4} justifyContent={"center"}>
-            {postings.map((posting, index) => (
-              <Grid size={{ xs: 12, md: 6, xl: 4 }} key={index}>
-                <JobCard
-                  title={posting.title}
-                  city={posting.city}
-                  timeLeft={posting.daysLeft}
-                  companyLogo={posting.companyLogo}
-                />
-              </Grid>
-            ))}
-          </Grid>
-          {
-            totalRecords > pageSize &&
-            <CostumPagination 
-              total = {totalPages}
-              currentPage = {currentPage}
-              setCurrentPage = {setCurrentPage}
-            />
-          }
-          </>
+          <Box sx={{ mx: { md: 5, lg: 15 } }}>
+            <Grid container spacing={6} my={8} justifyContent={"center"}>
+              {postings.map((posting, index) => (
+                <Grid size={{ xs: 12, md: 6, xl: 4 }} key={index}>
+                  <JobCard
+                    title={posting.title}
+                    city={posting.city}
+                    timeLeft={posting.daysLeft}
+                    companyLogo={posting.companyLogo}
+                    category={posting.category}
+                    employmentType={posting.employmentType}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+            {totalRecords > pageSize && (
+              <CustomPagination
+                total={totalPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            )}
+          </Box>
         )}
       </div>
     </>

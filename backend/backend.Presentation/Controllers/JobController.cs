@@ -32,5 +32,13 @@ namespace backend.Presentation.Controllers
             return Ok(await _service.GetFilteredPosts(filters));
 
         }
+
+        [HttpGet("maxSalary")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetMaxSalary()
+        {
+            return Ok(await _service.GetMaxSalaryAsync());
+        }
+
     }
 }

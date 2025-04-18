@@ -52,22 +52,58 @@ namespace backend.Infrastructure.Repositories
 
         public async Task<PaginatedResult<Job>> GetFilteredPosts(JobFilterRequest filters)
         {
-            var query = _context.Job.Include(j => j.Company).Where(j => j.IsDeleted == false).OrderByDescending(u => u.Id).AsQueryable();
+            var query = _context.Job.Include(j => j.Company).Include(j => j.Category).Where(j => j.IsDeleted == false).OrderByDescending(u => u.Id).AsQueryable();
 
             if (!string.IsNullOrEmpty(filters.SearchTerm))
             {
-                query = query.Where(p => p.Title.Contains(filters.SearchTerm));
+                query = query.Where(p => p.Title.ToLower().Contains(filters.SearchTerm.ToLower()) || p.Description.ToLower().Contains(filters.SearchTerm.ToLower()));
             }
 
-            if (filters.JobTypes.Any())
+            if (filters.JobTypes!=null && filters.JobTypes.Any())
             {
-                query = query.Where(job =>filters.JobTypes.Contains(job.EmploymentType));
+                query = query.Where(job => filters.JobTypes.Contains(job.EmploymentType));
             }
 
-            if (filters.SalaryTypes.Any())
+            if (filters.SalaryTypes!=null && filters.SalaryTypes.Any())
             {
                 query = query.Where(job => filters.SalaryTypes.Contains(job.SalaryPeriod.ToString()));
             }
+
+
+            if (filters.CategoryId > 0)
+            {
+                query = query.Where(job => job.CategoryId == filters.CategoryId);
+            }
+
+            if (filters.CompanyId > 0)
+            {
+                query = query.Where(job => job.CompanyId == filters.CompanyId);
+            }
+
+            if (!string.IsNullOrEmpty(filters.Country))
+            {
+                query = query.Where(job => job.Country.Value.ToLower() == filters.Country.ToLower());
+            }
+
+            if (!string.IsNullOrEmpty(filters.City))
+            {
+                query = query.Where(job => job.City.ToLower() == filters.City.ToLower());
+            }
+
+            if (filters.MinSalary > 0 && filters.MaxSalary > 0) { 
+                query = query.Where(job=>(job.MinimalSalary >= filters.MinSalary && job.MinimalSalary <= filters.MaxSalary)
+                || (job.MaximalSalary >= filters.MinSalary && job.MaximalSalary<=filters.MaxSalary));
+            }
+
+            //if (filters.MinSalary > 0)
+            //{
+            //    query = query.Where(job => job.MinimalSalary >= filters.MinSalary);
+            //}
+
+            //if (filters.MaxSalary > 0)
+            //{
+            //    query = query.Where(job => job.MaximalSalary <= filters.MaxSalary);
+            //}
 
             if (!string.IsNullOrEmpty(filters.DatePosted) && filters.DatePosted != "Any time")
             {
@@ -88,8 +124,15 @@ namespace backend.Infrastructure.Repositories
                 }
                 query = query.Where(job => job.CreatedAt >= referenceDate);
             }
+
             return await query.PaginateAsync(filters.PageNumber, filters.PageSize);
         }
 
+        public async Task<decimal> GetMaxSalaryAsync()
+        {
+            return await _context.Job.Where(j => j.IsDeleted == false).MaxAsync(j => j.MaximalSalary);
+        }
+
+        
     }
 }
