@@ -181,6 +181,75 @@ namespace backend.Infrastructure.Repositories
             return await query.PaginateAsync(filters.PageNumber, filters.PageSize);
         }
 
+        public async Task<PaginatedResult<Job>> GetByTag(int tagId,JobFilterRequest filters)
+        {
+            var query = _context.Job.Include(j => j.Company).Include(j => j.Category).Where(j => !j.IsDeleted && j.JobTags.Any(jt => jt.TagId == tagId)).OrderByDescending(u => u.Id).AsQueryable();
+
+            if (!string.IsNullOrEmpty(filters.SearchTerm))
+            {
+                query = query.Where(p => p.Title.ToLower().Contains(filters.SearchTerm.ToLower()) || p.Description.ToLower().Contains(filters.SearchTerm.ToLower()));
+            }
+
+            if (filters.JobTypes != null && filters.JobTypes.Any())
+            {
+                query = query.Where(job => filters.JobTypes.Contains(job.EmploymentType));
+            }
+
+            if (filters.SalaryTypes != null && filters.SalaryTypes.Any())
+            {
+                query = query.Where(job => filters.SalaryTypes.Contains(job.SalaryPeriod.ToString()));
+            }
+
+
+            if (filters.CategoryId > 0)
+            {
+                query = query.Where(job => job.CategoryId == filters.CategoryId);
+            }
+
+            if (filters.CompanyId > 0)
+            {
+                query = query.Where(job => job.CompanyId == filters.CompanyId);
+            }
+
+            if (!string.IsNullOrEmpty(filters.Country))
+            {
+                query = query.Where(job => job.Country.Value.ToLower() == filters.Country.ToLower());
+            }
+
+            if (!string.IsNullOrEmpty(filters.City))
+            {
+                query = query.Where(job => job.City.ToLower() == filters.City.ToLower());
+            }
+
+            if (filters.MinSalary != null && filters.MaxSalary != null)
+            {
+                query = query.Where(job => (job.MinimalSalary >= filters.MinSalary && job.MinimalSalary <= filters.MaxSalary)
+                || (job.MaximalSalary >= filters.MinSalary && job.MaximalSalary <= filters.MaxSalary));
+            }
+
+            if (!string.IsNullOrEmpty(filters.DatePosted) && filters.DatePosted != "Any time")
+            {
+                var referenceDate = DateTime.UtcNow;
+                switch (filters.DatePosted)
+                {
+                    case "Past month":
+                        referenceDate = DateTime.UtcNow.AddMonths(-1);
+                        break;
+                    case "Past week":
+                        referenceDate = DateTime.UtcNow.AddDays(-7);
+                        break;
+                    case "Past 24 hours":
+                        referenceDate = DateTime.UtcNow.AddDays(-1);
+                        break;
+                    default:
+                        break;
+                }
+                query = query.Where(job => job.CreatedAt >= referenceDate);
+            }
+
+            return await query.PaginateAsync(filters.PageNumber, filters.PageSize);
+        }
+
         public async Task<decimal> GetMaxSalaryAsync()
         {
             return await _context.Job.Where(j => j.IsDeleted == false).Select(j => (decimal?)j.MaximalSalary).MaxAsync() ?? 0;
@@ -193,6 +262,13 @@ namespace backend.Infrastructure.Repositories
                                      .MaxAsync() ?? 0;
         }
 
+        public async Task<decimal> GetMaxSalaryByTag(int tagId)
+        {
+            return await _context.Job
+            .Where(j => !j.IsDeleted && j.JobTags.Any(jt => jt.TagId == tagId))
+            .Select(j => (decimal?)j.MaximalSalary)
+            .MaxAsync() ?? 0;
+        }
         
     }
 }

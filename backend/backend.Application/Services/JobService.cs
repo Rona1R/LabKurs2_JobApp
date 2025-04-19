@@ -92,6 +92,33 @@ namespace backend.Application.Services
                 TotalPages = postings.TotalPages
             };
         }
+       
+        public async Task<PaginatedResult<JobPostings>> GetByTag(int tagId,JobFilterRequest filters)
+        {
+            var postings = await _repository.GetByTag(tagId, filters);
+            var postingsDto = _mapper.Map<IEnumerable<JobPostings>>(postings.Items);
+            foreach (var posting in postingsDto)
+            {
+                var daysLeft = CalculateDaysLeftUntilDeadline(posting.Deadline);
+                if (daysLeft == 1)
+                {
+                    posting.DaysLeft = daysLeft + " day left";
+                }
+                else
+                {
+                    posting.DaysLeft = daysLeft + " days left";
+                }
+            }
+
+            return new PaginatedResult<JobPostings>
+            {
+                Items = postingsDto,
+                TotalRecords = postings.TotalRecords,
+                PageNumber = postings.PageNumber,
+                PageSize = postings.PageSize,
+                TotalPages = postings.TotalPages
+            };
+        }
 
         public async Task<decimal> GetMaxSalaryAsync()
         {
@@ -101,6 +128,11 @@ namespace backend.Application.Services
         public async Task<decimal> GetMaxSalaryByCategory(int categoryId)
         {
             return await _repository.GetMaxSalaryByCategory(categoryId);
+        }
+
+        public async Task<decimal> GetMaxSalaryByTag(int tagId)
+        {
+            return await _repository.GetMaxSalaryByTag(tagId);
         }
     }
 }
