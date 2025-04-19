@@ -90,20 +90,10 @@ namespace backend.Infrastructure.Repositories
                 query = query.Where(job => job.City.ToLower() == filters.City.ToLower());
             }
 
-            if (filters.MinSalary > 0 && filters.MaxSalary > 0) { 
+            if (filters.MinSalary !=null && filters.MaxSalary != null) { 
                 query = query.Where(job=>(job.MinimalSalary >= filters.MinSalary && job.MinimalSalary <= filters.MaxSalary)
                 || (job.MaximalSalary >= filters.MinSalary && job.MaximalSalary<=filters.MaxSalary));
             }
-
-            //if (filters.MinSalary > 0)
-            //{
-            //    query = query.Where(job => job.MinimalSalary >= filters.MinSalary);
-            //}
-
-            //if (filters.MaxSalary > 0)
-            //{
-            //    query = query.Where(job => job.MaximalSalary <= filters.MaxSalary);
-            //}
 
             if (!string.IsNullOrEmpty(filters.DatePosted) && filters.DatePosted != "Any time")
             {
