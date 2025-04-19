@@ -62,6 +62,7 @@ namespace backend.Presentation.Controllers
         }
 
         [HttpGet("maxSalary/byTag/{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetMaxSalaryByTag(int id)
         {
             return Ok(await _service.GetMaxSalaryByTag(id));

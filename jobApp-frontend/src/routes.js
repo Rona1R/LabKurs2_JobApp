@@ -22,6 +22,7 @@ import Institutions from "./pages/Dashboard/Administrator/Institutions/Instituti
 import MyCompanies from "./pages/Dashboard/Employer/Companies/MyCompanies";
 import Tags from "./pages/Dashboard/Administrator/Tags/Tags";
 import PostingsByCategory from "./pages/Jobs/PostingsByCategory";
+import PostingsByTag from "./pages/Jobs/PostingsByTag";
 
 const routes = [,
   {
@@ -51,7 +52,8 @@ const routes = [,
       { path: "/profile/:id", element: ProfilePage , private: true,},
       { path: "/account", element: AccountSettings, private: true, },
       { path:"/jobPostings",element:Postings},
-      { path:"/jobPostings/category/:categoryId",element:PostingsByCategory}
+      { path:"/jobPostings/category/:categoryId",element:PostingsByCategory},
+      { path:"/jobPostings/tag/:tagId",element:PostingsByTag}
     ],
   },
   {

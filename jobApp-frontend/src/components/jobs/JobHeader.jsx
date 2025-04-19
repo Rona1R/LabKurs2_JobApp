@@ -14,6 +14,7 @@ export default function JobHeader({
   searchTerm,
   setSearchTerm,
   categoryName,
+  tagName,
   hasPostings,
 }) {
   const handleChange = (e) => {
@@ -57,6 +58,11 @@ export default function JobHeader({
                 {" "}
                 in {categoryName}{" "}
               </span>
+            </>
+          ) : tagName ? (
+            <>
+              Jobs Tagged with{" "}
+              <span style={{ color: "hsl(210, 100%, 80%)" }}>#{tagName}</span>
             </>
           ) : (
             <>
@@ -141,7 +147,7 @@ export default function JobHeader({
           </>
         )}
       </Box>
-      {!categoryName && (
+      {!categoryName && !tagName && (
         <Box
           component="img"
           src="/images/person-in-laptop.webp"

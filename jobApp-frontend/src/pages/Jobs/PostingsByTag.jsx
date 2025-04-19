@@ -14,13 +14,15 @@ import debounce from "lodash/debounce";
 import { CompanyService } from "src/api/sevices/CompanyService";
 import { useParams } from "react-router-dom";
 import { CategoryService } from "src/api/sevices/CategoryService";
+import { TagService } from "src/api/sevices/TagService";
 const jobService = new JobService();
 const companyService = new CompanyService();
 const categoryService = new CategoryService();
+const tagService = new TagService();
 
-export default function PostingsByCategory() {
-  const { categoryId } = useParams();
-  const [category, setCategory] = useState({name:""});
+export default function PostingsByTag() {
+  const { tagId } = useParams();
+  const [tag, setTag] = useState({name:""});
   const [postings, setPostings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
@@ -35,12 +37,14 @@ export default function PostingsByCategory() {
   const [maxSalary, setMaxSalary] = useState(0);
   const [sidebarLoaded, setSidebarLoaded] = useState(false); 
   const [sidebarData, setSidebarData] = useState({
+    categories:[],
     companies: []
   });
   const [filters, setFilters] = useState({
     jobTypes: [],
     salaryTypes: [],
     datePosted: "",
+    categoryId:"",
     companyId: "",
     country: "",
     city: "",
@@ -49,20 +53,25 @@ export default function PostingsByCategory() {
 
   const fetchSidebarData = async () => {
     try {
-      const [companies, categoryRes, maxSalaryResponse] = await Promise.all([
+      const [companies, categories, maxSalaryResponse,tagResponse] = await Promise.all([
         companyService.getAll(),
-        categoryService.getById(categoryId),
-        jobService.getMaxSalaryByCategory(categoryId),
+        categoryService.getAll(),
+        jobService.getMaxSalaryByTag(tagId),
+        tagService.getById(tagId)
       ]);
       setSidebarData((prev) => ({
         ...prev,
+        categories: categories.data.map((category) => ({
+            id: category.id,
+            name: category.name,
+        })),
         companies: companies.data.map((company) => ({
           id: company.id,
           name: company.name,
         })),
       }));
       setMaxSalary(maxSalaryResponse.data);
-      setCategory(categoryRes.data);
+      setTag(tagResponse.data);
       setPayRange([0, maxSalaryResponse.data]);
       setSidebarLoaded(true);
     } catch (err) {
@@ -81,7 +90,7 @@ export default function PostingsByCategory() {
         minSalary: payRange[0],
         ...(payRange[1] !== 0 && { maxSalary: payRange[1] }),
       };
-      const response = await jobService.getPostingsByCategory(categoryId, params);
+      const response = await jobService.getPostingsByTag(tagId, params);
       setPostings(response.data.items);
       setTotalPages(response.data.totalPages);
       setTotalRecords(response.data.totalRecords);
@@ -99,7 +108,7 @@ export default function PostingsByCategory() {
   useEffect(() => {
     fetchSidebarData();
     setSidebarLoaded(false);
-  }, [categoryId]);
+  }, [tagId]);
 
   useEffect(() => {
     if (sidebarLoaded) {
@@ -109,7 +118,7 @@ export default function PostingsByCategory() {
 
   useEffect(() => {
     clearFilters();
-  }, [categoryId]);
+  }, [tagId]);
 
   const handleApplyFilters = () => {
     setCurrentPage(1);
@@ -118,6 +127,7 @@ export default function PostingsByCategory() {
       filters.jobTypes.length +
         filters.salaryTypes.length +
         (filters.datePosted !== "" ? 1 : 0) +
+        (filters.categoryId !== "" ? 1 : 0) +
         (filters.companyId !== "" ? 1 : 0) +
         (filters.country !== "" ? 1 : 0) +
         (filters.city !== "" ? 1 : 0) +
@@ -142,6 +152,7 @@ export default function PostingsByCategory() {
       jobTypes: [],
       salaryTypes: [],
       datePosted: "",
+      categoryId: "",
       companyId: "",
       country: "",
       city: "",
@@ -166,7 +177,7 @@ export default function PostingsByCategory() {
         showFilters={() => setShowFilters(true)}
         nrOfFilters={nrOfFilters}
         searchTerm={searchTerm}
-        categoryName={category.name}
+        tagName={tag.name}
         hasPostings = {nrOfFilters !== 0 || searchedJob.trim() !== "" || postings.length>0}
         setSearchTerm={setSearchTerm}
       />
@@ -177,6 +188,7 @@ export default function PostingsByCategory() {
         payRange={payRange}
         setPayRange={setPayRange}
         setFilters={setFilters}
+        categories={sidebarData.categories}
         companies={sidebarData.companies}
         maxSalary={maxSalary}
         handleApplyFilters={handleApplyFilters}
