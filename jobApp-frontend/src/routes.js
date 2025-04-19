@@ -21,6 +21,7 @@ import NotFound from "./pages/Error/NotFound";
 import Institutions from "./pages/Dashboard/Administrator/Institutions/Institutions";
 import MyCompanies from "./pages/Dashboard/Employer/Companies/MyCompanies";
 import Tags from "./pages/Dashboard/Administrator/Tags/Tags";
+import PostingsByCategory from "./pages/Jobs/PostingsByCategory";
 
 const routes = [,
   {
@@ -47,10 +48,10 @@ const routes = [,
     path: "/",
     layout: UserLayout,
     children: [
-      // { path: "/", element: Index },
       { path: "/profile/:id", element: ProfilePage , private: true,},
       { path: "/account", element: AccountSettings, private: true, },
-      { path:"/jobPostings",element:Postings}
+      { path:"/jobPostings",element:Postings},
+      { path:"/jobPostings/category/:categoryId",element:PostingsByCategory}
     ],
   },
   {
