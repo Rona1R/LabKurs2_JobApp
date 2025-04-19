@@ -169,7 +169,7 @@ export default function PostingsByCategory() {
         nrOfFilters={nrOfFilters}
         searchTerm={searchTerm}
         categoryName={category.name}
-        hasPostings = {postings.length > 0}
+        hasPostings = {nrOfFilters !== 0 || searchedJob.trim() !== "" || postings.length>0}
         setSearchTerm={setSearchTerm}
       />
       <FilterSidebar
