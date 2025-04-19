@@ -13,11 +13,14 @@ import CustomPagination from "src/components/jobs/CustomPagination";
 import debounce from "lodash/debounce";
 import { CompanyService } from "src/api/sevices/CompanyService";
 import { useParams } from "react-router-dom";
+import { CategoryService } from "src/api/sevices/CategoryService";
 const jobService = new JobService();
 const companyService = new CompanyService();
+const categoryService = new CategoryService();
 
 export default function PostingsByCategory() {
   const { categoryId } = useParams();
+  const [category, setCategory] = useState({name:""});
   const [postings, setPostings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
@@ -46,8 +49,9 @@ export default function PostingsByCategory() {
 
   const fetchSidebarData = async () => {
     try {
-      const [companies, maxSalaryResponse] = await Promise.all([
+      const [companies, categoryRes, maxSalaryResponse] = await Promise.all([
         companyService.getAll(),
+        categoryService.getById(categoryId),
         jobService.getMaySalaryByCategory(categoryId),
       ]);
       setSidebarData((prev) => ({
@@ -58,6 +62,7 @@ export default function PostingsByCategory() {
         })),
       }));
       setMaxSalary(maxSalaryResponse.data);
+      setCategory(categoryRes.data);
       setPayRange([0, maxSalaryResponse.data]);
       setSidebarLoaded(true);
     } catch (err) {
@@ -163,6 +168,8 @@ export default function PostingsByCategory() {
         showFilters={() => setShowFilters(true)}
         nrOfFilters={nrOfFilters}
         searchTerm={searchTerm}
+        categoryName={category.name}
+        hasPostings = {postings.length > 0}
         setSearchTerm={setSearchTerm}
       />
       <FilterSidebar

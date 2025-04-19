@@ -162,6 +162,7 @@ export default function Postings() {
         showFilters={() => setShowFilters(true)}
         nrOfFilters={nrOfFilters}
         searchTerm={searchTerm}
+        hasPostings = {postings.length > 0}
         setSearchTerm={setSearchTerm}
       />
       <FilterSidebar
