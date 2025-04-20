@@ -12,12 +12,17 @@ import ResetButton from "src/components/jobs/ResetButton";
 import CustomPagination from "src/components/jobs/CustomPagination";
 import debounce from "lodash/debounce";
 import { CompanyService } from "src/api/sevices/CompanyService";
+import { useParams } from "react-router-dom";
 import { CategoryService } from "src/api/sevices/CategoryService";
+import { TagService } from "src/api/sevices/TagService";
 const jobService = new JobService();
 const companyService = new CompanyService();
 const categoryService = new CategoryService();
+const tagService = new TagService();
 
-export default function Postings() {
+export default function PostingsByTag() {
+  const { tagId } = useParams();
+  const [tag, setTag] = useState({name:""});
   const [postings, setPostings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
@@ -29,16 +34,17 @@ export default function Postings() {
   const [totalPages, setTotalPages] = useState(0);
   const [pageSize] = useState(5);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [maxSalary, setMaxSalary] = useState(0); // State for max salary
+  const [maxSalary, setMaxSalary] = useState(0);
+  const [sidebarLoaded, setSidebarLoaded] = useState(false); 
   const [sidebarData, setSidebarData] = useState({
-    companies: [],
-    categories: [],
+    categories:[],
+    companies: []
   });
   const [filters, setFilters] = useState({
     jobTypes: [],
     salaryTypes: [],
     datePosted: "",
-    categoryId: "",
+    categoryId:"",
     companyId: "",
     country: "",
     city: "",
@@ -47,16 +53,17 @@ export default function Postings() {
 
   const fetchSidebarData = async () => {
     try {
-      const [categories, companies, maxSalaryResponse] = await Promise.all([
-        categoryService.getAll(),
+      const [companies, categories, maxSalaryResponse,tagResponse] = await Promise.all([
         companyService.getAll(),
-        jobService.getMaxSalary(),
+        categoryService.getAll(),
+        jobService.getMaxSalaryByTag(tagId),
+        tagService.getById(tagId)
       ]);
       setSidebarData((prev) => ({
         ...prev,
         categories: categories.data.map((category) => ({
-          id: category.id,
-          name: category.name,
+            id: category.id,
+            name: category.name,
         })),
         companies: companies.data.map((company) => ({
           id: company.id,
@@ -64,7 +71,9 @@ export default function Postings() {
         })),
       }));
       setMaxSalary(maxSalaryResponse.data);
+      setTag(tagResponse.data);
       setPayRange([0, maxSalaryResponse.data]);
+      setSidebarLoaded(true);
     } catch (err) {
       console.error("Error fetching sidebar data:", err);
     }
@@ -79,9 +88,9 @@ export default function Postings() {
         pageNumber: currentPage,
         pageSize: pageSize,
         minSalary: payRange[0],
-        ...(payRange[1] !== 0 && { maxSalary: payRange[1] }), // Include maxSalary only if it's different from 0
+        ...(payRange[1] !== 0 && { maxSalary: payRange[1] }),
       };
-      const response = await jobService.getPostingsWithFilters(params); // Adjusted to pass params
+      const response = await jobService.getPostingsByTag(tagId, params);
       setPostings(response.data.items);
       setTotalPages(response.data.totalPages);
       setTotalRecords(response.data.totalRecords);
@@ -97,13 +106,19 @@ export default function Postings() {
   }, [searchTerm]);
 
   useEffect(() => {
-    fetchData();
-    // console.log("Fetching job postings ....");
-  }, [refreshKey, searchedJob, currentPage]);
+    fetchSidebarData();
+    setSidebarLoaded(false);
+  }, [tagId]);
 
   useEffect(() => {
-    fetchSidebarData();
-  }, []);
+    if (sidebarLoaded) {
+      fetchData();
+    }
+  }, [sidebarLoaded, refreshKey, searchedJob, currentPage]);
+
+  useEffect(() => {
+    clearFilters();
+  }, [tagId]);
 
   const handleApplyFilters = () => {
     setCurrentPage(1);
@@ -115,7 +130,7 @@ export default function Postings() {
         (filters.categoryId !== "" ? 1 : 0) +
         (filters.companyId !== "" ? 1 : 0) +
         (filters.country !== "" ? 1 : 0) +
-        (filters.city !== "" ? 1 : 0)+
+        (filters.city !== "" ? 1 : 0) +
         (payRange[0] !== 0 ? 1 : 0) +
         (payRange[1] !== 0 && payRange[1] !== maxSalary ? 1 : 0)
     );
@@ -142,7 +157,7 @@ export default function Postings() {
       country: "",
       city: "",
     });
-    setPayRange([0,maxSalary]);
+    setPayRange([0, maxSalary]);
     setSearchedJob("");
     setSearchTerm("");
     setShowFilters(false);
@@ -162,6 +177,7 @@ export default function Postings() {
         showFilters={() => setShowFilters(true)}
         nrOfFilters={nrOfFilters}
         searchTerm={searchTerm}
+        tagName={tag.name}
         hasPostings = {nrOfFilters !== 0 || searchedJob.trim() !== "" || postings.length>0}
         setSearchTerm={setSearchTerm}
       />
@@ -172,14 +188,14 @@ export default function Postings() {
         payRange={payRange}
         setPayRange={setPayRange}
         setFilters={setFilters}
-        companies={sidebarData.companies}
         categories={sidebarData.categories}
+        companies={sidebarData.companies}
         maxSalary={maxSalary}
         handleApplyFilters={handleApplyFilters}
         clearFilters={clearFilters}
       />
       <div className="postings-container">
-        {!loading && searchedJob.trim("") !== "" && postings.length > 0 && (
+        {!loading && searchedJob.trim() !== "" && postings.length > 0 && (
           <Box sx={{ mt: 4 }}>
             <Typography variant="h5" sx={{ pb: 3, fontWeight: "bold" }}>
               Showing results for{" "}
@@ -197,16 +213,16 @@ export default function Postings() {
           <Box sx={{ my: 30 }}>
             <NoDataYet
               message={
-                nrOfFilters === 0 && searchedJob.trim("") === ""
+                nrOfFilters === 0 && searchedJob.trim() === ""
                   ? "No Postings, yet"
-                  : nrOfFilters === 0 && searchedJob.trim("") !== ""
+                  : nrOfFilters === 0 && searchedJob.trim() !== ""
                   ? `No results found for "${searchedJob}"!`
-                  : nrOfFilters !== 0 && searchedJob.trim("") === ""
+                  : nrOfFilters !== 0 && searchedJob.trim() === ""
                   ? "No Postings found. Try removing some filters!"
                   : `No results found for "${searchedJob}". Remove some filters and try again!`
               }
             />
-            {searchedJob.trim("") !== "" && (
+            {searchedJob.trim() !== "" && (
               <ResetButton resetSearch={resetSearch} />
             )}
           </Box>

@@ -3,7 +3,7 @@ import CheckboxMenu from "./CheckboxMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import FilterSelect from "./FilterSelect";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PayRangeFilter from "./PayRangeFilter";
 import countryList from "react-select-country-list";
 import { fetchCitiesForCountry } from "src/api/sevices/external/fetchCitiesByCountry";
@@ -20,7 +20,7 @@ export default function FilterSidebar({
   setPayRange,
   companies,
   categories,
-  maxSalary
+  maxSalary,
 }) {
   const [cities, setCities] = useState([]);
   const additionalCountry = [
@@ -120,13 +120,15 @@ export default function FilterSidebar({
           isRadioButton={true}
           setSelected={(selected) => handleFilters(selected, "datePosted")}
         />
-        <FilterSelect
-          value={filters.categoryId}
-          setValue={(selected) => handleFilters(selected, "categoryId")}
-          label={"Select Category"}
-          all={"All Categories"}
-          options={categories}
-        />
+        {categories && (
+          <FilterSelect
+            value={filters.categoryId}
+            setValue={(selected) => handleFilters(selected, "categoryId")}
+            label={"Select Category"}
+            all={"All Categories"}
+            options={categories}
+          />
+        )}
         <FilterSelect
           value={filters.companyId}
           setValue={(selected) => handleFilters(selected, "companyId")}
@@ -149,22 +151,11 @@ export default function FilterSidebar({
           isDisabled={filters.country === ""}
           options={cities}
         />
-
-        {/* <FilterSelect
-          value={filters.categoryId}
-          setValue={(selected) => handleFilters(selected, "categoryId")}
-          label={"Select Category"}
-          all={"All Categories"}
-          options={categories}
-        /> */}
-        {/* <FilterSelect
-          value={filters.companyId}
-          setValue={(selected) => handleFilters(selected, "companyId")}
-          label={"Select Company"}
-          all={"All Companies"}
-          options={companies}
-        /> */}
-        <PayRangeFilter value={payRange} max={maxSalary} onChange={handlePayChange} />
+        <PayRangeFilter
+          value={payRange}
+          max={maxSalary}
+          onChange={handlePayChange}
+        />
       </Box>
       <Box
         sx={{

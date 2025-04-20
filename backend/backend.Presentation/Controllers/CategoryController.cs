@@ -52,14 +52,5 @@ namespace backend.Presentation.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-
-        [HttpGet]
-        [Route("test")]
-        public string Test()
-        {
-            return _service.TestService();
-        }
-
     }
 }

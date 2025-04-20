@@ -40,5 +40,33 @@ namespace backend.Presentation.Controllers
             return Ok(await _service.GetMaxSalaryAsync());
         }
 
+        [HttpGet("byCategory/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetPostingsByCategory(int id,[FromQuery] JobFilterRequest filters)
+        {
+            return Ok(await _service.GetByCategory(id,filters));
+        }
+
+        [HttpGet("maxSalary/byCategory/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetMaxSalaryByCategory(int id)
+        {
+            return Ok(await _service.GetMaxSalaryByCategory(id));
+        }
+
+        [HttpGet("byTag/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetPostingsByTag(int id ,[FromQuery] JobFilterRequest filters)
+        {
+            return Ok(await _service.GetByTag(id,filters)); 
+        }
+
+        [HttpGet("maxSalary/byTag/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetMaxSalaryByTag(int id)
+        {
+            return Ok(await _service.GetMaxSalaryByTag(id));
+        }
+
     }
 }

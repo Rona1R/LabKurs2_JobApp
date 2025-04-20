@@ -11,6 +11,5 @@ namespace backend.Application.Interfaces.CategoryInterfaces
 {
     public interface ICategoryService : IBaseService<CategoryRequest, CategoryResponse>
     {
-        string TestService();
     }
 }

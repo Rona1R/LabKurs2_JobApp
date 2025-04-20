@@ -9,9 +9,6 @@ namespace backend.Application.Interfaces.CategoryInterfaces
 {
     public interface ICategoryRepository : IBaseRepository<Category>
     {
-
-        string TestRepository();
-
         Task<Category?> GetByNameAsync(string name);
     }
 }
