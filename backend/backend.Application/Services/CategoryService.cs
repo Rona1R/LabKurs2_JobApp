@@ -43,10 +43,5 @@ namespace backend.Application.Services
 
             await base.UpdateAsync(id, requestDto);    
         }
-        // additional method in derived class (sa per testim)
-        public string TestService()
-        {
-            return _repository.TestRepository() + ", test from service";
-        }
     }
 }

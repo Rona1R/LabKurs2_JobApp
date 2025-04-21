@@ -26,11 +26,11 @@ namespace backend.Application.Services
             _userRepository = userRepository;
         }
 
-        public async Task CreateProfile(UserProfileRequest userProfileRequest)
-        {
-            var profile = _mapper.Map<UserProfile>(userProfileRequest);
-            await _profileRepository.AddAsync(profile);
-        }
+        //public async Task CreateProfile(UserProfileRequest userProfileRequest)
+        //{
+        //    var profile = _mapper.Map<UserProfile>(userProfileRequest);
+        //    await _profileRepository.AddAsync(profile);
+        //}
 
         public async Task UpdateProfile(int userId, UserProfileRequest userProfileRequest)
         {

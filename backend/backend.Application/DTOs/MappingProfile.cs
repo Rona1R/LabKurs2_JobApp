@@ -62,6 +62,7 @@ namespace backend.Application.DTOs
 
 
             CreateMap<Job, JobPostings>().ForMember(dest => dest.CompanyLogo, opt => opt.MapFrom(src => src.Company.Logo))
+                                          .ForMember(dest => dest.Category, opt => opt.MapFrom(src =>src.Category.Name))
                                           .ForMember(dest => dest.DaysLeft, opt => opt.Ignore());
 
             CreateMap<JobTagRequest, JobTag>();

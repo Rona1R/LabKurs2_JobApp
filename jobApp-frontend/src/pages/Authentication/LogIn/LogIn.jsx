@@ -11,14 +11,22 @@ import Grid from "@mui/material/Grid2";
 import AdbIcon from "@mui/icons-material/Adb";
 import "../Register/Register.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { validateEmail } from "src/components/common/utils/validationUtils";
+import { jwtDecode } from "jwt-decode";
+import { AuthenticationService } from "src/api/sevices/auth/AuthenticationService";
+import { Spinner } from "react-bootstrap";
+import { useNotification } from "src/hooks/useNotification";
+import Alert from "src/components/common/Alert";
+import { useAuth } from "src/context/AuthContext";
+const authService = new AuthenticationService();
 
 const theme = createTheme({
   components: {
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          height: "60px", 
+          height: "60px",
         },
       },
     },
@@ -26,14 +34,69 @@ const theme = createTheme({
 });
 
 function LogIn() {
-  const [formData,setFormData]= useState({
-    email:"",
-    password:""
-  })
-
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [warnings, setWarnings] = useState({
+    email: "",
+    password: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [error,setError] = useState("");
+  const { login } = useAuth();
+  const { showNotification } = useNotification();
+  const navigate = useNavigate();
+  // const authStore = useAuthStore();
+  
   const handleChange = (e) => {
-    setFormData({...formData, [e.target.name]:e.target.value})
-  }
+    setError("");
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setWarnings({ ...warnings, [e.target.name]: "" });
+  };
+
+  const validate = () => {
+    if (formData.email.trim() === "") {
+      setWarnings({ ...warnings, email: "Email is required !" });
+      return false;
+    }
+    if (!validateEmail(formData.email)) {
+      setWarnings({ ...warnings, email: "Email format is invalid !" });
+      return false;
+    }
+    if (formData.password.trim() === "") {
+      setWarnings({ ...warnings, password: "Password is required !" });
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (validate()) {
+      setLoading(true);
+
+      try {
+        const response = await authService.logIn(formData);
+        const accessToken = response.data;
+        const userClaims = jwtDecode(accessToken);
+        login(userClaims,accessToken);      
+        // showNotification("success","You have successfully logged in");
+        navigate(`/profile/${userClaims.nameid}`, { replace: true });
+        // console.log(userClaims);
+      } catch (err) {
+        if(err.response.status === 400){
+          setError(err.response.data);
+        }else{
+          setError("An unexpected Error occurred");
+        }
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
 
   return (
     <MDBContainer
@@ -41,10 +104,7 @@ function LogIn() {
       className="p-4 background-radial-gradient overflow-hidden"
     >
       <MDBRow className="register-container">
-        <MDBCol
-          lg="6"
-          className="position-relative order-2 order-lg-1" 
-        >
+        <MDBCol lg="6" className="position-relative order-2 order-lg-1">
           <div
             id="radius-shape-1"
             className="position-absolute rounded-circle shadow-5-strong"
@@ -81,38 +141,46 @@ function LogIn() {
               <ThemeProvider theme={theme}>
                 <Box
                   component="form"
+                  onSubmit={handleSubmit}
                   sx={{ "& .MuiTextField-root": { mb: 3, width: "100%" } }}
                 >
                   <Grid container spacing={2} marginBottom={2}>
                     <Grid size={12}>
                       <TextField
-                        required
-                        label="Email"
+                        label="Email *"
                         type="email"
                         variant="outlined"
                         margin="dense"
                         name="email"
                         placeholder="Enter email..."
+                        error={!!warnings.email}
+                        helperText={warnings.email}
                         value={formData.email}
                         onChange={handleChange}
                       />
                     </Grid>
                     <Grid size={12}>
                       <TextField
-                        required
-                        label="Password"
+                        label="Password *"
                         type="password"
                         variant="outlined"
                         margin="dense"
                         name="password"
                         placeholder="Enter password..."
+                        error={!!warnings.password}
+                        helperText={warnings.password}
                         value={formData.password}
                         onChange={handleChange}
                       />
                     </Grid>
                   </Grid>
+                  {
+                    error && <Alert message={error}/>
+                  }
                   <Button
                     className="sign-up-button"
+                    type="submit"
+                    disabled={loading}
                     variant="contained"
                     fullWidth
                     sx={{
@@ -123,7 +191,18 @@ function LogIn() {
                       height: "60px",
                     }}
                   >
-                    Log In
+                    {loading ? (
+                      <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                        style={{ marginRight: "10px" }}
+                      />
+                    ) : (
+                      <>Log In</>
+                    )}
                   </Button>
                 </Box>
               </ThemeProvider>
@@ -141,7 +220,7 @@ function LogIn() {
 
         <MDBCol
           lg="6"
-          className="text-center text-md-start d-flex flex-column justify-content-center register-text order-1 order-lg-2" 
+          className="text-center text-md-start d-flex flex-column justify-content-center register-text order-1 order-lg-2"
         >
           <Typography
             variant="h3"

@@ -23,14 +23,9 @@ namespace backend.Infrastructure.Repositories
         }
 
         public override Task UpdateAsync(Category entity)
-        {  
+        {
             entity.UpdatedAt = DateTime.UtcNow;
             return base.UpdateAsync(entity);
-        }
-
-        public string TestRepository()
-        {
-            return "String inside repository!";
         }
     }
 }

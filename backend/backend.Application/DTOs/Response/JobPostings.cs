@@ -19,6 +19,12 @@ namespace backend.Application.DTOs.Response
 
         public DateTime Deadline { get; set; }
 
+        public string EmploymentType { get; set; }
+
+        public string Category { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+
         public string DaysLeft { get; set; }
 
         public string CompanyLogo { get; set; }

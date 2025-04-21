@@ -19,6 +19,10 @@ import AlreadyLoggedIn from "./pages/Error/AlreadyLoggedIn";
 import ServerNotResponding from "./pages/Error/ServerNotResponding";
 import NotFound from "./pages/Error/NotFound";
 import Institutions from "./pages/Dashboard/Administrator/Institutions/Institutions";
+import MyCompanies from "./pages/Dashboard/Employer/Companies/MyCompanies";
+import Tags from "./pages/Dashboard/Administrator/Tags/Tags";
+import PostingsByCategory from "./pages/Jobs/PostingsByCategory";
+import PostingsByTag from "./pages/Jobs/PostingsByTag";
 
 const routes = [,
   {
@@ -45,10 +49,11 @@ const routes = [,
     path: "/",
     layout: UserLayout,
     children: [
-      // { path: "/", element: Index },
       { path: "/profile/:id", element: ProfilePage , private: true,},
       { path: "/account", element: AccountSettings, private: true, },
-      { path:"/jobPostings",element:Postings}
+      { path:"/jobPostings",element:Postings},
+      { path:"/jobPostings/category/:categoryId",element:PostingsByCategory},
+      { path:"/jobPostings/tag/:tagId",element:PostingsByTag}
     ],
   },
   {
@@ -99,8 +104,18 @@ const routes = [,
         element: JobPostings,
         roles: ["Employer"],
       },{
+        path: "/dashboard/myCompanies",
+        protected : true,
+        element: MyCompanies,
+        roles: ["Employer"],
+      },{
         path: "/dashboard/institutions",
         element: Institutions,
+        protected : true,
+        roles: ["Admin"],
+      },{
+        path: "/dashboard/tags",
+        element: Tags,
         protected : true,
         roles: ["Admin"],
       }

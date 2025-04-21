@@ -1,9 +1,13 @@
-﻿using backend.Application.DTOs.Request;
+﻿using System.Text;
+using System.Threading.Tasks;
+using backend.Application.DTOs.Request;
 using backend.Application.DTOs.Request.Auth;
 using backend.Application.Exceptions;
 using backend.Application.Interfaces.Authentication;
+using backend.Infrastructure.Migrations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace backend.Presentation.Controllers
 {
@@ -12,10 +16,14 @@ namespace backend.Presentation.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
+        private readonly ITokenService _tokenService;
+        private readonly IConfiguration _configuration;
 
-        public AuthenticationController(IAuthenticationService authenticationService)
+        public AuthenticationController(IAuthenticationService authenticationService, ITokenService tokenService, IConfiguration configuration)
         {
             _authenticationService = authenticationService;
+            _tokenService = tokenService;
+            _configuration = configuration;
         }
 
         [HttpPost]
@@ -24,15 +32,72 @@ namespace backend.Presentation.Controllers
         {
             try
             {
-                await _authenticationService.Login(authRequest);
-                return Ok("Logged in successfully!");
+                var user = await _authenticationService.Login(authRequest);
+                var tokenResponse = await _tokenService.GenerateTokens(user);
+
+                var refresh_validity = _configuration["REFRESH_TOKEN_VALIDITY_IN_DAYS"] ?? throw new InvalidOperationException("Refresh token validity is not set");
+                if (!int.TryParse(refresh_validity, out int tokenValidityInDays))
+                {
+                    throw new InvalidOperationException("Refresh token validity is not a valid integer");
+                }
+
+                Response.Cookies.Append("refreshToken", tokenResponse.RefreshToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
+                    //SameSite = SameSiteMode.Strict,
+                    //Expires = DateTimeOffset.UtcNow.AddMinutes(2)
+                    Expires = DateTimeOffset.UtcNow.AddDays(tokenValidityInDays)
+                });
+
+                return Ok(tokenResponse.AccessToken);
             }
             catch (InvalidCredentialsException ex)
             {
                 return BadRequest(ex.Message);
             }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+            if (string.IsNullOrEmpty(refreshToken))
+            {
+                return Unauthorized("Refresh token is missing or invalid.");
+            }
+
+            var user = await _tokenService.GetUserFromRefreshToken(refreshToken);
+            if (user == null || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+            {
+                return Unauthorized();
+            }
+
+            var tokenResponse = await _tokenService.GenerateTokens(user.AspNetUser);
+
+            var refreshValidity = _configuration["REFRESH_TOKEN_VALIDITY_IN_DAYS"]
+                                  ?? throw new InvalidOperationException("Refresh token validity is not set");
+            if (!int.TryParse(refreshValidity, out int tokenValidityInDays))
+            {
+                throw new InvalidOperationException("Refresh token validity is not a valid integer");
+            }
+
+            Response.Cookies.Append("refreshToken", tokenResponse.RefreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                //SameSite = SameSiteMode.Strict,
+                //Expires = DateTimeOffset.UtcNow.AddMinutes(2)
+                Expires = DateTimeOffset.UtcNow.AddDays(tokenValidityInDays)
+            });
+            return Ok(tokenResponse.AccessToken);
+        }
 
         [HttpPost]
         [Route("create-account")]
@@ -59,6 +124,27 @@ namespace backend.Presentation.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+            if (string.IsNullOrEmpty(refreshToken))
+            {
+                return BadRequest("No refresh token found in cookies.");
+            }
+
+            var user = await _tokenService.GetUserFromRefreshToken(refreshToken);
+            if (user == null)
+            {
+                return Unauthorized("Invalid refresh token.");
+            }
+
+            await _tokenService.RemoveRefreshToken(user);
+            Response.Cookies.Delete("refreshToken");
+
+            return Ok("Successfully logged out.");
         }
 
 

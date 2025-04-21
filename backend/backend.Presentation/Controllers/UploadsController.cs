@@ -1,4 +1,6 @@
-﻿using backend.Application.Services.Factory;
+﻿using backend.Application.DTOs.Request.Auth;
+using backend.Application.Services.Factory;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,6 +8,7 @@ namespace backend.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UploadsController : ControllerBase
     {
         private readonly FileFactory _fileFactory;

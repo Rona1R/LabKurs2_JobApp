@@ -13,8 +13,8 @@ export class CompanyService extends BaseService {
     return await this.axiosInstance.get(`${this.requestMapping}/validate/${id}?name=${name}`);
   }
 
-  async getByUser(id){
-    return await this.axiosInstance.get(`${this.requestMapping}/GetByUser/${id}`);
+  async getByEmployer(id){
+    return await this.axiosInstance.get(`${this.requestMapping}/byEmployer/${id}`);
   }
 
 }

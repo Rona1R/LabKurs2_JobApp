@@ -11,6 +11,12 @@ namespace backend.Application.Interfaces.JobInterfaces
 {
     public interface IJobRepository : IBaseRepository<Job>
     {
+        Task<PaginatedResult<Job>> GetByCategory(int categoryId, JobFilterRequest filters);
+        Task<IEnumerable<Job>> GetByEmployer(int employerId);
+        Task<PaginatedResult<Job>> GetByTag(int tagId, JobFilterRequest filters);
         Task<PaginatedResult<Job>> GetFilteredPosts(JobFilterRequest filters);
+        Task<decimal> GetMaxSalaryAsync();
+        Task<decimal> GetMaxSalaryByCategory(int categoryId);
+        Task<decimal> GetMaxSalaryByTag(int tagId);
     }
 }

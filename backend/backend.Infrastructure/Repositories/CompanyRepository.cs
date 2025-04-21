@@ -46,9 +46,9 @@ namespace backend.Infrastructure.Repositories
 
 
         //kompanite e nje Employer specifik , (per te cilat ka te drejte me bo postime)
-        public async Task<IEnumerable<Company>> GetByUser(int employerId)
+        public async Task<IEnumerable<Company>> GetByUser(int id)
         {
-            return await _context.Company.Where(c=>c.EmployerId == employerId && c.IsDeleted == false).Include(c => c.Employer.User).OrderByDescending(c=>c.Id).ToListAsync();
+            return await _context.Company.Where(c=>c.Employer.UserId == id && c.IsDeleted == false).Include(c => c.Employer.User).OrderByDescending(c=>c.Id).ToListAsync();
         }
 
 

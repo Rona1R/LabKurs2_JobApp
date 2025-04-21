@@ -12,12 +12,13 @@ import AdbIcon from "@mui/icons-material/Adb";
 import UserSidebar from "../../../components/user/UserSidebar";
 import CustomDropdown from "./Dropdown";
 import CollapsedNavigation from "./CollapsedNavigation";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import { CategoryService } from "../../../api/sevices/CategoryService";
 import { useState,useEffect } from "react";
+import { useAuth } from "src/context/AuthContext";
 
 const pages = [
   {
@@ -37,10 +38,10 @@ function Navigation({ isTransparent = false }) {
   const [showCollapsedNav, setShowCollapsedNav] = useState(false);
   const [categories, setCategories] = useState([]);
   const [scrolled, setScrolled] = useState(false);
-
+  const navigate = useNavigate();
   // const [profilePic,setProfilePic] = React.useState("");
   const isMobile = useMediaQuery("(max-width: 900px)");
-  const loggedIn = "logged in...";
+   const {loggedIn} = useAuth();
 
   const handleScroll = () => {
     const offset = window.scrollY;
@@ -93,12 +94,12 @@ function Navigation({ isTransparent = false }) {
   // },[])
 
   const openSidebar = () => {
-    // if (userDetails) {
+    if (loggedIn) {
     setShowUserSidebar(true);
-    // } else {
-    //   setShowUserSidebar(false);
-    //   navigate("/LogIn");
-    // }
+    } else {
+      setShowUserSidebar(false);
+      navigate("/login");
+    }
   };
 
   const closeSidebar = () => {
@@ -240,7 +241,7 @@ function Navigation({ isTransparent = false }) {
             </Box>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-            {loggedIn ? (
+            {loggedIn? (
               <Tooltip title="Open settings">
                 <IconButton onClick={openSidebar} sx={{ p: 1 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -248,7 +249,9 @@ function Navigation({ isTransparent = false }) {
                 </IconButton>
               </Tooltip>
             ) : (
-              <IconButton sx={{ p: 1 }}>
+              <IconButton sx={{ p: 1 }}
+                onClick={()=>navigate("/login")}
+              >
                 <FontAwesomeIcon
                   icon={faRightToBracket}
                   style={{ color: "white", height: "30px" }}

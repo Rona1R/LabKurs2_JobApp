@@ -49,7 +49,7 @@ function SidebarMenu({ categories, handleClose }) {
                 key={category.id}
                 onClick={handleClose}
               >
-                <Link to="/jobPostings" style={{ color: "white" }}>
+                <Link to={`/jobPostings/category/${category.id}`} style={{ color: "white" }}>
                   <ListItemText primary={category.name} />
                 </Link>
               </ListItemButton>

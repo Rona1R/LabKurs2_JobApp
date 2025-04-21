@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-export default function DetailsSection({ profileDetails, refresh }) {
+export default function DetailsSection({ profileDetails, refresh,editable }) {
   const [showOpenTo, setShowOpenTo] = useState(false);
 
   return (
@@ -27,12 +27,15 @@ export default function DetailsSection({ profileDetails, refresh }) {
           }}
         >
           Open To
-          <IconButton
-            sx={{ mx: 1, color: "hsl(218, 94.40%, 21.20%)" }}
-            onClick={() => setShowOpenTo(true)}
-          >
-            <AddIcon sx={{ fontSize: "2em" }} />
-          </IconButton>
+          {
+            editable &&
+            <IconButton
+              sx={{ mx: 1, color: "hsl(218, 94.40%, 21.20%)" }}
+              onClick={() => setShowOpenTo(true)}
+            >
+              <AddIcon sx={{ fontSize: "2em" }} />
+            </IconButton>
+          }
         </Typography>
       </Box>
     </>

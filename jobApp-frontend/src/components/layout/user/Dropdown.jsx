@@ -15,39 +15,39 @@ function CustomDropdown(props) {
           backgroundColor: "inherit",
           boxShadow: "none",
           padding: "0",
-          textTransform:"none"
+          textTransform: "none"
         }}
       >
         {props.name}
       </Dropdown.Toggle>
 
-      <Dropdown.Menu style={{ backgroundColor: "#f4f7ff", padding: "5px" }}>
+      <Dropdown.Menu style={{ backgroundColor: "#f4f7ff", padding: "5px"}}>
         {props.options.map((option, index) => (
           <Dropdown.Item
             as="div"
             key={index}
-            style={{ padding: "30px 20px", textAlign: "start" }}
+            style={{ textAlign: "start",padding:0 }}
           >
             <Link
-              to="/"
+              to={`/jobPostings/category/${option.id}`}
               style={{
                 color: "#0A0529",
-                fontSize: "large",
+                padding: "25px 20px",
+                height: "100%",
+                width: "100%",
+                fontSize: "1.5em",
                 letterSpacing: "1px",
                 fontWeight: "bold",
+                display: "block",
+                transition: "color 0.3s ease"
               }}
+              onMouseEnter={(e) => (e.target.style.color = "white",e.target.style.backgroundColor="#151034")}
+              onMouseLeave={(e) => (e.target.style.color = "#0A0529",e.target.style.backgroundColor="inherit")}
             >
               {option.name}
             </Link>
           </Dropdown.Item>
         ))}
-        {/* {props.options.map((option,index)=>(
-             <Dropdown.Item  as="div"  key={index} style={{padding:"30px 20px",textAlign:"start"}}>
-                <Link to={option.link} style={{color:"#0A0529",fontSize:"large",letterSpacing:"1px",fontWeight:"bold"}}>
-                    {option.name}
-                </Link>
-            </Dropdown.Item>
-        ))} */}
       </Dropdown.Menu>
     </Dropdown>
   );
