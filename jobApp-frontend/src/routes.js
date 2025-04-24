@@ -23,102 +23,114 @@ import MyCompanies from "./pages/Dashboard/Employer/Companies/MyCompanies";
 import Tags from "./pages/Dashboard/Administrator/Tags/Tags";
 import PostingsByCategory from "./pages/Jobs/PostingsByCategory";
 import PostingsByTag from "./pages/Jobs/PostingsByTag";
+import JobDetails from "./pages/Jobs/JobDetails";
 
-const routes = [,
+const routes = [
+  ,
   {
-    path:"/",
-    element:Index
+    path: "/",
+    element: Index,
   },
   {
-    path:"/error",
-    element:SomethingWentWrong
+    path: "/error",
+    element: SomethingWentWrong,
   },
   {
-    path:"/loggedIn",
-    element: AlreadyLoggedIn
+    path: "/loggedIn",
+    element: AlreadyLoggedIn,
   },
   {
-    path:"/serverError",
-    element:ServerNotResponding
+    path: "/serverError",
+    element: ServerNotResponding,
   },
   {
-    path:"/notFound",
-    element:NotFound
+    path: "/notFound",
+    element: NotFound,
   },
   {
     path: "/",
     layout: UserLayout,
     children: [
-      { path: "/profile/:id", element: ProfilePage , private: true,},
-      { path: "/account", element: AccountSettings, private: true, },
-      { path:"/jobPostings",element:Postings},
-      { path:"/jobPostings/category/:categoryId",element:PostingsByCategory},
-      { path:"/jobPostings/tag/:tagId",element:PostingsByTag}
+      { path: "/profile/:id", element: ProfilePage, private: true },
+      { path: "/account", element: AccountSettings, private: true },
+      { path: "/jobPostings", element: Postings },
+      {
+        path: "/jobPostings/category/:categoryId",
+        element: PostingsByCategory,
+      },
+      { path: "/jobPostings/tag/:tagId", element: PostingsByTag },
+      {
+        path: "/jobPostings/job/:id",
+        element: JobDetails,
+      },
     ],
   },
   {
     path: "/dashboard",
     layout: Dashboard,
-    protected : true,
-    roles: ["Admin","Employer"],
+    protected: true,
+    roles: ["Admin", "Employer"],
     children: [
       {
         path: "/dashboard/departments",
         element: Departments,
-        protected : true,
+        protected: true,
         roles: ["Admin"],
       },
       {
         path: "/dashboard/languages",
         element: LanguagesAdmin,
-        protected : true,
+        protected: true,
         roles: ["Admin"],
       },
       {
         path: "/dashboard/categories",
         element: Categories,
-        protected : true,
+        protected: true,
         roles: ["Admin"],
       },
       {
         path: "/dashboard/users",
         element: Users,
-        protected : true,
+        protected: true,
         roles: ["Admin"],
       },
       {
         path: "/dashboard/companies",
         element: Companies,
-        protected : true,
+        protected: true,
         roles: ["Admin"],
       },
       {
         path: "/dashboard/employers",
         element: Employers,
-        protected : true,
+        protected: true,
         roles: ["Admin"],
       },
       {
         path: "/dashboard/jobPostings",
-        protected : true,
+        protected: true,
         element: JobPostings,
         roles: ["Employer"],
-      },{
+      },
+      {
         path: "/dashboard/myCompanies",
-        protected : true,
+        protected: true,
         element: MyCompanies,
         roles: ["Employer"],
-      },{
+      },
+      {
         path: "/dashboard/institutions",
         element: Institutions,
-        protected : true,
+        protected: true,
         roles: ["Admin"],
-      },{
+      },
+      {
         path: "/dashboard/tags",
         element: Tags,
-        protected : true,
+        protected: true,
         roles: ["Admin"],
-      }
+      },
     ],
   },
   { path: "/register", element: Register },
