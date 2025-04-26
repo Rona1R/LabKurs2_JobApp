@@ -29,6 +29,13 @@ namespace backend.Presentation.Controllers
             return Ok(job);
         }
 
+        [HttpGet("similarPostings/{jobId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetSimilarPostings(int jobId)
+        {
+            return Ok(await _service.GetSimilarPostings(jobId));
+        }
+
         [HttpGet("byEmployer/{id}")]
         public async Task<IActionResult> GetByEmployer(int id)
         {

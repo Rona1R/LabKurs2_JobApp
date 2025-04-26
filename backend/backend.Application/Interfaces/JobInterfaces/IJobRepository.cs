@@ -18,5 +18,6 @@ namespace backend.Application.Interfaces.JobInterfaces
         Task<decimal> GetMaxSalaryAsync();
         Task<decimal> GetMaxSalaryByCategory(int categoryId);
         Task<decimal> GetMaxSalaryByTag(int tagId);
+        Task<IEnumerable<Job>> GetSimilarPostings(int jobId);
     }
 }

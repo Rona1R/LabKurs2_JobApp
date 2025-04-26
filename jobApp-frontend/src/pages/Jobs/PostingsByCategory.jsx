@@ -220,6 +220,7 @@ export default function PostingsByCategory() {
               {postings.map((posting, index) => (
                 <Grid size={{ xs: 12, md: 6, xl: 4 }} key={index}>
                   <JobCard
+                    id={posting.id}
                     title={posting.title}
                     city={posting.city}
                     timeLeft={posting.daysLeft}

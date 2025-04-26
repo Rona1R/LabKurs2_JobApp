@@ -11,8 +11,10 @@ import PlaceIcon from "@mui/icons-material/Place";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import ArticleIcon from "@mui/icons-material/Article";
+import { useNavigate } from "react-router-dom";
 
 export default function JobCard({
+  id,
   title,
   city,
   timeLeft,
@@ -20,6 +22,8 @@ export default function JobCard({
   category,
   employmentType,
 }) {
+  const navigate = useNavigate();
+
   return (
     <Card
       sx={{
@@ -36,6 +40,7 @@ export default function JobCard({
         alignItems: "center",
         backgroundColor: "#fff",
       }}
+      onClick={() => { navigate(`/jobPostings/job/${id}`) }}
     >
       <CardMedia
         component="img"

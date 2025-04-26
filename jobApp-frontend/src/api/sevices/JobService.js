@@ -123,15 +123,19 @@ export class JobService extends BaseService {
     );
   }
 
-  async getMaxSalaryByTag(tagId){
+  async getMaxSalaryByTag(tagId) {
     return await this.axiosInstance.get(
       `${this.requestMapping}/maxSalary/byTag/${tagId}`
     );
   }
 
-  async getDetails(id){
+  async getDetails(id) {
+    return await this.axiosInstance.get(`${this.requestMapping}/details/${id}`);
+  }
+
+  async getSimilarPostings(id) {
     return await this.axiosInstance.get(
-      `${this.requestMapping}/details/${id}`
+      `${this.requestMapping}/similarPostings/${id}`
     );
   }
 }
