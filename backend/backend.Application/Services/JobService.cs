@@ -25,6 +25,13 @@ namespace backend.Application.Services
             _jobDetailsRepository = jobDetailsRepository;
         }
 
+        public async Task<IEnumerable<JobResponse>> GetSimilarPostings(int job)
+        {
+            var recommandations = await _repository.GetSimilarPostings(job);
+            return _mapper.Map<IEnumerable<JobResponse>>(recommandations);
+        }
+       
+
         private int CalculateDaysLeftUntilDeadline(DateTime deadline)
         {
             DateTime today = DateTime.Now; 

@@ -21,10 +21,31 @@ namespace backend.Infrastructure.Repositories
             this.jobDetailsRepository = jobDetailsRepository;
         }
 
-        //public async Task GetJobDetails(int jobId)
-        //{
+        public async Task<IEnumerable<Job>> GetSimilarPostings(int jobId)
+        {
+            var job = await base.GetByIdAsync(jobId);
+            if (job == null)
+            {
+                return Enumerable.Empty<Job>();
+            }
 
-        //}
+            var jobTagIds = job.JobTags.Select(jt => jt.TagId).ToList();
+            const int RecommendationLimit = 5;
+
+            var recommandations = await _context.Job
+                .Include(u => u.Company)
+                .Include(u => u.Category)
+                .Where(u => !u.IsDeleted && u.Id != jobId &&
+                            (u.CompanyId == job.CompanyId ||
+                             u.CategoryId == job.CategoryId ||
+                             u.JobTags.Any(jt => jobTagIds.Contains(jt.TagId))))
+                .OrderByDescending(u => u.Id)
+                .Take(RecommendationLimit)
+                .ToListAsync();
+
+            return recommandations;
+
+        }
 
         public override async Task DeleteAsync(int id)
         {
