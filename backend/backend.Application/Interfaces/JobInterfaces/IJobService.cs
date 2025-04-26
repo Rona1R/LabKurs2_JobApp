@@ -15,6 +15,7 @@ namespace backend.Application.Interfaces.JobInterfaces
         Task<IEnumerable<JobResponse>> GetByEmployer(int employerId);
         Task<PaginatedResult<JobPostings>> GetByTag(int tagId, JobFilterRequest filters);
         Task<PaginatedResult<JobPostings>> GetFilteredPosts(JobFilterRequest filters);
+        Task<JobWithDetailsResponse?> GetJobWithDetails(int jobId);
         Task<decimal> GetMaxSalaryAsync();
         Task<decimal> GetMaxSalaryByCategory(int categoryId);
         Task<decimal> GetMaxSalaryByTag(int tagId);

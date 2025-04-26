@@ -69,20 +69,22 @@ function Register() {
                 mb={4}
               >
                 <AdbIcon sx={{ mr: 1, fontSize: "3rem" }} />
-                <Typography
-                  variant="h3"
-                  component="a"
-                  href="/"
-                  sx={{
-                    fontFamily: "monospace",
-                    fontWeight: "bold",
-                    letterSpacing: ".3rem",
-                    color: "inherit",
-                    textDecoration: "none",
-                  }}
+                <Link
+                  to="/"
                 >
-                  LOGO
-                </Typography>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      fontFamily: "monospace",
+                      fontWeight: "bold",
+                      letterSpacing: ".3rem",
+                      color: "inherit",
+                      textDecoration: "none",
+                    }}
+                  >
+                    LOGO
+                  </Typography>
+                </Link>              
               </Box>
 
               <Typography
@@ -103,16 +105,14 @@ function Register() {
                       <TextField
                         required
                         label="First Name"
-                        variant="outlined"
-                  
+                        variant="outlined"               
                       />
                     </Grid>
                     <Grid size={6}>
                       <TextField
                         required
                         label="Last Name"
-                        variant="outlined"
-                  
+                        variant="outlined"             
                       />
                     </Grid>
                     <Grid size={12}>

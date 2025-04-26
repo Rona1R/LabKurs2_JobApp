@@ -69,6 +69,12 @@ namespace backend.Application.DTOs
             CreateMap<JobTag, JobTagResponse>().ForMember(dest => dest.Tag, opt => opt.MapFrom(src => src.Tag.Name))
                                                .ForMember(dest => dest.Job, opt => opt.MapFrom(src => src.Job.Title));
 
+            CreateMap<Job, JobGeneralData>().ForMember(dest => dest.CompanyLogo, opt => opt.MapFrom(src => src.Company.Logo))
+                                        .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.Name))
+                                        .ForMember(dest => dest.Company, opt => opt.MapFrom(src=>src.Company.Name))
+                                        .ForMember(dest => dest.PayRange, opt => opt.MapFrom(src=>src.MinimalSalary+" - "+src.MaximalSalary + " "+ src.Currency))
+                                        .ForMember(dest => dest.DaysLeft, opt => opt.Ignore());
+
             CreateMap<EducationRequest, Education>().ForMember(dest => dest.InstitutionName, opt => opt.MapFrom(src => src.ManualInstitutionName));
             CreateMap<Education, EducationResponse>().ForMember(dest => dest.InstitutionName, opt => opt.MapFrom(src =>
             src.Institution != null ? src.Institution.Name : "")

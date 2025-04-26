@@ -21,6 +21,11 @@ namespace backend.Infrastructure.Repositories
             this.jobDetailsRepository = jobDetailsRepository;
         }
 
+        //public async Task GetJobDetails(int jobId)
+        //{
+
+        //}
+
         public override async Task DeleteAsync(int id)
         {
             var job = await GetByIdAsync(id);

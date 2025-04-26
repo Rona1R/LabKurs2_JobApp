@@ -17,6 +17,18 @@ namespace backend.Presentation.Controllers
         {
         }
 
+        [HttpGet("details/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetDetails(int id)
+        {
+            var job = await _service.GetJobWithDetails(id);
+            if (job == null)
+            {
+                return NotFound();
+            }
+            return Ok(job);
+        }
+
         [HttpGet("byEmployer/{id}")]
         public async Task<IActionResult> GetByEmployer(int id)
         {

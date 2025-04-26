@@ -128,4 +128,10 @@ export class JobService extends BaseService {
       `${this.requestMapping}/maxSalary/byTag/${tagId}`
     );
   }
+
+  async getDetails(id){
+    return await this.axiosInstance.get(
+      `${this.requestMapping}/details/${id}`
+    );
+  }
 }
