@@ -25,13 +25,6 @@ namespace backend.Application.Services
             _jobDetailsRepository = jobDetailsRepository;
         }
 
-        public async Task<IEnumerable<JobResponse>> GetSimilarPostings(int job)
-        {
-            var recommandations = await _repository.GetSimilarPostings(job);
-            return _mapper.Map<IEnumerable<JobResponse>>(recommandations);
-        }
-       
-
         private int CalculateDaysLeftUntilDeadline(DateTime deadline)
         {
             DateTime today = DateTime.Now; 
@@ -45,6 +38,25 @@ namespace backend.Application.Services
                 return (int)Math.Ceiling(timeSpan.TotalDays); 
             }
         }
+        public async Task<IEnumerable<JobPostings>> GetSimilarPostings(int job)
+        {
+            var recommandations = await _repository.GetSimilarPostings(job);
+            var postingsDto = _mapper.Map<IEnumerable<JobPostings>>(recommandations);
+            foreach (var posting in postingsDto)
+            {
+                var daysLeft = CalculateDaysLeftUntilDeadline(posting.Deadline);
+                if (daysLeft == 1)
+                {
+                    posting.DaysLeft = daysLeft + " day left";
+                }
+                else
+                {
+                    posting.DaysLeft = daysLeft + " days left";
+                }
+            }
+            return postingsDto;
+        }
+       
 
         public async Task<JobWithDetailsResponse?> GetJobWithDetails(int jobId)
         {
