@@ -123,20 +123,22 @@ function LogIn() {
                 mb={8}
               >
                 <AdbIcon sx={{ mr: 1, fontSize: "3rem" }} />
-                <Typography
-                  variant="h3"
-                  component="a"
-                  href="/"
-                  sx={{
-                    fontFamily: "monospace",
-                    fontWeight: "bold",
-                    letterSpacing: ".3rem",
-                    color: "inherit",
-                    textDecoration: "none",
-                  }}
-                >
-                  LOGO
-                </Typography>
+                <Link
+                  to="/"
+                >  
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      fontFamily: "monospace",
+                      fontWeight: "bold",
+                      letterSpacing: ".3rem",
+                      color: "inherit",
+                      textDecoration: "none",
+                    }}
+                  >
+                    LOGO
+                  </Typography>
+                </Link>
               </Box>
               <ThemeProvider theme={theme}>
                 <Box

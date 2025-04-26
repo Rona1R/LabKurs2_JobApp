@@ -30,6 +30,7 @@ export default function JobDetails() {
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState(false);
   const [showToggle, setShowToggle] = useState(false);
+  const isDeadlinePassed = new Date(data?.job.deadline+"Z") < new Date();
   const descriptionRef = useRef();
 
   useEffect(() => {
@@ -369,6 +370,7 @@ export default function JobDetails() {
                   Back To Jobs
                 </Button>
                 <Button
+                  disabled={isDeadlinePassed}
                   sx={{
                     textTransform: "none",
                     fontWeight: 700,
@@ -382,9 +384,14 @@ export default function JobDetails() {
                       backgroundColor: "rgb(15, 18, 93)",
                       boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
                     },
+                    "&:disabled": {
+                      backgroundColor: "rgba(15, 18, 93, 0.61)",
+                      color: "rgba(239, 239, 250, 0.68)",
+                      boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+                    },
                   }}
                 >
-                  Apply Now
+                  {isDeadlinePassed ? "Deadline Passed" : "Apply Now"}
                 </Button>
               </Box>
             </Box>
