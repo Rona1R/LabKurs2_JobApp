@@ -16,5 +16,13 @@ namespace backend.Application.Services
         public SavedJobCollectionService(ISavedJobCollectionRepository repository,IMapper mapper) : base(repository,mapper)
         {
         }
+
+
+        public async Task<IEnumerable<SavedJobCollectionResponse>> GetCollectionsByUser(int userId)
+        {
+            var collections = await _repository.GetCollectionsByUser(userId);
+            return _mapper.Map<IEnumerable<SavedJobCollectionResponse>>(collections);
+        }
+
     }
 }

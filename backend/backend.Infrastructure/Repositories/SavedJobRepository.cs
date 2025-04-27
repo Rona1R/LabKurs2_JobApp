@@ -71,6 +71,16 @@ namespace backend.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task RemoveSavedJob(int savedJobId)
+        {
+            var savedJob = await _context.SavedJob.FindAsync(savedJobId);
+            if (savedJob != null)
+            {
+                _context.SavedJob.Remove(savedJob);
+                await _context.SaveChangesAsync();
+            }
+        }
+
         private static string CalculateDaysLeftUntilDeadline(DateTime deadline)
         {
             var daysLeft = 0;

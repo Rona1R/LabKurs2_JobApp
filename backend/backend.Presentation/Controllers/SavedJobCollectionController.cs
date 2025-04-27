@@ -13,5 +13,11 @@ namespace backend.Presentation.Controllers
         public SavedJobCollectionController(ISavedJobCollectionService service) : base(service)
         {
         }
+
+        [HttpGet("byUser/{userId}")]
+        public async Task<IActionResult> GetCollectionsByUser(int userId)
+        {
+            return Ok(await _service.GetCollectionsByUser(userId));     
+        }
     }
 }

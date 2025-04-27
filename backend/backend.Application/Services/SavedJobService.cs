@@ -26,6 +26,12 @@ namespace backend.Application.Services
             _savedJobCollectionRepository = savedJobCollectionRepository;
         }
 
+        public async Task<SavedJobResponse?> GetByIdAsync(int id)
+        {
+            var savedJob = await _savedJobRepository.GetByIdAsync(id);
+            return savedJob != null ? _mapper.Map<SavedJobResponse>(savedJob) : default;
+        }
+
         public async Task<SavedJobResponse> AddAsync(SavedJobRequest savedJobRequest)
         {
             var savedJob = _mapper.Map<SavedJob>(savedJobRequest);
@@ -63,6 +69,11 @@ namespace backend.Application.Services
                 throw new NotFoundException("Saved job was not found !");
             }
             await _savedJobRepository.RemoveFromCollection(savedJob);
+        }
+
+        public async Task RemoveSavedJob(int savedJobId)
+        { 
+            await _savedJobRepository.RemoveSavedJob(savedJobId);
         }
     }
 }
