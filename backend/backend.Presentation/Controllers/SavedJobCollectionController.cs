@@ -19,5 +19,16 @@ namespace backend.Presentation.Controllers
         {
             return Ok(await _service.GetCollectionsByUser(userId));     
         }
+
+        [HttpGet("savedPostsByCollection/{collectionId}")]
+        public async Task<IActionResult> GetSavedPostsByCollection(int collectionId)
+        {
+            var response = await _service.GetSavedPostsByCollection(collectionId);
+            if (response == null)
+            {
+                return NotFound("Collection was not found !");
+            }
+            return Ok(response);
+        }
     }
 }

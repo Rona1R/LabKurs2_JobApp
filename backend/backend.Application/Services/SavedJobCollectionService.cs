@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using backend.Application.DTOs.Request;
 using backend.Application.DTOs.Response;
+using backend.Application.Exceptions;
 using backend.Application.Interfaces.SavedJobCollectionInterfaces;
 using backend.Domain.Models;
 
@@ -22,6 +23,11 @@ namespace backend.Application.Services
         {
             var collections = await _repository.GetCollectionsByUser(userId);
             return _mapper.Map<IEnumerable<SavedJobCollectionResponse>>(collections);
+        }
+
+        public async Task<SavedJobsByCollectionResponse?> GetSavedPostsByCollection(int collectionId)
+        {
+            return await _repository.GetSavedPostsByCollection(collectionId);        
         }
 
     }

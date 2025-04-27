@@ -7,6 +7,7 @@ using backend.Application.DTOs.Response;
 using backend.Application.Interfaces.SavedJobInterfaces;
 using backend.Domain.Models;
 using backend.Infrastructure.Data;
+using backend.Infrastructure.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Infrastructure.Repositories
@@ -65,7 +66,7 @@ namespace backend.Infrastructure.Repositories
                         CreatedAt = savedJob.Job.CreatedAt,
                         Deadline = savedJob.Job.Deadline,
                         EmploymentType = savedJob.Job.EmploymentType,
-                        DaysLeft = CalculateDaysLeftUntilDeadline(savedJob.Job.Deadline)
+                        DaysLeft = DateTimeHelper.CalculateDaysLeftUntilDeadline(savedJob.Job.Deadline)
                     }
                 })
                 .ToListAsync();
@@ -78,26 +79,6 @@ namespace backend.Infrastructure.Repositories
             {
                 _context.SavedJob.Remove(savedJob);
                 await _context.SaveChangesAsync();
-            }
-        }
-
-        private static string CalculateDaysLeftUntilDeadline(DateTime deadline)
-        {
-            var daysLeft = 0;
-            DateTime today = DateTime.Now;
-            if (today < deadline)
-            {
-                TimeSpan timeSpan = deadline - today;
-                daysLeft = (int)Math.Ceiling(timeSpan.TotalDays);
-            }
-
-            if (daysLeft == 1)
-            {
-                return daysLeft + " day left";
-            }
-            else
-            {
-                return daysLeft + " days left";
             }
         }
     }
