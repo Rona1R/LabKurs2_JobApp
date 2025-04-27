@@ -10,6 +10,8 @@ namespace backend.Application.DTOs.Response
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+
+        public int? SavedJobCollectionId { get; set; }
         public int JobId { get; set; }
         public required JobPostings Job { get; set; }
     }

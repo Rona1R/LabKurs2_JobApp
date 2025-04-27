@@ -97,6 +97,10 @@ namespace backend.Application.DTOs
 
             CreateMap<SavedJobRequest, SavedJob>(); 
             CreateMap<SavedJob, SavedJobResponse>();
+
+            CreateMap<SavedJobCollectionRequest, SavedJobCollection>();
+            CreateMap<SavedJobCollection, SavedJobCollectionResponse>();
+
         }
     }
 }

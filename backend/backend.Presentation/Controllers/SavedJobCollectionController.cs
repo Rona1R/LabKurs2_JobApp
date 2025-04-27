@@ -1,0 +1,17 @@
+﻿using backend.Application.DTOs.Request;
+using backend.Application.DTOs.Response;
+using backend.Application.Interfaces.SavedJobCollectionInterfaces;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace backend.Presentation.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class SavedJobCollectionController : BaseController<ISavedJobCollectionService, SavedJobCollectionRequest, SavedJobCollectionResponse>
+    {
+        public SavedJobCollectionController(ISavedJobCollectionService service) : base(service)
+        {
+        }
+    }
+}

@@ -1,4 +1,5 @@
 ﻿using backend.Application.DTOs.Request;
+using backend.Application.Exceptions;
 using backend.Application.Interfaces.SavedJobInterfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,35 @@ namespace backend.Presentation.Controllers
 
             var createdDto = await _savedJobService.AddAsync(savedJobRequest);
             return Ok(createdDto);
+        }
+
+        [HttpPut("addToCollection/{savedJobId}/{collectionId}")]
+        public async Task<IActionResult> AddToCollection(int savedJobId,int collectionId)
+        {
+            try
+            {
+                await _savedJobService.AddToCollection(savedJobId,collectionId);
+                return Ok("Job was saved to collection successfully !");
+
+            }
+            catch(NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpPut("removeFromCollection/{savedJobId}")]
+        public async Task<IActionResult> RemoveFromCollection(int savedJobId)
+        {
+            try
+            {
+                await _savedJobService.RemoveFromCollection(savedJobId);
+                return Ok("Job was removed from collection successfully !");
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpGet("byUser/{userId}")]

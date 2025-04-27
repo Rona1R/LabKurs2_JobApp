@@ -19,11 +19,29 @@ namespace backend.Infrastructure.Repositories
             _context = context;
         }
         
+        public async Task<SavedJob?> GetByIdAsync(int id)
+        {
+            return await _context.SavedJob.FindAsync(id);
+        }
         public async Task AddAsync(SavedJob savedJob)
         {
             await _context.SavedJob.AddAsync(savedJob);
             await _context.SaveChangesAsync();
         }   
+
+        public async Task AddToCollection(SavedJob savedJob,int collectionId)
+        {
+            savedJob.SavedJobCollectionId = collectionId;   
+            _context.SavedJob.Update(savedJob);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveFromCollection(SavedJob savedJob)
+        {
+            savedJob.SavedJobCollectionId = null;
+            _context.SavedJob.Update(savedJob);
+            await _context.SaveChangesAsync();
+        }
 
         public async Task<IEnumerable<SavedJobByUserResponse>> GetSavedJobsByUserId(int userId)
         {
@@ -35,6 +53,7 @@ namespace backend.Infrastructure.Repositories
                     Id = savedJob.Id,
                     UserId = savedJob.UserId,
                     JobId = savedJob.JobId,
+                    SavedJobCollectionId = savedJob.SavedJobCollectionId,
                     Job = new JobPostings
                     {
                         Id = savedJob.Job.Id,

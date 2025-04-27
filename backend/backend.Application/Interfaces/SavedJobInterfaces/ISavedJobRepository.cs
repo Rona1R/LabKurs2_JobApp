@@ -11,6 +11,9 @@ namespace backend.Application.Interfaces.SavedJobInterfaces
     public interface ISavedJobRepository
     {
         Task AddAsync(SavedJob savedJob);
+        Task AddToCollection(SavedJob savedJob, int collectionId);
+        Task<SavedJob?> GetByIdAsync(int id);
         Task<IEnumerable<SavedJobByUserResponse>> GetSavedJobsByUserId(int userId);
+        Task RemoveFromCollection(SavedJob savedJob);
     }
 }
