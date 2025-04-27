@@ -15,6 +15,7 @@ using backend.Application.Interfaces.JobDetailsInterfaces;
 using backend.Application.Interfaces.JobInterfaces;
 using backend.Application.Interfaces.JobTagInterfaces;
 using backend.Application.Interfaces.LanguageInterfaces;
+using backend.Application.Interfaces.SavedJobInterfaces;
 using backend.Application.Interfaces.TagInterfaces;
 using backend.Application.Interfaces.UserInterfaces;
 using backend.Application.Interfaces.UserLanguageInterfaces;
@@ -88,6 +89,9 @@ namespace backend.Infrastructure.Configuration
 
             services.AddScoped<ITokenService, TokenService>();  
             services.AddScoped<ITokenRepository, TokenRepository>();
+
+            services.AddScoped<ISavedJobRepository, SavedJobRepository>();
+            services.AddScoped<ISavedJobService, SavedJobService>();
 
             services.AddSingleton<FileFactory>();
         }
