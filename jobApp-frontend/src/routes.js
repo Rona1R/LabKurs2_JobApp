@@ -67,6 +67,7 @@ const routes = [
       {
         path: "/savedJobs",
         element: SavedJobs,
+        private: true,
       },
     ],
   },

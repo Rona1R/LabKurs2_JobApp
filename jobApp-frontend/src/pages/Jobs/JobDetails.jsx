@@ -65,7 +65,6 @@ export default function JobDetails() {
   return (
     <>
       <Box sx={{ backgroundColor: "#0A0529", height: "300px" }} />
-      {/* Details for job : {id} */}
       {loading ? (
         <Box sx={{ my: 30 }}>
           <Loading />
