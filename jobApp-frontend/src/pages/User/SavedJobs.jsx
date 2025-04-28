@@ -20,7 +20,7 @@ export default function SavedJobs() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await savedJobService.getSavedJobsByUser(7);
+        const response = await savedJobService.getSavedJobsByUser(userId);
         console.log(response.data);
         setSavedJobs(response.data);
         setLoading(false);
