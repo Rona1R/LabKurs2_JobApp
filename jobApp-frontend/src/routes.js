@@ -1,29 +1,30 @@
-import UserLayout from "./pages/User/UserLayout";
-import Index from "./pages/Home";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import Categories from "./pages/Dashboard/Administrator/Categories/Categories";
-import Register from "./pages/Authentication/Register/Register";
-import LogIn from "./pages/Authentication/LogIn/LogIn";
-import Users from "./pages/Dashboard/Administrator/Users/Users";
-import Companies from "./pages/Dashboard/Administrator/Companies/Companies";
-import Employers from "./pages/Dashboard/Administrator/Employers/Employers";
-import ProfilePage from "./pages/User/ProfilePage";
-import JobPostings from "./pages/Dashboard/Employer/Jobs/JobPostings";
-import AccountSettings from "./pages/User/AccountSettings";
-import Postings from "./pages/Jobs/Postings";
-import Departments from "./pages/Dashboard/Administrator/Departments/Departments";
-//import Languages from "./components/user/Languages/Languages";
-import LanguagesAdmin from "./pages/Dashboard/Administrator/Languages/LanguagesAdmin";
-import SomethingWentWrong from "./pages/Error/SomethingWentWrong";
-import AlreadyLoggedIn from "./pages/Error/AlreadyLoggedIn";
-import ServerNotResponding from "./pages/Error/ServerNotResponding";
-import NotFound from "./pages/Error/NotFound";
-import Institutions from "./pages/Dashboard/Administrator/Institutions/Institutions";
-import MyCompanies from "./pages/Dashboard/Employer/Companies/MyCompanies";
-import Tags from "./pages/Dashboard/Administrator/Tags/Tags";
-import PostingsByCategory from "./pages/Jobs/PostingsByCategory";
-import PostingsByTag from "./pages/Jobs/PostingsByTag";
-import JobDetails from "./pages/Jobs/JobDetails";
+import React from "react"; // make sure you import React if you haven't
+const UserLayout = React.lazy(() => import("./pages/User/UserLayout"));
+const Index = React.lazy(() => import("./pages/Home"));
+const Dashboard = React.lazy(() => import("./pages/Dashboard/Dashboard"));
+const Categories = React.lazy(() => import("./pages/Dashboard/Administrator/Categories/Categories"));
+const Register = React.lazy(() => import("./pages/Authentication/Register/Register"));
+const LogIn = React.lazy(() => import("./pages/Authentication/LogIn/LogIn"));
+const Users = React.lazy(() => import("./pages/Dashboard/Administrator/Users/Users"));
+const Companies = React.lazy(() => import("./pages/Dashboard/Administrator/Companies/Companies"));
+const Employers = React.lazy(() => import("./pages/Dashboard/Administrator/Employers/Employers"));
+const ProfilePage = React.lazy(() => import("./pages/User/ProfilePage"));
+const JobPostings = React.lazy(() => import("./pages/Dashboard/Employer/Jobs/JobPostings"));
+const AccountSettings = React.lazy(() => import("./pages/User/AccountSettings"));
+const Postings = React.lazy(() => import("./pages/Jobs/Postings"));
+const Departments = React.lazy(() => import("./pages/Dashboard/Administrator/Departments/Departments"));
+const LanguagesAdmin = React.lazy(() => import("./pages/Dashboard/Administrator/Languages/LanguagesAdmin"));
+const SomethingWentWrong = React.lazy(() => import("./pages/Error/SomethingWentWrong"));
+const AlreadyLoggedIn = React.lazy(() => import("./pages/Error/AlreadyLoggedIn"));
+const ServerNotResponding = React.lazy(() => import("./pages/Error/ServerNotResponding"));
+const NotFound = React.lazy(() => import("./pages/Error/NotFound"));
+const Institutions = React.lazy(() => import("./pages/Dashboard/Administrator/Institutions/Institutions"));
+const MyCompanies = React.lazy(() => import("./pages/Dashboard/Employer/Companies/MyCompanies"));
+const Tags = React.lazy(() => import("./pages/Dashboard/Administrator/Tags/Tags"));
+const PostingsByCategory = React.lazy(() => import("./pages/Jobs/PostingsByCategory"));
+const PostingsByTag = React.lazy(() => import("./pages/Jobs/PostingsByTag"));
+const JobDetails = React.lazy(() => import("./pages/Jobs/JobDetails"));
+const SavedJobs = React.lazy(() => import("./pages/User/SavedJobs"));
 
 const routes = [
   ,
@@ -62,6 +63,10 @@ const routes = [
       {
         path: "/jobPostings/job/:id",
         element: JobDetails,
+      },
+      {
+        path: "/savedJobs",
+        element: SavedJobs,
       },
     ],
   },
