@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using backend.Infrastructure.Data;
 namespace backend.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250427131934_SavedJobCollectionCreated")]
+    partial class SavedJobCollectionCreated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -240,7 +243,7 @@ namespace backend.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category", (string)null);
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("backend.Domain.Models.Company", b =>
@@ -276,7 +279,7 @@ namespace backend.Infrastructure.Migrations
 
                     b.HasIndex("EmployerId");
 
-                    b.ToTable("Company", (string)null);
+                    b.ToTable("Company");
                 });
 
             modelBuilder.Entity("backend.Domain.Models.Departament", b =>
@@ -303,7 +306,7 @@ namespace backend.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departament", (string)null);
+                    b.ToTable("Departament");
                 });
 
             modelBuilder.Entity("backend.Domain.Models.Education", b =>
@@ -350,7 +353,7 @@ namespace backend.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Education", (string)null);
+                    b.ToTable("Education");
                 });
 
             modelBuilder.Entity("backend.Domain.Models.Employer", b =>
@@ -377,7 +380,7 @@ namespace backend.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Employer", (string)null);
+                    b.ToTable("Employer");
                 });
 
             modelBuilder.Entity("backend.Domain.Models.Experience", b =>
@@ -417,7 +420,7 @@ namespace backend.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Experience", (string)null);
+                    b.ToTable("Experience");
                 });
 
             modelBuilder.Entity("backend.Domain.Models.Institution", b =>
@@ -438,7 +441,7 @@ namespace backend.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Institution", (string)null);
+                    b.ToTable("Institution");
                 });
 
             modelBuilder.Entity("backend.Domain.Models.Interview", b =>
@@ -463,7 +466,7 @@ namespace backend.Infrastructure.Migrations
 
                     b.HasIndex("ApplicationId");
 
-                    b.ToTable("Interview", (string)null);
+                    b.ToTable("Interview");
                 });
 
             modelBuilder.Entity("backend.Domain.Models.Job", b =>
@@ -524,7 +527,7 @@ namespace backend.Infrastructure.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Job", (string)null);
+                    b.ToTable("Job");
                 });
 
             modelBuilder.Entity("backend.Domain.Models.JobApplication", b =>
@@ -561,7 +564,7 @@ namespace backend.Infrastructure.Migrations
 
                     b.HasIndex("JobId");
 
-                    b.ToTable("JobApplication", (string)null);
+                    b.ToTable("JobApplication");
                 });
 
             modelBuilder.Entity("backend.Domain.Models.JobTag", b =>
@@ -584,7 +587,7 @@ namespace backend.Infrastructure.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("JobTag", (string)null);
+                    b.ToTable("JobTag");
                 });
 
             modelBuilder.Entity("backend.Domain.Models.Language", b =>
@@ -601,7 +604,7 @@ namespace backend.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Language", (string)null);
+                    b.ToTable("Language");
                 });
 
             modelBuilder.Entity("backend.Domain.Models.SavedJob", b =>
@@ -629,7 +632,7 @@ namespace backend.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SavedJob", (string)null);
+                    b.ToTable("SavedJob");
                 });
 
             modelBuilder.Entity("backend.Domain.Models.SavedJobCollection", b =>
@@ -656,7 +659,7 @@ namespace backend.Infrastructure.Migrations
 
                     b.HasIndex("UserId1");
 
-                    b.ToTable("SavedJobCollection", (string)null);
+                    b.ToTable("SavedJobCollection");
                 });
 
             modelBuilder.Entity("backend.Domain.Models.Tag", b =>
@@ -673,7 +676,7 @@ namespace backend.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tag", (string)null);
+                    b.ToTable("Tag");
                 });
 
             modelBuilder.Entity("backend.Domain.Models.User", b =>
@@ -721,7 +724,7 @@ namespace backend.Infrastructure.Migrations
 
                     b.HasIndex("AspNetUserId");
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("backend.Domain.Models.UserLanguage", b =>
@@ -748,7 +751,7 @@ namespace backend.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLanguage", (string)null);
+                    b.ToTable("UserLanguage");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -908,7 +911,7 @@ namespace backend.Infrastructure.Migrations
 
                             b1.HasKey("JobId");
 
-                            b1.ToTable("Job", (string)null);
+                            b1.ToTable("Job");
 
                             b1.WithOwner()
                                 .HasForeignKey("JobId");

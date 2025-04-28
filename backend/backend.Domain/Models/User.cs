@@ -39,6 +39,8 @@ namespace backend.Domain.Models
 
         public virtual List<SavedJob> SavedJobs { get; set; }   = new List<SavedJob>();
 
+        public virtual List<SavedJobCollection> SavedJobCollections { get; set; } = new List<SavedJobCollection>();
+
 
         public virtual List<Education> Educations { get; set; } = new List <Education> ();
 

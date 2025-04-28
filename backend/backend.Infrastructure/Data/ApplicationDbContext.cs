@@ -49,7 +49,9 @@ namespace backend.Infrastructure.Data
 
         public DbSet<JobTag> JobTag { get; set; }
 
-        public DbSet<SavedJob> SavedJob { get; set; }   
+        public DbSet<SavedJob> SavedJob { get; set; }
+
+        public DbSet<SavedJobCollection> SavedJobCollection { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -68,6 +70,19 @@ namespace backend.Infrastructure.Data
             .WithMany(u => u.SavedJobs )
             .HasForeignKey(ja => ja.UserId)
             .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<SavedJob>()
+            .HasOne(sj => sj.SavedJobCollection)
+            .WithMany(c => c.SavedJobs)
+            .HasForeignKey(sj => sj.SavedJobCollectionId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<SavedJobCollection>()
+            .HasOne(c => c.User)
+            .WithMany()
+            .HasForeignKey(c => c.UserId)
+            .OnDelete(DeleteBehavior.NoAction);
+
 
             modelBuilder.Entity<Experience>()
              .HasOne(ja => ja.User)

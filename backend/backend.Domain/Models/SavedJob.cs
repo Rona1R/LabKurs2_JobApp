@@ -14,10 +14,15 @@ namespace backend.Domain.Models
         public int UserId { get; set; }
         public int JobId { get; set; }
 
+        public int? SavedJobCollectionId { get; set; } // optional fk constraint cause jobs can be saved without belonging to a collection 
+
         [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; }
 
         [ForeignKey(nameof(JobId))]
         public virtual Job Job { get; set; }
+
+        [ForeignKey(nameof(SavedJobCollectionId))]  
+        public virtual SavedJobCollection? SavedJobCollection { get; set; } 
     }
 }
