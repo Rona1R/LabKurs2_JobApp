@@ -14,8 +14,12 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import ArticleIcon from "@mui/icons-material/Article";
 import { useNavigate } from "react-router-dom";
+import { SavedJobService } from "src/api/sevices/SavedJobService";
+import { useNotification } from "src/hooks/useNotification";
+const savedJobService = new SavedJobService();
 
 export default function SavedJobCard({
+  savedJobId,
   id,
   title,
   city,
@@ -23,8 +27,20 @@ export default function SavedJobCard({
   companyLogo,
   category,
   employmentType,
+  setRefreshKey
 }) {
   const navigate = useNavigate();
+  const { showNotification } = useNotification();
+
+  const handleUnsaveJob = async () => {
+    try {
+      await savedJobService.unsaveJob(savedJobId);
+      setRefreshKey(Date.now());
+      showNotification("success","Job unsaved successfully!");
+    } catch (error) {
+      showNotification("error","Something went wrong while unsaving the job!");    
+    }
+  };
 
   return (
     <Card
@@ -43,9 +59,6 @@ export default function SavedJobCard({
         backgroundColor: "#fff",
         position: "relative",
       }}
-      //   onClick={() => {
-      //     navigate(`/jobPostings/job/${id}`);
-      //   }}
     >
       <CardMedia
         component="img"
@@ -56,18 +69,21 @@ export default function SavedJobCard({
         }}
         image={`${import.meta.env.VITE_IMAGE_PATH}/${companyLogo}`}
         alt="Company Logo"
+        onClick={() => {
+          navigate(`/jobPostings/job/${id}`);
+        }}
       />
       <IconButton
         sx={{
           position: "absolute",
           top: 10,
-          right: 10,
-       
+          right: 10
         }}
+        onClick={handleUnsaveJob}
       >
         <FavoriteIcon
           sx={{
-            color: "rgba(29, 33, 136, 0.75)",
+            color: "rgba(255, 4, 117, 0.75)",
             fontSize: "1.8em",
             "&:hover": {
               color: "#ff4081",
@@ -78,6 +94,9 @@ export default function SavedJobCard({
       <CardContent
         sx={{
           width: "100%",
+        }}
+        onClick={() => {
+          navigate(`/jobPostings/job/${id}`);
         }}
       >
         <Typography

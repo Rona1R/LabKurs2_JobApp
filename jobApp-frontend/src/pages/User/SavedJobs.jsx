@@ -50,11 +50,12 @@ export default function SavedJobs() {
             <NoDataYet message={"No saved jobs yet !"} />
           </Box>
         ) : (
-          <Box sx={{ mx: { xs:2,md: 5,lg: 15 } }}>
+          <Box sx={{ mx: { xs: 2, md: 5, lg: 15 } }}>
             <Grid container spacing={6} my={8} justifyContent={"center"}>
               {savedJobs.map((posting, index) => (
                 <Grid size={{ xs: 12, md: 6, xl: 4 }} key={index}>
                   <SavedJobCard
+                    savedJobId={posting.id}
                     id={posting.job.id}
                     title={posting.job.title}
                     city={posting.job.city}
@@ -62,6 +63,7 @@ export default function SavedJobs() {
                     companyLogo={posting.job.companyLogo}
                     category={posting.job.category}
                     employmentType={posting.job.employmentType}
+                    setRefreshKey={setRefreshKey} 
                   />
                 </Grid>
               ))}

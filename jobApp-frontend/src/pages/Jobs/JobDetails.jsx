@@ -127,7 +127,7 @@ export default function JobDetails() {
                     <IconButton>
                       <FavoriteIcon
                         sx={{
-                          color: "rgba(29, 33, 136, 0.75)",
+                          color: "rgba(255, 4, 117, 0.75)",
                           fontSize: "1.8em",
                         }}
                       />

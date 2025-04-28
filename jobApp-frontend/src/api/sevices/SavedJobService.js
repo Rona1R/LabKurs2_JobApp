@@ -1,15 +1,23 @@
 import { axiosInstance } from "./axioxInstance";
 
-export class SavedJobService { 
-    axiosInstance;
-    requestMapping = "";
-  
-    constructor() {
-      this.axiosInstance = axiosInstance;
-      this.requestMapping = "/SavedJob";
-    }
+export class SavedJobService {
+  axiosInstance;
+  requestMapping = "";
 
-    async getSavedJobsByUser(userId){
-        return await this.axiosInstance.get(`${this.requestMapping}/byUser/${userId}`);
-    }
+  constructor() {
+    this.axiosInstance = axiosInstance;
+    this.requestMapping = "/SavedJob";
+  }
+
+  async getSavedJobsByUser(userId) {
+    return await this.axiosInstance.get(
+      `${this.requestMapping}/byUser/${userId}`
+    );
+  }
+
+  async unsaveJob(savedJobId) {
+    return await this.axiosInstance.delete(
+      `${this.requestMapping}/${savedJobId}`
+    );
+  }
 }
