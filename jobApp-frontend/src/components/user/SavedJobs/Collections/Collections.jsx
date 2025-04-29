@@ -9,6 +9,8 @@ import AddIcon from "@mui/icons-material/Add";
 import CreateCollection from "./CreateCollection";
 import CollectionCard from "./CollectionCard";
 import Grid from "@mui/material/Grid2";
+import UpdateCollection from "./UpdateCollection";
+import DeleteCollection from "./DeleteCollection";
 const savedJobCollectionService = new SavedJobCollectionService();
 
 export default function Collections() {
@@ -18,6 +20,9 @@ export default function Collections() {
   const [refreshKey, setRefreshKey] = useState("");
   const [loading, setLoading] = useState(true);
   const [showCreateCollection, setShowCreateCollection] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+  const [selected, setSelected] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,6 +52,22 @@ export default function Collections() {
         />
       )}
 
+      {showEdit && selected && 
+        <UpdateCollection
+          id={selected}
+          handleClose={() => setShowEdit(false)}
+          refresh={() => setRefreshKey(Date.now())}
+        />
+      }
+
+      {showDelete && selected &&       
+        <DeleteCollection
+          id={selected}
+          handleClose={() => setShowDelete(false)}
+          refresh={() => setRefreshKey(Date.now())}
+        />
+      }
+
       <Box sx={{ my: 10 }}>
         {loading ? (
           <Box sx={{ my: 30 }}>
@@ -68,7 +89,7 @@ export default function Collections() {
           </Box>
         ) : (
           <Box sx={{ mx: { xs: 2, md: 5, lg: 30 } }}>
-            <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 4}}>
+            <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 4 }}>
               <CustomButton handleClick={() => setShowCreateCollection(true)}>
                 <Box sx={{ py: 1 }}>
                   <AddIcon sx={{ mr: 1 }} />
@@ -85,8 +106,12 @@ export default function Collections() {
                 >
                   <CollectionCard
                     key={collection.id}
+                    id={collection.id}
                     name={collection.name}
                     postCount={collection.postCount}
+                    setSelected={setSelected}
+                    showEdit={setShowEdit}
+                    showDelete={setShowDelete}
                   />
                 </Grid>
               ))}

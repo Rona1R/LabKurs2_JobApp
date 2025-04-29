@@ -1,10 +1,16 @@
 import EditDeleteMenu from "../../EditDeleteMenu";
 import { Card, CardContent, Typography, Box } from "@mui/material";
 
-export default function CollectionCard({ id, name, postCount }) {
-  const handleEdit = () => {};
+export default function CollectionCard({ id, name, postCount,setSelected, showEdit, showDelete }) {
+  const handleEdit = () => {
+    setSelected(id);
+    showEdit(true);
+  };
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    setSelected(id);
+    showDelete(true);
+  };
 
   return (
     <Card
