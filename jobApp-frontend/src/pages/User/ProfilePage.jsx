@@ -71,13 +71,16 @@ export default function ProfilePage() {
         sx={{
           backgroundColor: "white",
           mx: { lg: 20 },
+          pb:4,
           boxShadow: "0px 4px 6px rgba(107, 107, 107, 0.1)",
         }}
       >
         <div className="px-3 px-sm-5 py-2 d-flex flex-column gap-3 pb-6">
+        <Box
+          sx={{mt:{xs:-12,md:-20}}}
+        >
           <div
             className="position-relative rounded-circle border border-4 border-white overflow-hidden shadow-md profile-pic-container"
-            style={{ marginTop: "-100px" }}
           >
             <img
               alt="profile-image"
@@ -91,6 +94,7 @@ export default function ProfilePage() {
               className="w-100 h-100 rounded-circle object-cover"
             />
           </div>
+        </Box>
           <div>
             <h3 className="h3 text-dark fw-bold mb-3">
               {userProfile.name} {userProfile.lastName}
