@@ -16,4 +16,9 @@ export class AuthenticationService {
     async logOut(){
       return await this.axiosInstance.post(`${this.requestMapping}/logout`);    
     }
+
+    
+    async register(data) {
+    return await this.axiosInstance.post(`${this.requestMapping}/create-account`, data);
+    }
 }
