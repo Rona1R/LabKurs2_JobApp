@@ -18,12 +18,19 @@ namespace backend.Infrastructure.Repositories
         {
         }
 
-        public async Task<IEnumerable<SavedJobCollection>> GetCollectionsByUser(int userId)
+        public async Task<IEnumerable<CollectionsByUserResponse>> GetCollectionsByUser(int userId)
         {
             return await _context.SavedJobCollection
                 .Where(collection => collection.UserId == userId)
+                .Select(collection => new CollectionsByUserResponse
+                {
+                    Id = collection.Id,
+                    Name = collection.Name,
+                    PostCount = collection.SavedJobs.Count() 
+                })
                 .ToListAsync();
         }
+
 
         public async Task<SavedJobsByCollectionResponse?> GetSavedPostsByCollection(int collectionId)
         {
