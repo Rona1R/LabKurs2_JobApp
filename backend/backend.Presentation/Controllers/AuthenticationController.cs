@@ -116,11 +116,11 @@ namespace backend.Presentation.Controllers
                     return BadRequest("Something went wrong with account creation!");
                 }
             }
-            catch (EmailTakenException ex)
+            catch (UsernameTakenException ex)
             {
                 return BadRequest(ex.Message);
             }
-            catch (UsernameTakenException ex)
+            catch (EmailTakenException ex)
             {
                 return BadRequest(ex.Message);
             }

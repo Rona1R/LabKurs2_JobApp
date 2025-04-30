@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   MDBContainer,
@@ -7,15 +6,15 @@ import {
   MDBCard,
   MDBCardBody,
 } from "mdb-react-ui-kit";
-
 import { Button, Typography, TextField, Box } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import AdbIcon from "@mui/icons-material/Adb";
 import "./Register.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthenticationService } from "src/api/sevices/auth/AuthenticationService"; 
-import { validateEmail } from "src/components/common/utils/validationUtils";
+import { AuthenticationService } from "src/api/sevices/auth/AuthenticationService";
+import { validateEmail, validatePassword } from "src/components/common/utils/validationUtils";
+import Alert from "src/components/common/Alert";
 
 const authService = new AuthenticationService();
 
@@ -31,10 +30,7 @@ const theme = createTheme({
   },
 });
 
-
-
 function Register() {
-
   const [formData, setFormData] = useState({
     name: "",
     lastName: "",
@@ -42,13 +38,13 @@ function Register() {
     email: "",
     password: "",
   });
-   const [warnings, setWarnings] = useState({
-      name: "",
-      lastName: "",
-      username:"",
-      email:"",
-      password:"",
-    });
+  const [warnings, setWarnings] = useState({
+    name: "",
+    lastName: "",
+    username: "",
+    email: "",
+    password: "",
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -57,7 +53,6 @@ function Register() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setWarnings({ ...warnings, [e.target.name]: "" });
     setError("");
-    
   };
 
   const validate = () => {
@@ -85,44 +80,41 @@ function Register() {
       setWarnings({ ...warnings, password: "Password is required!" });
       return false;
     }
+    if (!validatePassword(formData.password)) {
+      setWarnings({ ...warnings, password: "Password must contain at least one upper case digit,lower case digit,alphanumeric character,unique character and be at least 6 characters long!" });
+      return false;
+    }
     return true;
   };
- 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-  
+
     if (!validate()) {
       return;
     }
-  
+
     setLoading(true);
     try {
       await authService.register(formData);
       navigate("/login", { replace: true });
     } catch (err) {
-      if (err.response && err.response.data) {
-        const errorMsg = err.response.data;
-  
-        if (errorMsg.toLowerCase().includes("email")) {
-          setWarnings((prev) => ({ ...prev, email: errorMsg }));
-        } else if (errorMsg.toLowerCase().includes("username")) {
-          setWarnings((prev) => ({ ...prev, username: errorMsg }));
-        } else {
-          setError(errorMsg);
-        }
+      if (err.response.status === 400) {
+        setError(err.response.data);
       } else {
-        setError("An unexpected error occurred.");
+        setError("An unexpected Error occurred");
       }
     } finally {
       setLoading(false);
     }
   };
-  
-
 
   return (
-    <MDBContainer fluid className="p-4 background-radial-gradient overflow-hidden">
+    <MDBContainer
+      fluid
+      className="p-4 background-radial-gradient overflow-hidden"
+    >
       <MDBRow className="register-container">
         <MDBCol
           lg="6"
@@ -137,11 +129,9 @@ function Register() {
             <span style={{ color: "hsl(218, 81%, 75%)" }}>Your Dream Job</span>
           </Typography>
 
-          <Typography
-            sx={{ color: "hsl(218, 81%, 85%)", fontSize: "1.5em"}}
-          >
-            Join the platform where opportunities meet talent. Create your profile
-            today and take the first step toward building your future.
+          <Typography sx={{ color: "hsl(218, 81%, 85%)", fontSize: "1.5em" }}>
+            Join the platform where opportunities meet talent. Create your
+            profile today and take the first step toward building your future.
           </Typography>
         </MDBCol>
 
@@ -164,9 +154,7 @@ function Register() {
                 mb={4}
               >
                 <AdbIcon sx={{ mr: 1, fontSize: "3rem" }} />
-                <Link
-                  to="/"
-                >
+                <Link to="/">
                   <Typography
                     variant="h3"
                     sx={{
@@ -179,7 +167,7 @@ function Register() {
                   >
                     LOGO
                   </Typography>
-                </Link>              
+                </Link>
               </Box>
 
               <Typography
@@ -194,12 +182,14 @@ function Register() {
                 Create Your Account
               </Typography>
               <ThemeProvider theme={theme}>
-                <Box component="form"  onSubmit={handleSubmit} 
-                sx={{ "& .MuiTextField-root": { mb: 3, width: "100%" } }}>
+                <Box
+                  component="form"
+                  onSubmit={handleSubmit}
+                  sx={{ "& .MuiTextField-root": { mb: 3, width: "100%" } }}
+                >
                   <Grid container spacing={2}>
                     <Grid size={6}>
                       <TextField
-                       
                         label="First Name"
                         type="name"
                         //margin="dense"
@@ -209,12 +199,11 @@ function Register() {
                         error={!!warnings.name}
                         helperText={warnings.name}
                         value={formData.name}
-                        onChange={handleChange}             
+                        onChange={handleChange}
                       />
                     </Grid>
                     <Grid size={6}>
                       <TextField
-                    
                         label="Last Name"
                         type="lastName"
                         name="lastName"
@@ -223,12 +212,11 @@ function Register() {
                         error={!!warnings.lastName}
                         helperText={warnings.lastName}
                         value={formData.lastName}
-                        onChange={handleChange}       
+                        onChange={handleChange}
                       />
                     </Grid>
                     <Grid size={12}>
                       <TextField
-                    
                         label="Username"
                         type="username"
                         name="username"
@@ -242,7 +230,6 @@ function Register() {
                     </Grid>
                     <Grid size={12}>
                       <TextField
-                     
                         label="Email"
                         name="email"
                         type="email"
@@ -256,7 +243,6 @@ function Register() {
                     </Grid>
                     <Grid size={12}>
                       <TextField
-                   
                         label="Password"
                         name="password"
                         type="password"
@@ -269,22 +255,22 @@ function Register() {
                       />
                     </Grid>
                   </Grid>
+                  {error && <Alert message={error} />}
                   <Button
-                  
-                      className="sign-up-button"
-                      type="submit"
-                      variant="contained"
-                      fullWidth
-                      disabled={loading}
-                      sx={{
-                        mt: 2,
-                        color: "white",
-                        fontSize: "1rem",
-                        padding: "10px 0",
-                        height: "60px",
-                      }}
+                    className="sign-up-button"
+                    type="submit"
+                    variant="contained"
+                    fullWidth
+                    disabled={loading}
+                    sx={{
+                      mt: 2,
+                      color: "white",
+                      fontSize: "1rem",
+                      padding: "10px 0",
+                      height: "60px",
+                    }}
                   >
-                  {loading ? "Signing Up..." : "Sign Up"}
+                    {loading ? "Signing Up..." : "Sign Up"}
                   </Button>
                 </Box>
               </ThemeProvider>
@@ -292,9 +278,7 @@ function Register() {
                 <Typography variant="h6">
                   Already have an account?{" "}
                   <Link to="/login">
-                  <span style={{fontWeight:"bold"}}>
-                    Log In
-                  </span>
+                    <span style={{ fontWeight: "bold" }}>Log In</span>
                   </Link>
                 </Typography>
               </Box>
@@ -307,5 +291,3 @@ function Register() {
 }
 
 export default Register;
-
-
