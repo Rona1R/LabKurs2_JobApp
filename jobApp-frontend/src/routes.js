@@ -2,29 +2,64 @@ import React from "react"; // make sure you import React if you haven't
 const UserLayout = React.lazy(() => import("./pages/User/UserLayout"));
 const Index = React.lazy(() => import("./pages/Home"));
 const Dashboard = React.lazy(() => import("./pages/Dashboard/Dashboard"));
-const Categories = React.lazy(() => import("./pages/Dashboard/Administrator/Categories/Categories"));
-const Register = React.lazy(() => import("./pages/Authentication/Register/Register"));
+const Categories = React.lazy(() =>
+  import("./pages/Dashboard/Administrator/Categories/Categories")
+);
+const Register = React.lazy(() =>
+  import("./pages/Authentication/Register/Register")
+);
 const LogIn = React.lazy(() => import("./pages/Authentication/LogIn/LogIn"));
-const Users = React.lazy(() => import("./pages/Dashboard/Administrator/Users/Users"));
-const Companies = React.lazy(() => import("./pages/Dashboard/Administrator/Companies/Companies"));
-const Employers = React.lazy(() => import("./pages/Dashboard/Administrator/Employers/Employers"));
+const Users = React.lazy(() =>
+  import("./pages/Dashboard/Administrator/Users/Users")
+);
+const Companies = React.lazy(() =>
+  import("./pages/Dashboard/Administrator/Companies/Companies")
+);
+const Employers = React.lazy(() =>
+  import("./pages/Dashboard/Administrator/Employers/Employers")
+);
 const ProfilePage = React.lazy(() => import("./pages/User/ProfilePage"));
-const JobPostings = React.lazy(() => import("./pages/Dashboard/Employer/Jobs/JobPostings"));
-const AccountSettings = React.lazy(() => import("./pages/User/AccountSettings"));
+const JobPostings = React.lazy(() =>
+  import("./pages/Dashboard/Employer/Jobs/JobPostings")
+);
+const AccountSettings = React.lazy(() =>
+  import("./pages/User/AccountSettings")
+);
 const Postings = React.lazy(() => import("./pages/Jobs/Postings"));
-const Departments = React.lazy(() => import("./pages/Dashboard/Administrator/Departments/Departments"));
-const LanguagesAdmin = React.lazy(() => import("./pages/Dashboard/Administrator/Languages/LanguagesAdmin"));
-const SomethingWentWrong = React.lazy(() => import("./pages/Error/SomethingWentWrong"));
-const AlreadyLoggedIn = React.lazy(() => import("./pages/Error/AlreadyLoggedIn"));
-const ServerNotResponding = React.lazy(() => import("./pages/Error/ServerNotResponding"));
+const Departments = React.lazy(() =>
+  import("./pages/Dashboard/Administrator/Departments/Departments")
+);
+const LanguagesAdmin = React.lazy(() =>
+  import("./pages/Dashboard/Administrator/Languages/LanguagesAdmin")
+);
+const SomethingWentWrong = React.lazy(() =>
+  import("./pages/Error/SomethingWentWrong")
+);
+const AlreadyLoggedIn = React.lazy(() =>
+  import("./pages/Error/AlreadyLoggedIn")
+);
+const ServerNotResponding = React.lazy(() =>
+  import("./pages/Error/ServerNotResponding")
+);
 const NotFound = React.lazy(() => import("./pages/Error/NotFound"));
-const Institutions = React.lazy(() => import("./pages/Dashboard/Administrator/Institutions/Institutions"));
-const MyCompanies = React.lazy(() => import("./pages/Dashboard/Employer/Companies/MyCompanies"));
-const Tags = React.lazy(() => import("./pages/Dashboard/Administrator/Tags/Tags"));
-const PostingsByCategory = React.lazy(() => import("./pages/Jobs/PostingsByCategory"));
+const Institutions = React.lazy(() =>
+  import("./pages/Dashboard/Administrator/Institutions/Institutions")
+);
+const MyCompanies = React.lazy(() =>
+  import("./pages/Dashboard/Employer/Companies/MyCompanies")
+);
+const Tags = React.lazy(() =>
+  import("./pages/Dashboard/Administrator/Tags/Tags")
+);
+const PostingsByCategory = React.lazy(() =>
+  import("./pages/Jobs/PostingsByCategory")
+);
 const PostingsByTag = React.lazy(() => import("./pages/Jobs/PostingsByTag"));
 const JobDetails = React.lazy(() => import("./pages/Jobs/JobDetails"));
 const SavedJobs = React.lazy(() => import("./pages/User/SavedJobs"));
+const SavedJobsByCollection = React.lazy(() =>
+  import("./pages/User/SavedJobsByCollection")
+);
 
 const routes = [
   ,
@@ -68,6 +103,10 @@ const routes = [
         path: "/savedJobs",
         element: SavedJobs,
         private: true,
+      },
+      {
+        path: "/savedJobs/collection/:id",
+        element: SavedJobsByCollection,
       },
     ],
   },

@@ -1,7 +1,16 @@
+import { useNavigate } from "react-router-dom";
 import EditDeleteMenu from "../../EditDeleteMenu";
 import { Card, CardContent, Typography, Box } from "@mui/material";
 
-export default function CollectionCard({ id, name, postCount,setSelected, showEdit, showDelete }) {
+export default function CollectionCard({
+  id,
+  name,
+  postCount,
+  setSelected,
+  showEdit,
+  showDelete,
+}) {
+  const navigate = useNavigate();
   const handleEdit = () => {
     setSelected(id);
     showEdit(true);
@@ -35,7 +44,10 @@ export default function CollectionCard({ id, name, postCount,setSelected, showEd
             iconColor={"hsl(218, 94.40%, 21.20%)"}
           />
         </div>
-        <Box sx={{ m: 5 }}>
+        <Box
+          sx={{ p: 5 }}
+          onClick={() => navigate(`/savedJobs/collection/${id}`)}
+        >
           <Typography
             variant="h4"
             component="div"
@@ -43,6 +55,7 @@ export default function CollectionCard({ id, name, postCount,setSelected, showEd
               color: "hsl(218, 94.40%, 21.20%)",
               fontWeight: "bold",
               mb: 3,
+              cursor: "pointer", 
             }}
           >
             {name}
@@ -51,7 +64,11 @@ export default function CollectionCard({ id, name, postCount,setSelected, showEd
             component="div"
             variant="h5"
             mt={1}
-            sx={{ color: "hsl(218, 94.40%, 21.20%)", fontWeight: "bold" }}
+            sx={{
+              color: "hsl(218, 94.40%, 21.20%)",
+              fontWeight: "bold",
+              cursor: "pointer", 
+            }}
           >
             {postCount} {postCount === 1 ? "Saved Post" : "Saved Posts"}
           </Typography>

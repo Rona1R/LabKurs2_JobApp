@@ -5,7 +5,7 @@ const customTabPanelTheme = createTheme({
       MuiTabs: {
         styleOverrides: {
           indicator: {
-            backgroundColor: 'hsl(210, 100%, 80%)', 
+            backgroundColor: '#e8f0fe', 
             height:"3px",
           },
         },
@@ -13,11 +13,11 @@ const customTabPanelTheme = createTheme({
       MuiTab: {
         styleOverrides: {
           root: {
-            color:"hsl(210, 100%, 80%) ",
+            color:"#e8f0fe",
             textTransform: 'none',  // Normal casing
             fontWeight:'bold',
             '&.Mui-selected': {
-              color: 'hsl(210, 100%, 80%) ',       
+              color: '#e8f0fe',       
             },
           },
         },

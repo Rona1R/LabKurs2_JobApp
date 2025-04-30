@@ -9,4 +9,7 @@ export class SavedJobCollectionService extends BaseService {
     return await this.axiosInstance.get(`${this.requestMapping}/byUser/${userId}`);
   }
 
+  async getPostsByCollection(collectionId){
+    return await this.axiosInstance.get(`${this.requestMapping}/savedPostsByCollection/${collectionId}`);
+  }
 }
