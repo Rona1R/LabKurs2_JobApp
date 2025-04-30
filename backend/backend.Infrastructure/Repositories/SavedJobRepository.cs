@@ -19,6 +19,11 @@ namespace backend.Infrastructure.Repositories
         {
             _context = context;
         }
+
+        public async Task<bool> IsJobSaved(int userId,int jobId)
+        {
+            return await _context.SavedJob.Where(j=>j.UserId == userId && j.JobId == jobId).FirstOrDefaultAsync() != null;
+        }
         
         public async Task<SavedJob?> GetByIdAsync(int id)
         {

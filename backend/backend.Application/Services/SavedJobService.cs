@@ -26,6 +26,11 @@ namespace backend.Application.Services
             _savedJobCollectionRepository = savedJobCollectionRepository;
         }
 
+        public async Task<bool> IsJobSaved(int userId,int jobId)
+        {
+            return await _savedJobRepository.IsJobSaved(userId, jobId);
+        }
+
         public async Task<SavedJobResponse?> GetByIdAsync(int id)
         {
             var savedJob = await _savedJobRepository.GetByIdAsync(id);

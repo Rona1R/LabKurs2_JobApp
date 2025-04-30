@@ -15,6 +15,7 @@ namespace backend.Application.Interfaces.SavedJobInterfaces
         Task AddToCollection(int savedJobId, int collectionId);
         Task<SavedJobResponse?> GetByIdAsync(int id);
         Task<IEnumerable<SavedJobByUserResponse>> GetSavedJobsByUser(int userId);
+        Task<bool> IsJobSaved(int userId, int jobId);
         Task RemoveFromCollection(int savedJobId);
         Task RemoveSavedJob(int savedJobId);
     }

@@ -17,6 +17,12 @@ namespace backend.Presentation.Controllers
             _savedJobService = savedJobService;
         }
 
+        [HttpGet("isSaved/{userId}/{jobId}")]
+        public async Task<IActionResult> GetIsSaved(int userId,int jobId)
+        {
+            return Ok(await _savedJobService.IsJobSaved(userId,jobId));
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] SavedJobRequest savedJobRequest)
         {

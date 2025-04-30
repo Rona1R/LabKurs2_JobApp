@@ -23,10 +23,15 @@ import JobDetailsList from "src/components/jobs/JobDetails/JobDeatilsList";
 import { JobService } from "src/api/sevices/JobService";
 import Loading from "src/components/common/Loading";
 import JobCard from "src/components/jobs/JobCard";
+import { useAuth } from "src/context/AuthContext";
+import { SavedJobService } from "src/api/sevices/SavedJobService";
 const jobService = new JobService();
+const savedJobService = new SavedJobService();
 
 export default function JobDetails() {
   const { id } = useParams();
+  const { user } = useAuth();
+  const userId = user?.nameid;
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [recommandations, setRecommendations] = useState([]);
@@ -34,6 +39,7 @@ export default function JobDetails() {
   const [expanded, setExpanded] = useState(false);
   const [showToggle, setShowToggle] = useState(false);
   const isDeadlinePassed = new Date(data?.job.deadline + "Z") < new Date();
+  const [isSaved, setIsSaved] = useState(false);
   const descriptionRef = useRef();
 
   useEffect(() => {
@@ -56,12 +62,40 @@ export default function JobDetails() {
   }, [id]);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (userId) {
+          const response = await savedJobService.isJobSaved(userId, id);
+          console.log(response.data);
+          setIsSaved(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [userId, id]);
+
+  useEffect(() => {
     const el = descriptionRef.current;
     if (el) {
       setShowToggle(el.scrollHeight > el.offsetHeight);
     }
   }, [data?.job.description]);
 
+  const handleSaveJob = () => {
+    if(userId){
+      console.log("Will save job...");
+      return;
+    }
+
+    navigate('/LogIn');
+  }
+
+  const handleUnSaveJob = () => {
+
+  }
   return (
     <>
       <Box sx={{ backgroundColor: "#0A0529", height: "300px" }} />
@@ -124,14 +158,29 @@ export default function JobDetails() {
                     }}
                   >
                     {data?.job.title}
-                    <IconButton>
-                      <FavoriteIcon
-                        sx={{
-                          color: "rgba(255, 4, 117, 0.75)",
-                          fontSize: "1.8em",
-                        }}
-                      />
-                    </IconButton>
+                    {isSaved ? (
+                      <IconButton
+                       onClick={handleUnSaveJob}
+                      >
+                        <FavoriteIcon
+                          sx={{
+                            color: "rgba(255, 4, 117, 0.75)",
+                            fontSize: "1.8em",
+                          }}
+                        />
+                      </IconButton>
+                    ) : (
+                      <IconButton
+                        onClick={handleSaveJob}
+                      >
+                        <FavoriteBorderIcon
+                          sx={{
+                            color: "rgba(46, 34, 40, 0.75)",
+                            fontSize: "1.8em",
+                          }}
+                        />
+                      </IconButton>
+                    )}
                   </Typography>
                   <Typography
                     variant="h6"

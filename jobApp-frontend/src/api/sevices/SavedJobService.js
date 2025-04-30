@@ -20,4 +20,10 @@ export class SavedJobService {
       `${this.requestMapping}/${savedJobId}`
     );
   }
+
+  async isJobSaved(userId,jobId){
+    return await this.axiosInstance.get(
+      `${this.requestMapping}/isSaved/${userId}/${jobId}`
+    );
+  }
 }
