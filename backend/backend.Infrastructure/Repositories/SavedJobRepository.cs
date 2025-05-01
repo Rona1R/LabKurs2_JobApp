@@ -42,6 +42,12 @@ namespace backend.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<SavedJob?> GetByUserAndJob(int userId,int jobId)
+        {
+            return await _context.SavedJob.FirstOrDefaultAsync(j=>j.UserId == userId && j.JobId == jobId);
+        }
+
+        //public async Task AddToCollection()
         public async Task RemoveFromCollection(SavedJob savedJob)
         {
             savedJob.SavedJobCollectionId = null;
@@ -80,6 +86,17 @@ namespace backend.Infrastructure.Repositories
         public async Task RemoveSavedJob(int savedJobId)
         {
             var savedJob = await _context.SavedJob.FindAsync(savedJobId);
+            if (savedJob != null)
+            {
+                _context.SavedJob.Remove(savedJob);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task RemoveByUserAndJob(int userId, int jobId)
+        {
+            var savedJob = await GetByUserAndJob(userId, jobId);
+            //var savedJob = await _context.SavedJob.Where(s=>s.UserId == userId && s.JobId == jobId).FirstOrDefaultAsync();
             if (savedJob != null)
             {
                 _context.SavedJob.Remove(savedJob);

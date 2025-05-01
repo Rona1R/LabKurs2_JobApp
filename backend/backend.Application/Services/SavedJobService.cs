@@ -66,6 +66,20 @@ namespace backend.Application.Services
             await _savedJobRepository.AddToCollection(savedJob, collectionId);
         }
 
+        public async Task AddToCollection(int userId,int jobId, int collectionId)
+        {
+            var savedJob = await _savedJobRepository.GetByUserAndJob(userId, jobId);
+            if (savedJob == null) {
+                throw new NotFoundException("Saved Job was not found !");
+            }
+            var collection = await _savedJobCollectionRepository.GetByIdAsync(collectionId);
+            if (collection == null) {
+                throw new NotFoundException("Collection was not found !");
+            }
+
+            await _savedJobRepository.AddToCollection(savedJob, collectionId);
+        }
+
         public async Task RemoveFromCollection(int savedJobId)
         {
             var savedJob = await _savedJobRepository.GetByIdAsync(savedJobId);
@@ -79,6 +93,11 @@ namespace backend.Application.Services
         public async Task RemoveSavedJob(int savedJobId)
         { 
             await _savedJobRepository.RemoveSavedJob(savedJobId);
+        }
+
+        public async Task RemoveByUserAndJob(int userId,int jobId)
+        {
+            await _savedJobRepository.RemoveByUserAndJob(userId,jobId);
         }
     }
 }

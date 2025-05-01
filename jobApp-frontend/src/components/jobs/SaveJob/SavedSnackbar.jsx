@@ -4,7 +4,7 @@ import React from "react";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-export default function SavedSnackbar({ open, setOpen }) {
+export default function SavedSnackbar({ open, setOpen,handleCollection }) {
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -19,8 +19,6 @@ export default function SavedSnackbar({ open, setOpen }) {
         backgroundColor: "#0A0529",
         fontWeight: "bold",
         color: "#e8f0fe",
-        px: 3,
-        py: 1,
       }}
       message={
         <Box
@@ -30,17 +28,24 @@ export default function SavedSnackbar({ open, setOpen }) {
             alignItems: "center",
           }}
         >
-          <Box>
+          <Box sx={{ mr: 10 }}>
             <Typography variant="h6" sx={{ fontWeight: "bold" }}>
               <CheckCircleIcon sx={{ mr: 1 }} />
-              {/* <FontAwesomeIcon icon={icon} style={{ marginRight: 10 }} /> */}
-              Job Posting Saved
+              Job was saved
             </Typography>
           </Box>
-          <Box sx={{ ml: 5 }}>
+          <Box>
             <Typography
               variant="body2"
-              sx={{ fontWeight: "bold", fontSize: "1.2em",color:"hsl(210, 100%, 80%)" }}
+              sx={{
+                fontWeight: "bold",
+                fontSize: "1.2em",
+                color: "hsl(210, 100%, 80%)",
+                backgroundColor:"inherit",
+                border:"none"      
+              }}
+              component={"button"}
+              onClick={handleCollection}
             >
               Manage
               <ArrowForwardIosIcon sx={{ ml: 1 }} />
@@ -55,7 +60,7 @@ export default function SavedSnackbar({ open, setOpen }) {
     <Snackbar
       sx={{
         "& .MuiSnackbarContent-root": {
-          borderRadius: "10px"
+          borderRadius: "10px",
         },
       }}
       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}

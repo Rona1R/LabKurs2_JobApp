@@ -50,6 +50,21 @@ namespace backend.Presentation.Controllers
             }
         }
 
+        [HttpPut("addToCollection/{userId}/{jobId}/{collectionId}")]
+        public async Task<IActionResult> AddToCollection(int userId, int jobId, int collectionId)
+        {
+            try
+            {
+                await _savedJobService.AddToCollection(userId, jobId, collectionId);
+                return Ok("Job was saved to collection successfully !");
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+
         [HttpPut("removeFromCollection/{savedJobId}")]
         public async Task<IActionResult> RemoveFromCollection(int savedJobId)
         {
@@ -80,8 +95,14 @@ namespace backend.Presentation.Controllers
             }
 
             await _savedJobService.RemoveSavedJob(savedJobId);
-            return Ok("Saved job was removed successfully !");
+            return Ok("Job was successfully unsaved !");
+        }
 
+        [HttpDelete("byUserAndJob/{userId}/{jobId}")]
+        public async Task<IActionResult> DeleteByUserAndJob(int userId, int jobId)
+        {
+            await _savedJobService.RemoveByUserAndJob(userId, jobId);
+            return Ok("Job was successfully unsaved !");
         }
     }
 }

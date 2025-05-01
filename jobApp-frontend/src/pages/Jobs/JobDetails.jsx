@@ -25,6 +25,10 @@ import Loading from "src/components/common/Loading";
 import JobCard from "src/components/jobs/JobCard";
 import { useAuth } from "src/context/AuthContext";
 import { SavedJobService } from "src/api/sevices/SavedJobService";
+import SavedSnackbar from "src/components/jobs/SaveJob/SavedSnackbar";
+import AddToCollectionModal from "src/components/jobs/SaveJob/AddToCollectionModal";
+import CreateCollection from "src/components/user/SavedJobs/Collections/CreateCollection";
+import { useNotification } from "src/hooks/useNotification";
 const jobService = new JobService();
 const savedJobService = new SavedJobService();
 
@@ -40,6 +44,12 @@ export default function JobDetails() {
   const [showToggle, setShowToggle] = useState(false);
   const isDeadlinePassed = new Date(data?.job.deadline + "Z") < new Date();
   const [isSaved, setIsSaved] = useState(false);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [showAddToCollectionModal, setShowAddToCollectionalModal] =
+    useState(false);
+  const [showCreateCollection, setShowCreateCollection] = useState(false);
+  const [collectionsRefreshKey, setCollectionsRefreshKey] = useState("");
+  const { showNotification } = useNotification();
   const descriptionRef = useRef();
 
   useEffect(() => {
@@ -84,20 +94,63 @@ export default function JobDetails() {
     }
   }, [data?.job.description]);
 
-  const handleSaveJob = () => {
-    if(userId){
+  const handleSaveJob = async () => {
+    if (userId) {
+      setIsSaved(true);
       console.log("Will save job...");
-      return;
+      try{
+        const response = await savedJobService.create({
+          userId : userId,
+          jobId: id
+        })
+        console.log("Job that was just saved : ");
+        console.log(response);
+        setShowSnackbar(true);
+      }catch(err){
+        showNotification("error","An unexpected error occurred!");
+        setIsSaved(false);
+      }
+      console.log("Attempting to save job.");
+    }else{
+      navigate("/LogIn");
     }
 
-    navigate('/LogIn');
-  }
+  };
 
-  const handleUnSaveJob = () => {
+  const handleUnSaveJob = async () => {
+    setIsSaved(false);
+    try{
+      await savedJobService.unsaveJobByUserAndJob(userId,id);
+      showNotification("success","Job was successfully unsaved!");
+    }catch(err){
+      showNotification("error","An unexpected error occurred!");
+      setIsSaved(true);
+    }
+  };
 
-  }
   return (
     <>
+      <SavedSnackbar
+        open={showSnackbar}
+        setOpen={setShowSnackbar}
+        handleCollection={() => setShowAddToCollectionalModal(true)}
+      />
+
+      {showCreateCollection && (
+        <CreateCollection
+          handleClose={() => setShowCreateCollection(false)}
+          refresh={() => setShowCreateCollection(Date.now())}
+        />
+      )}
+      {showAddToCollectionModal && !showCreateCollection && (
+        <AddToCollectionModal
+          jobId={id}
+          refreshKey={collectionsRefreshKey}
+          handleClose={() => setShowAddToCollectionalModal(false)}
+          setShowCreateCollection={setShowCreateCollection}
+        />
+      )}
+
       <Box sx={{ backgroundColor: "#0A0529", height: "300px" }} />
       {loading ? (
         <Box sx={{ my: 30 }}>
@@ -159,9 +212,7 @@ export default function JobDetails() {
                   >
                     {data?.job.title}
                     {isSaved ? (
-                      <IconButton
-                       onClick={handleUnSaveJob}
-                      >
+                      <IconButton onClick={handleUnSaveJob}>
                         <FavoriteIcon
                           sx={{
                             color: "rgba(255, 4, 117, 0.75)",
@@ -170,9 +221,7 @@ export default function JobDetails() {
                         />
                       </IconButton>
                     ) : (
-                      <IconButton
-                        onClick={handleSaveJob}
-                      >
+                      <IconButton onClick={handleSaveJob}>
                         <FavoriteBorderIcon
                           sx={{
                             color: "rgba(46, 34, 40, 0.75)",
