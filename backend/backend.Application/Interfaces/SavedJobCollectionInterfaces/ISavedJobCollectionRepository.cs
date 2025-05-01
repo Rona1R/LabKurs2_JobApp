@@ -10,7 +10,7 @@ namespace backend.Application.Interfaces.SavedJobCollectionInterfaces
 {
     public interface ISavedJobCollectionRepository : IBaseRepository<SavedJobCollection>
     {
-        Task<IEnumerable<SavedJobCollection>> GetCollectionsByUser(int userId);
+        Task<IEnumerable<CollectionsByUserResponse>> GetCollectionsByUser(int userId);
         Task<SavedJobsByCollectionResponse?> GetSavedPostsByCollection(int collectionId);
     }
 }

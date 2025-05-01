@@ -19,10 +19,9 @@ namespace backend.Application.Services
         }
 
 
-        public async Task<IEnumerable<SavedJobCollectionResponse>> GetCollectionsByUser(int userId)
+        public async Task<IEnumerable<CollectionsByUserResponse>> GetCollectionsByUser(int userId)
         {
-            var collections = await _repository.GetCollectionsByUser(userId);
-            return _mapper.Map<IEnumerable<SavedJobCollectionResponse>>(collections);
+           return await _repository.GetCollectionsByUser(userId);
         }
 
         public async Task<SavedJobsByCollectionResponse?> GetSavedPostsByCollection(int collectionId)

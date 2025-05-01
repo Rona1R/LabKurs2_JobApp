@@ -130,7 +130,7 @@ function UserSidebar({ show, handleClose, ...props }) {
                     </ListItemButton>
                   </Link>
 
-                <Link to="/" className="sidebarlink">
+                <Link to="/savedJobs" className="sidebarlink">
                   <ListItemButton onClick={handleClose}>
                     <ListItemIcon>
                       <FontAwesomeIcon icon={faBookmark} />

@@ -17,6 +17,12 @@ namespace backend.Presentation.Controllers
             _savedJobService = savedJobService;
         }
 
+        [HttpGet("isSaved/{userId}/{jobId}")]
+        public async Task<IActionResult> GetIsSaved(int userId,int jobId)
+        {
+            return Ok(await _savedJobService.IsJobSaved(userId,jobId));
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] SavedJobRequest savedJobRequest)
         {
@@ -29,20 +35,35 @@ namespace backend.Presentation.Controllers
             return Ok(createdDto);
         }
 
-        [HttpPut("addToCollection/{savedJobId}/{collectionId}")]
-        public async Task<IActionResult> AddToCollection(int savedJobId, int collectionId)
+        //[HttpPut("addToCollection/{savedJobId}/{collectionId}")]
+        //public async Task<IActionResult> AddToCollection(int savedJobId, int collectionId)
+        //{
+        //    try
+        //    {
+        //        await _savedJobService.AddToCollection(savedJobId, collectionId);
+        //        return Ok("Job was saved to collection successfully !");
+
+        //    }
+        //    catch (NotFoundException ex)
+        //    {
+        //        return NotFound(ex.Message);
+        //    }
+        //}
+
+        [HttpPut("addToCollection/{userId}/{jobId}/{collectionId}")]
+        public async Task<IActionResult> AddToCollection(int userId, int jobId, int collectionId)
         {
             try
             {
-                await _savedJobService.AddToCollection(savedJobId, collectionId);
+                await _savedJobService.AddToCollection(userId, jobId, collectionId);
                 return Ok("Job was saved to collection successfully !");
-
             }
             catch (NotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
         }
+
 
         [HttpPut("removeFromCollection/{savedJobId}")]
         public async Task<IActionResult> RemoveFromCollection(int savedJobId)
@@ -74,8 +95,14 @@ namespace backend.Presentation.Controllers
             }
 
             await _savedJobService.RemoveSavedJob(savedJobId);
-            return Ok("Saved job was removed successfully !");
+            return Ok("Job was successfully unsaved !");
+        }
 
+        [HttpDelete("byUserAndJob/{userId}/{jobId}")]
+        public async Task<IActionResult> DeleteByUserAndJob(int userId, int jobId)
+        {
+            await _savedJobService.RemoveByUserAndJob(userId, jobId);
+            return Ok("Job was successfully unsaved !");
         }
     }
 }

@@ -23,10 +23,19 @@ import JobDetailsList from "src/components/jobs/JobDetails/JobDeatilsList";
 import { JobService } from "src/api/sevices/JobService";
 import Loading from "src/components/common/Loading";
 import JobCard from "src/components/jobs/JobCard";
+import { useAuth } from "src/context/AuthContext";
+import { SavedJobService } from "src/api/sevices/SavedJobService";
+import SavedSnackbar from "src/components/jobs/SaveJob/SavedSnackbar";
+import AddToCollectionModal from "src/components/jobs/SaveJob/AddToCollectionModal";
+import CreateCollection from "src/components/user/SavedJobs/Collections/CreateCollection";
+import { useNotification } from "src/hooks/useNotification";
 const jobService = new JobService();
+const savedJobService = new SavedJobService();
 
 export default function JobDetails() {
   const { id } = useParams();
+  const { user } = useAuth();
+  const userId = user?.nameid;
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [recommandations, setRecommendations] = useState([]);
@@ -34,6 +43,13 @@ export default function JobDetails() {
   const [expanded, setExpanded] = useState(false);
   const [showToggle, setShowToggle] = useState(false);
   const isDeadlinePassed = new Date(data?.job.deadline + "Z") < new Date();
+  const [isSaved, setIsSaved] = useState(false);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [showAddToCollectionModal, setShowAddToCollectionalModal] =
+    useState(false);
+  const [showCreateCollection, setShowCreateCollection] = useState(false);
+  const [collectionsRefreshKey, setCollectionsRefreshKey] = useState("");
+  const { showNotification } = useNotification();
   const descriptionRef = useRef();
 
   useEffect(() => {
@@ -56,16 +72,86 @@ export default function JobDetails() {
   }, [id]);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (userId) {
+          const response = await savedJobService.isJobSaved(userId, id);
+          console.log(response.data);
+          setIsSaved(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [userId, id]);
+
+  useEffect(() => {
     const el = descriptionRef.current;
     if (el) {
       setShowToggle(el.scrollHeight > el.offsetHeight);
     }
   }, [data?.job.description]);
 
+  const handleSaveJob = async () => {
+    if (userId) {
+      setIsSaved(true);
+      console.log("Will save job...");
+      try{
+        const response = await savedJobService.create({
+          userId : userId,
+          jobId: id
+        })
+        console.log("Job that was just saved : ");
+        console.log(response);
+        setShowSnackbar(true);
+      }catch(err){
+        showNotification("error","An unexpected error occurred!");
+        setIsSaved(false);
+      }
+      console.log("Attempting to save job.");
+    }else{
+      navigate("/LogIn");
+    }
+
+  };
+
+  const handleUnSaveJob = async () => {
+    setIsSaved(false);
+    try{
+      await savedJobService.unsaveJobByUserAndJob(userId,id);
+      showNotification("success","Job was successfully unsaved!");
+    }catch(err){
+      showNotification("error","An unexpected error occurred!");
+      setIsSaved(true);
+    }
+  };
+
   return (
     <>
+      <SavedSnackbar
+        open={showSnackbar}
+        setOpen={setShowSnackbar}
+        handleCollection={() => setShowAddToCollectionalModal(true)}
+      />
+
+      {showCreateCollection && (
+        <CreateCollection
+          handleClose={() => setShowCreateCollection(false)}
+          refresh={() => setCollectionsRefreshKey(Date.now())}
+        />
+      )}
+      {showAddToCollectionModal && !showCreateCollection && (
+        <AddToCollectionModal
+          jobId={id}
+          refreshKey={collectionsRefreshKey}
+          handleClose={() => setShowAddToCollectionalModal(false)}
+          setShowCreateCollection={setShowCreateCollection}
+        />
+      )}
+
       <Box sx={{ backgroundColor: "#0A0529", height: "300px" }} />
-      {/* Details for job : {id} */}
       {loading ? (
         <Box sx={{ my: 30 }}>
           <Loading />
@@ -125,14 +211,25 @@ export default function JobDetails() {
                     }}
                   >
                     {data?.job.title}
-                    <IconButton>
-                      <FavoriteIcon
-                        sx={{
-                          color: "rgba(29, 33, 136, 0.75)",
-                          fontSize: "1.8em",
-                        }}
-                      />
-                    </IconButton>
+                    {isSaved ? (
+                      <IconButton onClick={handleUnSaveJob}>
+                        <FavoriteIcon
+                          sx={{
+                            color: "rgba(255, 4, 117, 0.75)",
+                            fontSize: "1.8em",
+                          }}
+                        />
+                      </IconButton>
+                    ) : (
+                      <IconButton onClick={handleSaveJob}>
+                        <FavoriteBorderIcon
+                          sx={{
+                            color: "rgba(46, 34, 40, 0.75)",
+                            fontSize: "1.8em",
+                          }}
+                        />
+                      </IconButton>
+                    )}
                   </Typography>
                   <Typography
                     variant="h6"

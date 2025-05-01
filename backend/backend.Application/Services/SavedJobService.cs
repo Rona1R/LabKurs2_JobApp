@@ -26,6 +26,11 @@ namespace backend.Application.Services
             _savedJobCollectionRepository = savedJobCollectionRepository;
         }
 
+        public async Task<bool> IsJobSaved(int userId,int jobId)
+        {
+            return await _savedJobRepository.IsJobSaved(userId, jobId);
+        }
+
         public async Task<SavedJobResponse?> GetByIdAsync(int id)
         {
             var savedJob = await _savedJobRepository.GetByIdAsync(id);
@@ -44,18 +49,32 @@ namespace backend.Application.Services
             return await _savedJobRepository.GetSavedJobsByUserId(userId);       
         }
 
-        public async Task AddToCollection(int savedJobId, int collectionId)
-        {
-            var collection = await _savedJobCollectionRepository.GetByIdAsync(collectionId);
-            var savedJob = await _savedJobRepository.GetByIdAsync(savedJobId);
-            if (collection == null)
-            {
-                throw new NotFoundException("Collection was not found !");
-            }
+        //public async Task AddToCollection(int savedJobId, int collectionId)
+        //{
+        //    var collection = await _savedJobCollectionRepository.GetByIdAsync(collectionId);
+        //    var savedJob = await _savedJobRepository.GetByIdAsync(savedJobId);
+        //    if (collection == null)
+        //    {
+        //        throw new NotFoundException("Collection was not found !");
+        //    }
 
-            if(savedJob == null)
-            {
-                throw new NotFoundException("Saved job was not found !");
+        //    if(savedJob == null)
+        //    {
+        //        throw new NotFoundException("Saved job was not found !");
+        //    }
+
+        //    await _savedJobRepository.AddToCollection(savedJob, collectionId);
+        //}
+
+        public async Task AddToCollection(int userId,int jobId, int collectionId)
+        {
+            var savedJob = await _savedJobRepository.GetByUserAndJob(userId, jobId);
+            if (savedJob == null) {
+                throw new NotFoundException("Saved Job was not found !");
+            }
+            var collection = await _savedJobCollectionRepository.GetByIdAsync(collectionId);
+            if (collection == null) {
+                throw new NotFoundException("Collection was not found !");
             }
 
             await _savedJobRepository.AddToCollection(savedJob, collectionId);
@@ -74,6 +93,11 @@ namespace backend.Application.Services
         public async Task RemoveSavedJob(int savedJobId)
         { 
             await _savedJobRepository.RemoveSavedJob(savedJobId);
+        }
+
+        public async Task RemoveByUserAndJob(int userId,int jobId)
+        {
+            await _savedJobRepository.RemoveByUserAndJob(userId,jobId);
         }
     }
 }

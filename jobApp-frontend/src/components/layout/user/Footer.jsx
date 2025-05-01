@@ -19,7 +19,7 @@ const Footer = () => {
           <Typography
             variant="h4"
             sx={{ fontWeight: "bold", mb: 3 }}
-            className="section-title"
+            className="footer-section-title"
           >
             Quick Links
           </Typography>
@@ -88,8 +88,8 @@ const Footer = () => {
         <Grid size={{ xs: 12, sm: 6, md: 4 }}>
           <Typography
             variant="h4"
-            sx={{ fontWeight: "bold", mb: 3 }}
-            className="section-title"
+            sx={{ fontWeight: "bold", mb: 3}}
+            className="footer-section-title"
           >
             Contact Us
           </Typography>
@@ -130,7 +130,7 @@ const Footer = () => {
           <Typography
             variant="h4"
             sx={{ fontWeight: "bold", mb: 3 }}
-            className="section-title"
+            className="footer-section-title"
           >
             Follow Us
           </Typography>
