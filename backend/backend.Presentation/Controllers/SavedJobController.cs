@@ -35,20 +35,20 @@ namespace backend.Presentation.Controllers
             return Ok(createdDto);
         }
 
-        [HttpPut("addToCollection/{savedJobId}/{collectionId}")]
-        public async Task<IActionResult> AddToCollection(int savedJobId, int collectionId)
-        {
-            try
-            {
-                await _savedJobService.AddToCollection(savedJobId, collectionId);
-                return Ok("Job was saved to collection successfully !");
+        //[HttpPut("addToCollection/{savedJobId}/{collectionId}")]
+        //public async Task<IActionResult> AddToCollection(int savedJobId, int collectionId)
+        //{
+        //    try
+        //    {
+        //        await _savedJobService.AddToCollection(savedJobId, collectionId);
+        //        return Ok("Job was saved to collection successfully !");
 
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
+        //    }
+        //    catch (NotFoundException ex)
+        //    {
+        //        return NotFound(ex.Message);
+        //    }
+        //}
 
         [HttpPut("addToCollection/{userId}/{jobId}/{collectionId}")]
         public async Task<IActionResult> AddToCollection(int userId, int jobId, int collectionId)

@@ -12,6 +12,6 @@ namespace backend.Application.DTOs.Response
 
         public string Name { get; set; }
 
-        public IEnumerable<JobPostings> SavedPosts { get; set; } = new List<JobPostings>();
+        public IEnumerable<SavedPostByCollection> SavedPosts { get; set; } = new List<SavedPostByCollection>();
     }
 }

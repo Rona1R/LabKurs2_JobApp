@@ -6,6 +6,8 @@ import { SavedJobService } from "src/api/sevices/SavedJobService";
 import { useAuth } from "src/context/AuthContext";
 import Loading from "src/components/common/Loading";
 import NoDataYet from "src/components/common/NoDataYet";
+import AddToCollectionModal from "src/components/jobs/SaveJob/AddToCollectionModal";
+import CreateCollection from "./Collections/CreateCollection";
 const savedJobService = new SavedJobService();
 
 export default function AllSavedJobs() {
@@ -14,6 +16,10 @@ export default function AllSavedJobs() {
   const [savedJobs, setSavedJobs] = useState([]);
   const [refreshKey, setRefreshKey] = useState("");
   const [loading, setLoading] = useState(true);
+  const [showAddToCollection, setShowAddToCollection] = useState(false);
+  const [showCreateCollection, setShowCreateCollection] = useState(false);
+  const [createCollectionRefreshKey,setCreateCollectionRefreshKey] = useState("");
+  const [savedJobToMove,setSavedToMove] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,9 +38,29 @@ export default function AllSavedJobs() {
     fetchData();
   }, [refreshKey]);
 
+  const moveToCollection = (savedJobId) => {
+    setShowAddToCollection(true);
+    setSavedToMove(savedJobId);
+  };
+
   return (
     <>
-      <Box sx={{my:15}}>
+      {showCreateCollection && (
+        <CreateCollection
+          handleClose={() => setShowCreateCollection(false)}
+          refresh={() => setCreateCollectionRefreshKey(Date.now())}
+        />
+      )}
+      {showAddToCollection && !showCreateCollection && (
+        <AddToCollectionModal
+          jobId={savedJobToMove}
+          refreshKey={createCollectionRefreshKey}
+          handleClose={() => setShowAddToCollection(false)}
+          setShowCreateCollection={setShowCreateCollection}
+        />
+      )}
+
+      <Box sx={{ my: 15 }}>
         {loading ? (
           <Box sx={{ my: 30 }}>
             <Loading />
@@ -44,7 +70,7 @@ export default function AllSavedJobs() {
             <NoDataYet message={"No saved jobs yet !"} />
           </Box>
         ) : (
-        <Box sx={{ mx: {xs:2, md: 5, lg: 30 }} }>
+          <Box sx={{ mx: { xs: 2, md: 5, lg: 30 } }}>
             <Grid container spacing={6} my={8} justifyContent={"center"}>
               {savedJobs.map((posting, index) => (
                 <Grid size={{ xs: 12, md: 6, xl: 4 }} key={index}>
@@ -58,6 +84,7 @@ export default function AllSavedJobs() {
                     category={posting.job.category}
                     employmentType={posting.job.employmentType}
                     setRefreshKey={setRefreshKey}
+                    moveToCollection={moveToCollection}
                   />
                 </Grid>
               ))}

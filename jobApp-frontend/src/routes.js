@@ -107,6 +107,7 @@ const routes = [
       {
         path: "/savedJobs/collection/:id",
         element: SavedJobsByCollection,
+        private: true,
       },
     ],
   },

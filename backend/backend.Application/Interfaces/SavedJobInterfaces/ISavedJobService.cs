@@ -12,7 +12,7 @@ namespace backend.Application.Interfaces.SavedJobInterfaces
     public interface ISavedJobService
     {
         Task<SavedJobResponse> AddAsync(SavedJobRequest savedJobRequest);
-        Task AddToCollection(int savedJobId, int collectionId);
+        //Task AddToCollection(int savedJobId, int collectionId);
         Task AddToCollection(int userId, int jobId, int collectionId);
         Task<SavedJobResponse?> GetByIdAsync(int id);
         Task<IEnumerable<SavedJobByUserResponse>> GetSavedJobsByUser(int userId);

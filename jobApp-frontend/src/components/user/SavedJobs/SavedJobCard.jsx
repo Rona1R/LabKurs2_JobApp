@@ -16,6 +16,9 @@ import ArticleIcon from "@mui/icons-material/Article";
 import { useNavigate } from "react-router-dom";
 import { SavedJobService } from "src/api/sevices/SavedJobService";
 import { useNotification } from "src/hooks/useNotification";
+import CustomButton from "src/components/common/ui/CustomButton";
+import DriveFileMoveIcon from "@mui/icons-material/DriveFileMove";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 const savedJobService = new SavedJobService();
 
 export default function SavedJobCard({
@@ -27,7 +30,9 @@ export default function SavedJobCard({
   companyLogo,
   category,
   employmentType,
-  setRefreshKey
+  moveToCollection,
+  removeFromCollection,
+  setRefreshKey,
 }) {
   const navigate = useNavigate();
   const { showNotification } = useNotification();
@@ -36,10 +41,19 @@ export default function SavedJobCard({
     try {
       await savedJobService.unsaveJob(savedJobId);
       setRefreshKey(Date.now());
-      showNotification("success","Job unsaved successfully!");
+      showNotification("success", "Job unsaved successfully!");
     } catch (error) {
-      showNotification("error","Something went wrong while unsaving the job!");    
+      showNotification("error", "Something went wrong while unsaving the job!");
     }
+  };
+
+  const handleMoveToCollection = () => {
+    moveToCollection(id);
+  };
+
+  const handleRemoveFromCollection = () => {
+    removeFromCollection(savedJobId);
+    // console.log("removinnnnng ....");
   };
 
   return (
@@ -77,7 +91,7 @@ export default function SavedJobCard({
         sx={{
           position: "absolute",
           top: 10,
-          right: 10
+          right: 10,
         }}
         onClick={handleUnsaveJob}
       >
@@ -182,6 +196,25 @@ export default function SavedJobCard({
           </Box>
         </Box>
       </CardContent>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mb: 2 }}>
+        <CustomButton handleClick={handleMoveToCollection}>
+          <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
+            <DriveFileMoveIcon sx={{ mr: 1.5, fontSize: "1.5em" }} />
+            Move To Collection
+          </Box>
+        </CustomButton>
+        {removeFromCollection && (
+          <CustomButton
+            handleClick={handleRemoveFromCollection}
+            backgroundColor="rgba(255, 52, 69, 0.75)"
+            color="white"
+            hoverColor="rgba(255, 4, 38, 0.75)"
+          >
+            <RemoveCircleOutlineIcon sx={{ mr: 1.2, fontSize: "1.5em" }} />
+            Remove From Collection
+          </CustomButton>
+        )}
+      </Box>
     </Card>
   );
 }

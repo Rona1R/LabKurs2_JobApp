@@ -139,7 +139,7 @@ export default function JobDetails() {
       {showCreateCollection && (
         <CreateCollection
           handleClose={() => setShowCreateCollection(false)}
-          refresh={() => setShowCreateCollection(Date.now())}
+          refresh={() => setCollectionsRefreshKey(Date.now())}
         />
       )}
       {showAddToCollectionModal && !showCreateCollection && (

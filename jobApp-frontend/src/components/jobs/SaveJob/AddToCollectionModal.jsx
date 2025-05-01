@@ -51,7 +51,7 @@ export default function AddToCollectionModal({
       showNotification("success", response.data);
     } catch (err) {
       showNotification("error", "Something went wrong");
-    }finally{
+    } finally {
       handleClose();
     }
   };
@@ -59,9 +59,7 @@ export default function AddToCollectionModal({
   return (
     <Modal show={true} onHide={handleClose} className="crud-modal" centered>
       <Modal.Header closeButton>
-        <Modal.Title>
-          Add To Collection
-        </Modal.Title>
+        <Modal.Title>Add To Collection</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -80,11 +78,13 @@ export default function AddToCollectionModal({
           }}
         >
           {collections.length === 0 ? (
-            <NoDataYet
-              message={
-                "Create a new collection with your favorite postings. Your collections appear here."
-              }
-            />
+            <div
+              className="d-flex justify-content-center align-items-center p-3 text-muted fw-bold text-center"
+              style={{ fontSize: "20px" }}
+            >
+              Create a new collection with your favorite postings. Your
+              collections appear here.
+            </div>
           ) : (
             collections.map((collection, index) => (
               <CollectionItem

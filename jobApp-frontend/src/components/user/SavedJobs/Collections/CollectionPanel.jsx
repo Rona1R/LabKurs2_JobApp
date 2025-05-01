@@ -1,11 +1,11 @@
 import { Box, Button, Typography } from "@mui/material";
-import CustomButton from "src/components/common/ui/CustomButton";
-import AddIcon from "@mui/icons-material/Add";
+// import CustomButton from "src/components/common/ui/CustomButton";
+// import AddIcon from "@mui/icons-material/Add";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import { useNavigate } from "react-router-dom";
 import { ArrowBack } from "@mui/icons-material";
 
-export default function CollectionPanel() {
+export default function CollectionPanel({collectionName,nrOfPosts}) {
   const navigate = useNavigate();
 
   return (
@@ -34,7 +34,7 @@ export default function CollectionPanel() {
               variant="h4"
               sx={{ fontWeight: "bold", color: "#e8f0fe", textAlign: "start" }}
             >
-              Test Collection
+              {collectionName}
             </Typography>
             <Typography
               variant="h6"
@@ -44,14 +44,14 @@ export default function CollectionPanel() {
                 fontWeight: "bold",
               }}
             >
-              0 posts
+              {nrOfPosts} {nrOfPosts === 1 ? "Saved Post" : "Saved Posts"}
             </Typography>
           </Box>
         </Box>
-        <CustomButton>
+        {/* <CustomButton>
           <AddIcon sx={{ mr: 1 }} />
           Add Posts
-        </CustomButton>
+        </CustomButton> */}
       </Box>
       <Button
         onClick={() => navigate("/savedJobs")}

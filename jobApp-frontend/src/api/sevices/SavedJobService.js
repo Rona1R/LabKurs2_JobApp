@@ -39,4 +39,8 @@ export class SavedJobService {
   async addToCollection(userId,jobId,collectionId){
     return await this.axiosInstance.put(`${this.requestMapping}/addToCollection/${userId}/${jobId}/${collectionId}`)
   }
+
+  async removeFromCollection(savedJobId){
+    return await this.axiosInstance.put(`${this.requestMapping}/removeFromCollection/${savedJobId}`);
+  }
 }

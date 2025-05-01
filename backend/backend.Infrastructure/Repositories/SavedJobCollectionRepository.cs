@@ -41,8 +41,9 @@ namespace backend.Infrastructure.Repositories
                 {
                     Id = collection.Id,
                     Name = collection.Name,
-                    SavedPosts = collection.SavedJobs.Select(savedJob => new JobPostings
+                    SavedPosts = collection.SavedJobs.Select(savedJob => new SavedPostByCollection
                     {
+                        SavedJobId = savedJob.Id,
                         Id = savedJob.Job.Id,
                         Title = savedJob.Job.Title,
                         CompanyLogo = savedJob.Job.Company.Logo,

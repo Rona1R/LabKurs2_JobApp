@@ -49,22 +49,22 @@ namespace backend.Application.Services
             return await _savedJobRepository.GetSavedJobsByUserId(userId);       
         }
 
-        public async Task AddToCollection(int savedJobId, int collectionId)
-        {
-            var collection = await _savedJobCollectionRepository.GetByIdAsync(collectionId);
-            var savedJob = await _savedJobRepository.GetByIdAsync(savedJobId);
-            if (collection == null)
-            {
-                throw new NotFoundException("Collection was not found !");
-            }
+        //public async Task AddToCollection(int savedJobId, int collectionId)
+        //{
+        //    var collection = await _savedJobCollectionRepository.GetByIdAsync(collectionId);
+        //    var savedJob = await _savedJobRepository.GetByIdAsync(savedJobId);
+        //    if (collection == null)
+        //    {
+        //        throw new NotFoundException("Collection was not found !");
+        //    }
 
-            if(savedJob == null)
-            {
-                throw new NotFoundException("Saved job was not found !");
-            }
+        //    if(savedJob == null)
+        //    {
+        //        throw new NotFoundException("Saved job was not found !");
+        //    }
 
-            await _savedJobRepository.AddToCollection(savedJob, collectionId);
-        }
+        //    await _savedJobRepository.AddToCollection(savedJob, collectionId);
+        //}
 
         public async Task AddToCollection(int userId,int jobId, int collectionId)
         {

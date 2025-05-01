@@ -47,7 +47,6 @@ namespace backend.Infrastructure.Repositories
             return await _context.SavedJob.FirstOrDefaultAsync(j=>j.UserId == userId && j.JobId == jobId);
         }
 
-        //public async Task AddToCollection()
         public async Task RemoveFromCollection(SavedJob savedJob)
         {
             savedJob.SavedJobCollectionId = null;
