@@ -197,7 +197,7 @@ export default function SavedJobCard({
       </CardContent>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mb: 2 ,px:2,width:"100%"}}>
         <CustomButton handleClick={handleMoveToCollection} sx={{ width: "100%" }}>
-          <Box sx={{ display: "flex", justifyContent: "flex-start", width: "100%" }}>
+          <Box sx={{ display: "flex", justifyContent: "flex-start", width: "100%",p:0.5}}>
             <DriveFileMoveIcon sx={{ mr: 1.2, fontSize: "1.5em" }} />
             <Typography sx={{fontSize:"1em",fontWeight:"bold"}}>
               Move To Collection
@@ -212,7 +212,7 @@ export default function SavedJobCard({
             hoverColor="rgba(255, 4, 38, 0.75)"
             sx={{ width: "100%" }}
           >
-            <Box sx={{ display: "flex", justifyContent: "flex-start", width: "100%" }}>
+            <Box sx={{ display: "flex", justifyContent: "flex-start", width: "100%",p:0.5}}>
               <RemoveCircleOutlineIcon sx={{ mr: 1.2, fontSize: "1.5em" }} />
               <Typography sx={{fontSize:"1em",fontWeight:"bold"}}>
                 Remove from Collection
