@@ -153,7 +153,6 @@ export default function SavedJobCard({
           <Divider sx={{ borderColor: "#0A0529", my: 3 }} />
           <Box
             sx={{
-              mx: 4,
               backgroundColor: "#f8f9ff",
               boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
             }}
@@ -196,11 +195,13 @@ export default function SavedJobCard({
           </Box>
         </Box>
       </CardContent>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mb: 2 }}>
-        <CustomButton handleClick={handleMoveToCollection}>
-          <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
-            <DriveFileMoveIcon sx={{ mr: 1.5, fontSize: "1.5em" }} />
-            Move To Collection
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mb: 2 ,px:2,width:"100%"}}>
+        <CustomButton handleClick={handleMoveToCollection} sx={{ width: "100%" }}>
+          <Box sx={{ display: "flex", justifyContent: "flex-start", width: "100%" }}>
+            <DriveFileMoveIcon sx={{ mr: 1.2, fontSize: "1.5em" }} />
+            <Typography sx={{fontSize:"1em",fontWeight:"bold"}}>
+              Move To Collection
+            </Typography>
           </Box>
         </CustomButton>
         {removeFromCollection && (
@@ -209,9 +210,14 @@ export default function SavedJobCard({
             backgroundColor="rgba(255, 52, 69, 0.75)"
             color="white"
             hoverColor="rgba(255, 4, 38, 0.75)"
+            sx={{ width: "100%" }}
           >
-            <RemoveCircleOutlineIcon sx={{ mr: 1.2, fontSize: "1.5em" }} />
-            Remove From Collection
+            <Box sx={{ display: "flex", justifyContent: "flex-start", width: "100%" }}>
+              <RemoveCircleOutlineIcon sx={{ mr: 1.2, fontSize: "1.5em" }} />
+              <Typography sx={{fontSize:"1em",fontWeight:"bold"}}>
+                Remove from Collection
+              </Typography>
+            </Box>
           </CustomButton>
         )}
       </Box>
