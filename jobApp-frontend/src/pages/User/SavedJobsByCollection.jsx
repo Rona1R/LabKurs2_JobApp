@@ -93,7 +93,7 @@ export default function SavedJobsByCollection() {
             <NoDataYet message={"No saved jobs in this collection yet !"} />
           </Box>
         ) : (
-          <Box sx={{ mx: { xs: 2, md: 5, lg: 30 } }}>
+          <Box sx={{ mx: { xs: 2, md: 5, lg: 15 }}}>
             <Grid container spacing={6} my={8} justifyContent={"center"}>
               {savedJobs.map((posting, index) => (
                 <Grid size={{ xs: 12, md: 6, xl: 4 }} key={index}>

@@ -27,21 +27,20 @@ export default function CollectionPanel({collectionName,nrOfPosts}) {
           }}
         >
           <BookmarkBorderIcon
-            sx={{ color: "#e8f0fe", mr: 3, fontSize: "3.5em" }}
+            sx={{ color: "#e8f0fe", mr: 3, fontSize: {xs:"2.5em",md:"4em"} }}
           />
           <Box>
             <Typography
-              variant="h4"
-              sx={{ fontWeight: "bold", color: "#e8f0fe", textAlign: "start" }}
+              sx={{ fontWeight: "bold", color: "#e8f0fe", textAlign: "start",fontSize: {xs:"1.5em",md:"2.5em"}}}
             >
               {collectionName}
             </Typography>
             <Typography
-              variant="h6"
               sx={{
                 color: "#e8f0fe",
                 textAlign: "start",
                 fontWeight: "bold",
+                fontSize: {xs:"1em",md:"1.5em"} 
               }}
             >
               {nrOfPosts} {nrOfPosts === 1 ? "Saved Post" : "Saved Posts"}

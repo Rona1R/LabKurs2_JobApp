@@ -108,6 +108,7 @@ export default function SavedJobCard({
       <CardContent
         sx={{
           width: "100%",
+          px:0
         }}
         onClick={() => {
           navigate(`/jobPostings/job/${id}`);
@@ -122,7 +123,7 @@ export default function SavedJobCard({
           {title}
         </Typography>
 
-        <Box>
+        <Box sx={{px:4}}>
           <Box
             sx={{
               display: "flex",
@@ -195,7 +196,7 @@ export default function SavedJobCard({
           </Box>
         </Box>
       </CardContent>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mb: 2 ,px:2,width:"100%"}}>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 1, pb: 4 ,px:4,width:"100%"}}>
         <CustomButton handleClick={handleMoveToCollection} sx={{ width: "100%" }}>
           <Box sx={{ display: "flex", justifyContent: "flex-start", width: "100%",p:0.5}}>
             <DriveFileMoveIcon sx={{ mr: 1.2, fontSize: "1.5em" }} />
