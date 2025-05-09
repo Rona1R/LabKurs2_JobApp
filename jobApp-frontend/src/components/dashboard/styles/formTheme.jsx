@@ -14,23 +14,28 @@ const formTheme = createTheme({
         },
       },
     },
-    MuiFormHelperText : {
-     styleOverrides: {
-      root: {
-        color:"#1D1D1D",
-        fontWeight:"bold"
-      }
-     }
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          color: "#1D1D1D",
+          fontWeight: "bold",
+        },
+      },
     },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          fontWeight:"bold",
+          fontWeight: "bold",
           "&:hover fieldset": {
-            borderColor: "#1e1b46", 
+            borderColor: "#1e1b46",
           },
           [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
             borderColor: "#1e1b46",
+          },
+          "& input[readonly]": {
+            backgroundColor: "#f0f0f0",
+            color: "#777",
+            cursor: "default",
           },
         },
       },

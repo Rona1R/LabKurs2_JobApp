@@ -28,6 +28,7 @@ import { SavedJobService } from "src/api/sevices/SavedJobService";
 import SavedSnackbar from "src/components/jobs/SaveJob/SavedSnackbar";
 import AddToCollectionModal from "src/components/jobs/SaveJob/AddToCollectionModal";
 import CreateCollection from "src/components/user/SavedJobs/Collections/CreateCollection";
+import CreateApplication from "src/components/jobs/JobApplications/CreateApplication";
 import { useNotification } from "src/hooks/useNotification";
 const jobService = new JobService();
 const savedJobService = new SavedJobService();
@@ -42,13 +43,14 @@ export default function JobDetails() {
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState(false);
   const [showToggle, setShowToggle] = useState(false);
-  const isDeadlinePassed = new Date(data?.job.deadline + "Z") < new Date();
+  const [isDeadlinePassed,setIsDeadlinePassed] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [showAddToCollectionModal, setShowAddToCollectionalModal] =
     useState(false);
   const [showCreateCollection, setShowCreateCollection] = useState(false);
   const [collectionsRefreshKey, setCollectionsRefreshKey] = useState("");
+  const [showApply, setShowApply] = useState(false);
   const { showNotification } = useNotification();
   const descriptionRef = useRef();
 
@@ -60,6 +62,7 @@ export default function JobDetails() {
           jobService.getSimilarPostings(id),
         ]);
         setData(jobResponse.data);
+        setIsDeadlinePassed(new Date(jobResponse.data.job.deadline + "Z") < new Date());
         setRecommendations(recommandationsResponse.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -114,7 +117,6 @@ export default function JobDetails() {
     }else{
       navigate("/LogIn");
     }
-
   };
 
   const handleUnSaveJob = async () => {
@@ -127,6 +129,14 @@ export default function JobDetails() {
       setIsSaved(true);
     }
   };
+
+  const handleShowApply = () => {
+    if(userId){
+      setShowApply(true);
+    }else{
+      navigate("/LogIn");
+    }
+  }
 
   return (
     <>
@@ -150,6 +160,17 @@ export default function JobDetails() {
           setShowCreateCollection={setShowCreateCollection}
         />
       )}
+
+      {
+        showApply && 
+        <CreateApplication 
+          applicantId={userId}
+          applicantName={user.sub}
+          applicantEmail={user.email}
+          jobId={id}
+          handleClose={()=>setShowApply(false)}
+        />
+      }
 
       <Box sx={{ backgroundColor: "#0A0529", height: "300px" }} />
       {loading ? (
@@ -476,6 +497,7 @@ export default function JobDetails() {
                   </Button>
                   <Button
                     disabled={isDeadlinePassed}
+                    onClick={handleShowApply}
                     sx={{
                       textTransform: "none",
                       fontWeight: 700,
