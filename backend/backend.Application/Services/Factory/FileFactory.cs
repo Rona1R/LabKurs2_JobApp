@@ -18,6 +18,7 @@ namespace backend.Application.Services.Factory
             _handlers = new Dictionary<string, Func<IFileHandler>>
             {
               { "image", () => new ImageHandler() },
+              { "document", () => new DocumentHandler() },
             };
         }
         public IFileHandler GetFileHandler(string fileType)

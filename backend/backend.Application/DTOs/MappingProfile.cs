@@ -101,6 +101,8 @@ namespace backend.Application.DTOs
             CreateMap<SavedJobCollectionRequest, SavedJobCollection>();
             CreateMap<SavedJobCollection, SavedJobCollectionResponse>();
 
+            CreateMap<JobApplicationRequest, JobApplication>();
+            CreateMap<JobApplication, JobApplicationResponse>();
         }
     }
 }

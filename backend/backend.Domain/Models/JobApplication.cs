@@ -18,7 +18,7 @@ namespace backend.Domain.Models
         public int JobId { get; set; }
         public string ResumeUrl { get; set; }
 
-        public string ApplicationStatus { get; set; } = "Pending";
+        public ApplicationStatus ApplicationStatus { get; set; } = ApplicationStatus.Pending;
 
         public bool IsDeleted { get; set; } = false;
 
@@ -32,4 +32,14 @@ namespace backend.Domain.Models
 
         public virtual List<Interview> Interviews { get; set;} = new List<Interview>();  
     }
+
+    public enum ApplicationStatus
+    {
+        Pending,
+        Approved,
+        Rejected,
+        InReview,
+        Withdrawn
+    }
+
 }

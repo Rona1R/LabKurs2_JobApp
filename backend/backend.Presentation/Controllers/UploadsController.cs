@@ -8,7 +8,7 @@ namespace backend.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class UploadsController : ControllerBase
     {
         private readonly FileFactory _fileFactory;
