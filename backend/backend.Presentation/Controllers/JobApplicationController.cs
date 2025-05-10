@@ -15,6 +15,12 @@ namespace backend.Presentation.Controllers
         {
         }
 
+        [HttpGet("byEmployer/{employerId}")]
+        public async Task<IActionResult> GetApplicationsByEmplyoer(int employerId,[FromQuery] JobApplicationFilters filters)
+        {
+          return Ok(await _service.GetApplicationsByEmployer(employerId,filters));
+        }
+
         public async override Task<IActionResult> Create([FromBody] JobApplicationRequest requestDto)
         {
             try

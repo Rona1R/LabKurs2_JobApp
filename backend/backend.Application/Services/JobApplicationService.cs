@@ -18,6 +18,11 @@ namespace backend.Application.Services
         {
         }
 
+        public async Task<IEnumerable<ApplicationsByEmployer>> GetApplicationsByEmployer(int employerId,JobApplicationFilters filters)
+        {
+            return await _repository.GetApplicationsByEmployer(employerId, filters);
+        }
+
         public async override Task<JobApplicationResponse> CreateAsync(JobApplicationRequest requestDto)
         {
             if (await _repository.HasApplied(requestDto.ApplicantId, requestDto.JobId)) {
