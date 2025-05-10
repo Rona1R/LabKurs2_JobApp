@@ -2,25 +2,37 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import theme from "../../tableTheme";
-import { ThemeProvider } from "@mui/material";
+import { Stack, ThemeProvider } from "@mui/material";
 import "../../styles/table.css";
 import { useEffect } from "react";
 import Loading from "src/components/common/Loading";
 import { useAuth } from "src/context/AuthContext";
 import { JobApplicationService } from "src/api/sevices/JobApplicationService";
+import DropdownFilter from "./filters/DropdownFilter";
+import { CompanyService } from "src/api/sevices/CompanyService";
+import { JobService } from "src/api/sevices/JobService";
 const applicationService = new JobApplicationService();
+const companyService = new CompanyService();
+const jobService = new JobService();
 
 export default function ApplicationsTable() {
   const { user } = useAuth();
   const userId = user?.nameid;
   const [applications, setApplications] = useState([]);
+  const [companies, setCompanies] = useState([]);
+  const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState({
+    companyId: "",
+    jobId: "",
+  });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await applicationService.getApplicationsByEmployer(
-          userId
+          userId,
+          filters
         );
         setApplications(response.data);
         setLoading(false);
@@ -32,7 +44,29 @@ export default function ApplicationsTable() {
     };
 
     fetchData();
+  }, [filters]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [companyResponse, jobResponse] = await Promise.all([
+          companyService.getByEmployer(userId),
+          jobService.getByEmployer(userId),
+        ]);
+        setCompanies(companyResponse.data);
+        const formattedJobs = jobResponse.data.map(job => ({
+          id: job.id,
+          name: job.title, 
+        }));
+        setJobs(formattedJobs);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchData();
   }, []);
+
   const columns = [
     {
       field: "applicantName",
@@ -66,7 +100,9 @@ export default function ApplicationsTable() {
       headerName: "Resume",
       width: 300,
       renderCell: (params) => {
-      const fileUrl = `${import.meta.env.VITE_FILE_PATH}/${params.row?.resumeUrl}`;
+        const fileUrl = `${import.meta.env.VITE_FILE_PATH}/${
+          params.row?.resumeUrl
+        }`;
         const fileName =
           params.row?.resumeUrl?.split("_").slice(1).join("_") || "View Resume";
         return (
@@ -80,16 +116,6 @@ export default function ApplicationsTable() {
       field: "applicationStatus",
       headerName: "Status",
       width: 150,
-      renderCell: (params) => {
-        const statusMap = {
-          0: "Pending",
-          1: "Accepted",
-          2: "Rejected",
-        };
-        return (
-          <span>{statusMap[params.row?.applicationStatus] || "Unknown"}</span>
-        );
-      },
     },
     {
       field: "appliedAt",
@@ -115,6 +141,13 @@ export default function ApplicationsTable() {
     0
   );
 
+  const handleFilters = (selected, key) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: selected,
+    }));
+  };
+
   return (
     <Box
       sx={{ width: "100%", overflowX: "auto", padding: "20px" }}
@@ -123,24 +156,51 @@ export default function ApplicationsTable() {
       {loading ? (
         <Loading />
       ) : (
-        <Box sx={{ width: totalWidth + 50, margin: "0 auto" }}>
-          <ThemeProvider theme={theme}>
-            <DataGrid
-              rows={applications}
-              columns={columns}
-              initialState={{
-                pagination: {
-                  paginationModel: {
-                    pageSize: 10,
+        <>
+          {(applications.length > 0 || filters.companyId || filters.jobId) && (       
+             <Stack
+              direction={"row"}
+              flexWrap={"wrap"}
+             >
+                <Box sx={{ width: "350px" }}>
+                  <DropdownFilter
+                    value={filters.companyId}
+                    setValue={(selected) => handleFilters(selected, "companyId")}
+                    label={"Select Company"}
+                    all={"All Companies"}
+                    options={companies}
+                  />
+                </Box>
+                <Box sx={{ width: "350px" }}>
+                  <DropdownFilter
+                    value={filters.jobId}
+                    setValue={(selected) => handleFilters(selected, "jobId")}
+                    label={"Select Job"}
+                    all={"All Jobs"}
+                    options={jobs}
+                  />
+                </Box>
+             </Stack>
+          )}
+          <Box sx={{ width: totalWidth + 50, margin: "0 auto" }}>
+            <ThemeProvider theme={theme}>
+              <DataGrid
+                rows={applications}
+                columns={columns}
+                initialState={{
+                  pagination: {
+                    paginationModel: {
+                      pageSize: 10,
+                    },
                   },
-                },
-              }}
-              pageSizeOptions={[5, 10, 20]}
-              disableRowSelectionOnClick
-              getRowClassName={(params) => `super-app-theme--row`}
-            />
-          </ThemeProvider>
-        </Box>
+                }}
+                pageSizeOptions={[5, 10, 20]}
+                disableRowSelectionOnClick
+                getRowClassName={(params) => `super-app-theme--row`}
+              />
+            </ThemeProvider>
+          </Box>
+        </>
       )}
     </Box>
   );

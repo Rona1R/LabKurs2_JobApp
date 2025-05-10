@@ -18,7 +18,7 @@ namespace backend.Application.DTOs.Response
         public int JobId { get; set; }
         public string ResumeUrl { get; set; }
 
-        public ApplicationStatus ApplicationStatus { get; set; }
+        public string ApplicationStatus { get; set; }
 
         public DateTime AppliedAt { get; set; } = DateTime.UtcNow;
 

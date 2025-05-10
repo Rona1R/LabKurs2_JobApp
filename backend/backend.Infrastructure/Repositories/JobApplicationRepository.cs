@@ -46,7 +46,7 @@ namespace backend.Infrastructure.Repositories
                 JobId = j.JobId,
                 CompanyName = j.Job.Company.Name,
                 ResumeUrl = j.ResumeUrl,
-                ApplicationStatus = j.ApplicationStatus,
+                ApplicationStatus = j.ApplicationStatus.ToString(), // Convert ApplicationStatus enum to string
                 AppliedAt = j.AppliedAt,
                 Applicant = new ApplicantResponse
                 {
