@@ -16,6 +16,11 @@ namespace backend.Infrastructure.Repositories
         {
         }
 
+        public async Task<bool> HasApplied(int userId,int jobId)
+        {
+            return await _context.JobApplication.Where(j=>!j.IsDeleted && j.ApplicantId == userId && j.JobId == jobId).AnyAsync();
+        }
+
         public override async Task<IEnumerable<JobApplication>> GetAllAsync()
         {
             return await _context.JobApplication.Where(j=> !j.IsDeleted).OrderByDescending(j=>j.Id).ToListAsync();

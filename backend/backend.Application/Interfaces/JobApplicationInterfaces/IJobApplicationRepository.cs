@@ -9,5 +9,6 @@ namespace backend.Application.Interfaces.JobApplicationInterfaces
 {
     public interface IJobApplicationRepository : IBaseRepository<JobApplication>
     {
+        Task<bool> HasApplied(int userId, int jobId);
     }
 }
