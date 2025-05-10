@@ -16,12 +16,12 @@ const fileService = new FileService();
 export default function CreateApplication({
   applicantId,
   applicantName,
-  applicantLastName,
   applicantEmail,
   jobId,
   handleClose,
+  setHasApplied
 }) {
-  const [formData, setFormData] = React.useState({
+  const [formData] = React.useState({
     jobId: jobId,
     applicantId: applicantId,
   });
@@ -66,9 +66,14 @@ export default function CreateApplication({
     try {
       await jobApplicationService.create(data);
       showNotification("success", "Application was successfully submitted !");
+      setHasApplied(true);
       handleClose();
     } catch (err) {
-      showNotification("error", "An Unexptected Error Occurred!");
+     if (err.response && err.response.status === 400) {
+        showNotification("error", "You have already applied for this job!");
+      } else {
+        showNotification("error", "An unexpected error happened");
+      }
       handleClose();
     }
   };

@@ -30,8 +30,10 @@ import AddToCollectionModal from "src/components/jobs/SaveJob/AddToCollectionMod
 import CreateCollection from "src/components/user/SavedJobs/Collections/CreateCollection";
 import CreateApplication from "src/components/jobs/JobApplications/CreateApplication";
 import { useNotification } from "src/hooks/useNotification";
+import { JobApplicationService } from "src/api/sevices/JobApplicationService";
 const jobService = new JobService();
 const savedJobService = new SavedJobService();
+const jobApplicationService = new JobApplicationService();
 
 export default function JobDetails() {
   const { id } = useParams();
@@ -44,6 +46,7 @@ export default function JobDetails() {
   const [expanded, setExpanded] = useState(false);
   const [showToggle, setShowToggle] = useState(false);
   const [isDeadlinePassed,setIsDeadlinePassed] = useState(false);
+  const [hasApplied, setHasApplied] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [showAddToCollectionModal, setShowAddToCollectionalModal] =
@@ -78,9 +81,12 @@ export default function JobDetails() {
     const fetchData = async () => {
       try {
         if (userId) {
-          const response = await savedJobService.isJobSaved(userId, id);
-          console.log(response.data);
-          setIsSaved(response.data);
+          const [savedResponse,appliedResponse] = await Promise.all([
+            await savedJobService.isJobSaved(userId, id),
+            await jobApplicationService.hasApplied(userId,id)
+          ])
+          setIsSaved(savedResponse.data);
+          setHasApplied(appliedResponse.data);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -100,7 +106,6 @@ export default function JobDetails() {
   const handleSaveJob = async () => {
     if (userId) {
       setIsSaved(true);
-      console.log("Will save job...");
       try{
         const response = await savedJobService.create({
           userId : userId,
@@ -167,6 +172,7 @@ export default function JobDetails() {
           applicantId={userId}
           applicantName={user.sub}
           applicantEmail={user.email}
+          setHasApplied={setHasApplied}
           jobId={id}
           handleClose={()=>setShowApply(false)}
         />
@@ -496,7 +502,7 @@ export default function JobDetails() {
                     Back To Jobs
                   </Button>
                   <Button
-                    disabled={isDeadlinePassed}
+                    disabled={isDeadlinePassed || hasApplied}
                     onClick={handleShowApply}
                     sx={{
                       textTransform: "none",
@@ -518,7 +524,7 @@ export default function JobDetails() {
                       },
                     }}
                   >
-                    {isDeadlinePassed ? "Deadline Passed" : "Apply Now"}
+                    {isDeadlinePassed ? "Deadline Passed" : hasApplied ? "Already Applied" :"Apply Now"}
                   </Button>
                 </Box>
               </Box>

@@ -8,7 +8,8 @@ using backend.Application.DTOs.Response;
 
 namespace backend.Application.Interfaces.JobApplicationInterfaces
 {
-    public interface IJobApplicationService : IBaseService<JobApplicationRequest,JobApplicationResponse>
+    public interface IJobApplicationService : IBaseService<JobApplicationRequest, JobApplicationResponse>
     {
+        Task<bool> HasApplied(int userId, int jobId);
     }
 }
