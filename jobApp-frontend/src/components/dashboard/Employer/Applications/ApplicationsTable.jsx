@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import theme from "../../tableTheme";
-import { Stack, ThemeProvider } from "@mui/material";
+import { Stack, ThemeProvider, IconButton } from "@mui/material";
 import "../../styles/table.css";
 import { useEffect } from "react";
 import Loading from "src/components/common/Loading";
@@ -11,6 +12,7 @@ import { JobApplicationService } from "src/api/sevices/JobApplicationService";
 import DropdownFilter from "./filters/DropdownFilter";
 import { CompanyService } from "src/api/sevices/CompanyService";
 import { JobService } from "src/api/sevices/JobService";
+import EditApplicationStatus from "./EditApplicationStatus";
 const applicationService = new JobApplicationService();
 const companyService = new CompanyService();
 const jobService = new JobService();
@@ -22,10 +24,13 @@ export default function ApplicationsTable() {
   const [companies, setCompanies] = useState([]);
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selected, setSelected] = useState(null);
+  const [showEdit, setShowEdit] = useState(false);
   const [filters, setFilters] = useState({
     companyId: "",
     jobId: "",
   });
+  const [refreshKey, setRefreshKey] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +49,7 @@ export default function ApplicationsTable() {
     };
 
     fetchData();
-  }, [filters]);
+  }, [filters, refreshKey]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,9 +59,9 @@ export default function ApplicationsTable() {
           jobService.getByEmployer(userId),
         ]);
         setCompanies(companyResponse.data);
-        const formattedJobs = jobResponse.data.map(job => ({
+        const formattedJobs = jobResponse.data.map((job) => ({
           id: job.id,
-          name: job.title, 
+          name: job.title,
         }));
         setJobs(formattedJobs);
       } catch (err) {
@@ -67,16 +72,31 @@ export default function ApplicationsTable() {
     fetchData();
   }, []);
 
+  const handleEditClick = (id) => {
+    setSelected(id);
+    setShowEdit(true);
+  };
+
   const columns = [
     {
       field: "applicantName",
       headerName: "Applicant Name",
       width: 250,
-      renderCell: (params) => (
-        <span>
-          {params.row?.applicant?.name} {params.row?.applicant?.lastName}
-        </span>
-      ),
+      renderCell: (params) => {
+        const { applicant } = params.row;
+        return (
+          <Link
+            to={`/profile/${applicant?.id}`}
+            style={{
+              textDecoration: "none",
+              color: "#1976d2",
+              fontWeight: "bold",
+            }}
+          >
+            {applicant?.name} {applicant?.lastName}
+          </Link>
+        );
+      },
     },
     {
       field: "email",
@@ -134,6 +154,23 @@ export default function ApplicationsTable() {
         return <>{formattedDate}</>;
       },
     },
+    {
+      field: "Actions",
+      headerName: "Actions",
+      width: 250,
+      sortable: false,
+      filterable: false,
+      renderCell: (params) => (
+        <IconButton
+          onClick={() => handleEditClick(params.id)}
+          className="edit-button"
+        >
+          <i className="fa-solid fa-pen-to-square"></i>
+        </IconButton>
+      ),
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+    },
   ];
 
   const totalWidth = columns.reduce(
@@ -149,23 +186,32 @@ export default function ApplicationsTable() {
   };
 
   return (
-    <Box
-      sx={{ width: "100%", overflowX: "auto", padding: "20px" }}
-      className="table-container"
-    >
-      {loading ? (
-        <Loading />
-      ) : (
-        <>
-          {(applications.length > 0 || filters.companyId || filters.jobId) && (       
-             <Stack
-              direction={"row"}
-              flexWrap={"wrap"}
-             >
+    <>
+      {showEdit && selected && (
+        <EditApplicationStatus
+          id={selected}
+          handleClose={() => setShowEdit(false)}
+          refresh={() => setRefreshKey(Date.now())}
+        />
+      )}
+      <Box
+        sx={{ width: "100%", overflowX: "auto", padding: "20px" }}
+        className="table-container"
+      >
+        {loading ? (
+          <Loading />
+        ) : (
+          <>
+            {(applications.length > 0 ||
+              filters.companyId ||
+              filters.jobId) && (
+              <Stack direction={"row"} flexWrap={"wrap"}>
                 <Box sx={{ width: "350px" }}>
                   <DropdownFilter
                     value={filters.companyId}
-                    setValue={(selected) => handleFilters(selected, "companyId")}
+                    setValue={(selected) =>
+                      handleFilters(selected, "companyId")
+                    }
                     label={"Select Company"}
                     all={"All Companies"}
                     options={companies}
@@ -180,28 +226,29 @@ export default function ApplicationsTable() {
                     options={jobs}
                   />
                 </Box>
-             </Stack>
-          )}
-          <Box sx={{ width: totalWidth + 50, margin: "0 auto" }}>
-            <ThemeProvider theme={theme}>
-              <DataGrid
-                rows={applications}
-                columns={columns}
-                initialState={{
-                  pagination: {
-                    paginationModel: {
-                      pageSize: 10,
+              </Stack>
+            )}
+            <Box sx={{ width: totalWidth + 50, margin: "0 auto" }}>
+              <ThemeProvider theme={theme}>
+                <DataGrid
+                  rows={applications}
+                  columns={columns}
+                  initialState={{
+                    pagination: {
+                      paginationModel: {
+                        pageSize: 10,
+                      },
                     },
-                  },
-                }}
-                pageSizeOptions={[5, 10, 20]}
-                disableRowSelectionOnClick
-                getRowClassName={(params) => `super-app-theme--row`}
-              />
-            </ThemeProvider>
-          </Box>
-        </>
-      )}
-    </Box>
+                  }}
+                  pageSizeOptions={[5, 10, 20]}
+                  disableRowSelectionOnClick
+                  getRowClassName={(params) => `super-app-theme--row`}
+                />
+              </ThemeProvider>
+            </Box>
+          </>
+        )}
+      </Box>
+    </>
   );
 }

@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using backend.Application.DTOs.Request;
 using backend.Application.DTOs.Response;
-using backend.Application.Helpers;
 using backend.Application.Interfaces.JobApplicationInterfaces;
 using backend.Domain.Models;
 using backend.Infrastructure.Data;
@@ -77,7 +76,7 @@ namespace backend.Infrastructure.Repositories
 
         public override async Task<JobApplication?> GetByIdAsync(int id)
         {
-            return await _context.JobApplication.Where(j=>j.Id == id && !j.IsDeleted).FirstOrDefaultAsync();
+            return await _context.JobApplication.Where(j=>j.Id == id && !j.IsDeleted).Include(j=>j.User).ThenInclude(j=>j.AspNetUser).Include(j=>j.Job).FirstOrDefaultAsync();
         }
     }
 }
