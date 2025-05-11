@@ -34,44 +34,47 @@ const theme = createTheme({
         },
       },
     },
-    MuiListItemText :{
-      styleOverrides:{
+    MuiListItemText: {
+      styleOverrides: {
         primary: {
           color: "#0F0520",
-          fontWeight: "bold", 
-          fontSize:"1.5rem"
+          fontWeight: "bold",
+          fontSize: "1.5rem",
         },
-      }
+      },
     },
-    MuiListItemIcon:{
-      styleOverrides:{
-        root:{
-          fontWeight:"bold",
+    MuiListItemIcon: {
+      styleOverrides: {
+        root: {
+          fontWeight: "bold",
           color: "#0F0520",
-          fontSize:"1.5rem"
-        }
-      }
-    }
+          fontSize: "1.5rem",
+        },
+      },
+    },
   },
 });
 
 function UserSidebar({ show, handleClose, ...props }) {
   const { showNotification } = useNotification();
-  const {user} = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { logOut } = useAuth();
 
   const handleLogOut = async () => {
     // handle log out ne backend ....
-    logOut(); 
-    try{ 
+    logOut();
+    try {
       await authService.logOut();
-    }catch(err){
-      showNotification("error","An Unexpected Error occurred while logging out !");
+    } catch (err) {
+      showNotification(
+        "error",
+        "An Unexpected Error occurred while logging out !"
+      );
       console.log(err);
     }
     navigate("/login");
-  }
+  };
 
   return (
     <>
@@ -81,8 +84,7 @@ function UserSidebar({ show, handleClose, ...props }) {
         {...props}
         className="user-sidebar"
       >
-        <Offcanvas.Header closeButton>
-        </Offcanvas.Header>
+        <Offcanvas.Header closeButton></Offcanvas.Header>
         <Offcanvas.Body>
           <div className="profilePicture">
             <Avatar
@@ -104,7 +106,7 @@ function UserSidebar({ show, handleClose, ...props }) {
                 className="userSidebarList"
               >
                 {/* per userin qe osht logged in route param ka me qene id-ja qe u rujt kur u bo log in */}
-                <Link to={`/profile/${user?.nameid}`} className="sidebarlink"> 
+                <Link to={`/profile/${user?.nameid}`} className="sidebarlink">
                   <ListItemButton onClick={handleClose}>
                     <ListItemIcon>
                       <FontAwesomeIcon icon={faUser} />
@@ -117,10 +119,10 @@ function UserSidebar({ show, handleClose, ...props }) {
                     <ListItemIcon>
                       <FontAwesomeIcon icon={faGear} />
                     </ListItemIcon>
-                    <ListItemText primary="Account Settings"/>
+                    <ListItemText primary="Account Settings" />
                   </ListItemButton>
                 </Link>
-
+                {user && (user.role.includes("Admin") || user.role.includes("Employer")) && (
                   <Link to="/dashboard" className="sidebarlink">
                     <ListItemButton onClick={handleClose}>
                       <ListItemIcon>
@@ -129,6 +131,7 @@ function UserSidebar({ show, handleClose, ...props }) {
                       <ListItemText primary="Dashboard" />{" "}
                     </ListItemButton>
                   </Link>
+                )}
 
                 <Link to="/savedJobs" className="sidebarlink">
                   <ListItemButton onClick={handleClose}>
@@ -138,7 +141,7 @@ function UserSidebar({ show, handleClose, ...props }) {
                     <ListItemText primary="Saved Jobs" />
                   </ListItemButton>
                 </Link>
-                <Link to="/MyOrder" className="sidebarlink">
+                <Link to="/myApplications" className="sidebarlink">
                   <ListItemButton onClick={handleClose}>
                     <ListItemIcon>
                       <FontAwesomeIcon icon={faFolderOpen} />

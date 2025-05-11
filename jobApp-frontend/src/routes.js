@@ -62,6 +62,7 @@ const SavedJobsByCollection = React.lazy(() =>
 );
 
 const Applications = React.lazy(() => import("./pages/Dashboard/Employer/Jobs/Applications"));
+const MyApplications = React.lazy(() => import("./pages/User/MyApplications")); 
 
 const routes = [
   ,
@@ -111,6 +112,11 @@ const routes = [
         element: SavedJobsByCollection,
         private: true,
       },
+      {
+        path:"/myApplications",
+        element:MyApplications,
+        private: true
+      }
     ],
   },
   {

@@ -64,6 +64,75 @@ namespace backend.Infrastructure.Repositories
             return result;
         }
 
+        public async Task<IEnumerable<ApplicationsByApplicant>> GetApplicationsByApplicant(int applicantId, JobApplicationFilters filters)
+        {
+            var query = _context.JobApplication
+                .Include(j => j.Job)
+                .ThenInclude(job => job.Company)
+                .Include(j => j.User)
+                .Where(j => !j.IsDeleted && j.ApplicantId == applicantId)
+                .OrderByDescending(j => j.Id)
+                .AsQueryable();
+
+            if (filters.CompanyId > 0)
+            {
+                query = query.Where(j => j.Job.CompanyId == filters.CompanyId);
+            }
+
+            if (filters.JobId > 0)
+            {
+                query = query.Where(j => j.JobId == filters.JobId);
+            }
+
+            var result = await query.Select(j => new ApplicationsByApplicant
+            {
+                Id = j.Id,
+                ApplicantId = j.ApplicantId,
+                JobId = j.JobId,
+                CompanyName = j.Job.Company.Name,
+                ResumeUrl = j.ResumeUrl,
+                ApplicationStatus = j.ApplicationStatus.ToString(),
+                AppliedAt = j.AppliedAt,
+                Job = new JobDataResponse
+                {
+                    Id = j.Job.Id,
+                    Title = j.Job.Title
+                }
+            }).ToListAsync();
+
+            return result;
+        }
+
+        public async Task<IEnumerable<JobDataResponse>> GetJobsAppliedByUser(int userId)
+        {
+            var result = await _context.JobApplication
+                .Include(j => j.Job)
+                .Where(j => !j.IsDeleted && j.ApplicantId == userId)
+                .Select(j => new JobDataResponse
+                {
+                    Id = j.Job.Id,
+                    Title = j.Job.Title
+                })
+                .ToListAsync();
+
+            return result;
+        }
+
+        public async Task<IEnumerable<CompanyResponse>> GetCompaniesUserAppliedTo(int userId)
+        {
+            var result = await _context.JobApplication
+                .Where(j => !j.IsDeleted && j.ApplicantId == userId)
+                .Select(j => new CompanyResponse
+                {
+                    Id = j.Job.Company.Id,
+                    Name = j.Job.Company.Name
+                })
+                .Distinct()
+                .ToListAsync();
+
+            return result;
+        }
+
         public async Task<bool> HasApplied(int userId,int jobId)
         {
             return await _context.JobApplication.Where(j=>!j.IsDeleted && j.ApplicantId == userId && j.JobId == jobId).AnyAsync();

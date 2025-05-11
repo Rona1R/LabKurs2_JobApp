@@ -10,7 +10,10 @@ namespace backend.Application.Interfaces.JobApplicationInterfaces
 {
     public interface IJobApplicationService : IBaseService<JobApplicationRequest, JobApplicationResponse>
     {
+        Task<IEnumerable<ApplicationsByApplicant>> GetApplicationsByApplicant(int applicantId, JobApplicationFilters filters);
         Task<IEnumerable<ApplicationsByEmployer>> GetApplicationsByEmployer(int employerId, JobApplicationFilters filters);
+        Task<IEnumerable<CompanyResponse>> GetCompaniesUserAppliedTo(int applicantId);
+        Task<IEnumerable<JobDataResponse>> GetJobsAppliedByUser(int userId);
         Task<bool> HasApplied(int userId, int jobId);
     }
 }
