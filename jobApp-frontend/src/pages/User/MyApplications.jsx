@@ -244,7 +244,7 @@ export default function MyApplications() {
           </Stack>
         )}
         <Box
-          sx={{ width: "100%", overflowX: "auto" }}
+          sx={{ width: "100%", overflowX: "auto",my:3 }}
           className="table-container"
         >
           {loading ? (

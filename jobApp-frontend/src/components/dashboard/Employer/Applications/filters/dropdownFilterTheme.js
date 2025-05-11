@@ -18,7 +18,7 @@ const dropdownFilterTheme = createTheme({
             },
           },
           "&:hover": {
-            backgroundColor: "hsl(210, 96.50%, 77.50%)",
+            backgroundColor: "hsl(212, 48.10%, 84.10%)",
             color: "black",
           }
         },
@@ -27,7 +27,7 @@ const dropdownFilterTheme = createTheme({
     MuiMenu: {
       styleOverrides: {
         paper: {
-          backgroundColor: "hsl(210, 82.50%, 84.30%)",
+          backgroundColor: "hsl(210, 100.00%, 97.60%)",
           border: "1px solid hsla(210, 82.50%, 84.30%, 0.2)",
           boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.4)",
           "&::-webkit-scrollbar": {
@@ -45,7 +45,7 @@ const dropdownFilterTheme = createTheme({
             backgroundColor: "#888",
           },
           scrollbarWidth: "thin",
-          scrollbarColor: "#120A3A hsla(210, 82.50%, 84.30%, 0.85)"
+          scrollbarColor: "#120A3A hsl(210, 100.00%, 97.60%)"
         },
       },
     },

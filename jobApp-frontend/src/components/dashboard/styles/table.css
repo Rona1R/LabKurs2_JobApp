@@ -1,16 +1,6 @@
 .table-container::-webkit-scrollbar {
   display: none;
 }
-/* 
-.super-app-theme--row:nth-of-type(odd) {
-  background-color: #f5f5f5;
-} */
-
-.super-app-theme--row:nth-of-type(even) {
-  /* background-color: #ebe9e9; */
- background-color: hsla(210, 88%, 80%, 0.105)
-}
-
 
 .edit-button{
     color: #0A0529 !important;

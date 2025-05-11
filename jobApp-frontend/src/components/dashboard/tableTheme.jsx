@@ -28,7 +28,6 @@ const theme = createTheme({
             color: "#0A0529",
           },
           "& .MuiDataGrid-footerContainer": {
-            borderTop: "2px solid #0A0529",
             backgroundColor: "#fafafa",
           },
           "& .MuiTablePagination-selectLabel":{
@@ -40,9 +39,6 @@ const theme = createTheme({
           '& .MuiDataGrid-viewport': {
             overflowX: 'auto'
           },
-          // '& .MuiDataGrid-columnSeparator':{
-          //   display:"none"
-          // }
         },
       },
     },
