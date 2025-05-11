@@ -49,7 +49,7 @@ export default function MyApplications() {
       try {
         const [companyResponse, jobResponse] = await Promise.all([
           applicationService.getCompaniesUserAppliedTo(userId),
-          applicationService.getJobsAppliedByUser(userId)
+          applicationService.getJobsAppliedByUser(userId),
         ]);
         setCompanies(companyResponse.data);
         const formattedJobs = jobResponse.data.map((job) => ({
@@ -97,7 +97,71 @@ export default function MyApplications() {
     {
       field: "applicationStatus",
       headerName: "Status",
-      width: 150,
+      width: 200,
+      renderCell: (params) => {
+        const status = params.row?.applicationStatus;
+        let icon = null;
+        let color = "";
+        switch (status) {
+          case "Pending":
+            icon = (
+              <i
+                className="fa-regular fa-clock"
+                style={{ color: "#F57C00", marginRight: 8 }}
+              />
+            );
+            color = "#F57C00";
+            break;
+          case "InReview":
+            icon = (
+              <i
+                className="fa-solid fa-hourglass-half"
+                style={{ color: "#1565c0", marginRight: 8 }}
+              />
+            );
+            color = "#1565c0";
+            break;
+          case "Approved":
+            icon = (
+              <i
+                className="fa-solid fa-circle-check"
+                style={{ color: "#3c2ca6", marginRight: 8 }}
+              />
+            );
+            color = "#3c2ca6";
+            break;
+          case "Withdrawn":
+            icon = (
+              <i
+                className="fa-solid fa-arrow-rotate-left"
+                style={{ color: "#757575", marginRight: 8 }}
+              />
+            );
+            color = "#757575";
+            break;
+          default:
+            icon = (
+              <i
+                className="fa-regular fa-question-circle"
+                style={{ color: "#90A4AE", marginRight: 8 }}
+              />
+            );
+            color = "#90A4AE";
+        }
+        return (
+          <span
+            style={{
+              backgroundColor: `${color}22`,
+              color,
+              borderRadius: "16px",
+              padding: "8px 12px",
+            }}
+          >
+            {icon}
+            {status}
+          </span>
+        );
+      },
     },
     {
       field: "appliedAt",
