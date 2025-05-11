@@ -6,6 +6,32 @@ export class JobApplicationService extends BaseService {
   }
 
   async hasApplied(userId,jobId){
-        return await this.axiosInstance.get(`${this.requestMapping}/hasApplied/${userId}/${jobId}`)
+    return await this.axiosInstance.get(`${this.requestMapping}/hasApplied/${userId}/${jobId}`)
+  }
+
+  async getApplicationsByEmployer(employerId, params = {}) {
+    return await this.axiosInstance.get(
+      `${this.requestMapping}/byEmployer/${employerId}`,
+      { params }
+    );
+  }
+
+  async getApplicationsByApplicant(applicantId, params = {}) {
+    return await this.axiosInstance.get(
+      `${this.requestMapping}/byApplicant/${applicantId}`,
+      { params }
+    );
+  }
+
+  async getJobsAppliedByUser(applicantId){
+    return await this.axiosInstance.get(
+      `${this.requestMapping}/jobs/${applicantId}`
+    );
+  }
+
+  async getCompaniesUserAppliedTo(applicantId){
+    return await this.axiosInstance.get(
+      `${this.requestMapping}/companies/${applicantId}`
+    );
   }
 }

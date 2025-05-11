@@ -15,6 +15,30 @@ namespace backend.Presentation.Controllers
         {
         }
 
+        [HttpGet("byEmployer/{employerId}")]
+        public async Task<IActionResult> GetApplicationsByEmplyoer(int employerId,[FromQuery] JobApplicationFilters filters)
+        {
+          return Ok(await _service.GetApplicationsByEmployer(employerId,filters));
+        }
+
+        [HttpGet("byApplicant/{applicantId}")]
+        public async Task<IActionResult> GetApplicantsByApplicant(int applicantId, [FromQuery] JobApplicationFilters filters)
+        {
+            return Ok(await _service.GetApplicationsByApplicant(applicantId, filters));
+        }
+
+        [HttpGet("jobs/{applicantId}")]
+        public async Task<IActionResult> GetJobsAppliedByUser(int applicantId)
+        {
+            return Ok(await _service.GetJobsAppliedByUser(applicantId));
+        }
+
+        [HttpGet("companies/{applicantId}")]
+        public async Task<IActionResult> GetCompaniesUserAppliedTo(int applicantId)
+        {
+            return Ok(await _service.GetCompaniesUserAppliedTo(applicantId));
+        }
+
         public async override Task<IActionResult> Create([FromBody] JobApplicationRequest requestDto)
         {
             try

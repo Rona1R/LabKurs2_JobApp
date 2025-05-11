@@ -62,7 +62,7 @@ namespace backend.Application.DTOs
 
 
             CreateMap<Job, JobPostings>().ForMember(dest => dest.CompanyLogo, opt => opt.MapFrom(src => src.Company.Logo))
-                                          .ForMember(dest => dest.Category, opt => opt.MapFrom(src =>src.Category.Name))
+                                          .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.Name))
                                           .ForMember(dest => dest.DaysLeft, opt => opt.Ignore());
 
             CreateMap<JobTagRequest, JobTag>();
@@ -71,8 +71,8 @@ namespace backend.Application.DTOs
 
             CreateMap<Job, JobGeneralData>().ForMember(dest => dest.CompanyLogo, opt => opt.MapFrom(src => src.Company.Logo))
                                         .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.Name))
-                                        .ForMember(dest => dest.Company, opt => opt.MapFrom(src=>src.Company.Name))
-                                        .ForMember(dest => dest.PayRange, opt => opt.MapFrom(src=>src.MinimalSalary+" - "+src.MaximalSalary + " "+ src.Currency))
+                                        .ForMember(dest => dest.Company, opt => opt.MapFrom(src => src.Company.Name))
+                                        .ForMember(dest => dest.PayRange, opt => opt.MapFrom(src => src.MinimalSalary + " - " + src.MaximalSalary + " " + src.Currency))
                                         .ForMember(dest => dest.DaysLeft, opt => opt.Ignore());
 
             CreateMap<EducationRequest, Education>().ForMember(dest => dest.InstitutionName, opt => opt.MapFrom(src => src.ManualInstitutionName));
@@ -90,19 +90,24 @@ namespace backend.Application.DTOs
             CreateMap<UserLanguage, UserLanguageResponse>().ForMember(dest => dest.LanguageName, opt => opt.MapFrom(src => src.Language.Name));
 
             CreateMap<UserProfileRequest, UserProfile>();
-            CreateMap<UserProfile,  UserProfileResponse>();
+            CreateMap<UserProfile, UserProfileResponse>();
 
             CreateMap<JobDetailsRequest, JobDetails>();
             CreateMap<JobDetails, JobDetailsResponse>();
 
-            CreateMap<SavedJobRequest, SavedJob>(); 
+            CreateMap<SavedJobRequest, SavedJob>();
             CreateMap<SavedJob, SavedJobResponse>();
 
             CreateMap<SavedJobCollectionRequest, SavedJobCollection>();
             CreateMap<SavedJobCollection, SavedJobCollectionResponse>();
 
             CreateMap<JobApplicationRequest, JobApplication>();
-            CreateMap<JobApplication, JobApplicationResponse>();
+            CreateMap<JobApplication, JobApplicationResponse>()
+                    .ForMember(dest => dest.ApplicantName, opt => opt.MapFrom(src => src.User.Name))
+                    .ForMember(dest => dest.ApplicantLastName, opt => opt.MapFrom(src => src.User.LastName))
+                    .ForMember(dest => dest.ApplicantEmail, opt => opt.MapFrom(src => src.User.AspNetUser.Email))
+                    .ForMember(dest => dest.JobName, opt => opt.MapFrom(src => src.Job.Title));
+
         }
     }
 }

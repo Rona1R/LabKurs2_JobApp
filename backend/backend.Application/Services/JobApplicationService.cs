@@ -18,6 +18,26 @@ namespace backend.Application.Services
         {
         }
 
+        public async Task<IEnumerable<ApplicationsByEmployer>> GetApplicationsByEmployer(int employerId,JobApplicationFilters filters)
+        {
+            return await _repository.GetApplicationsByEmployer(employerId, filters);
+        }
+
+        public async Task<IEnumerable<ApplicationsByApplicant>> GetApplicationsByApplicant(int applicantId, JobApplicationFilters filters)
+        {
+            return await _repository.GetApplicationsByApplicant(applicantId, filters);
+        }
+
+        public async Task<IEnumerable<JobDataResponse>> GetJobsAppliedByUser(int userId)
+        {
+            return await _repository.GetJobsAppliedByUser(userId);
+        }
+
+        public async Task<IEnumerable<CompanyResponse>> GetCompaniesUserAppliedTo(int applicantId)
+        {
+            return await _repository.GetCompaniesUserAppliedTo(applicantId);
+        }
+
         public async override Task<JobApplicationResponse> CreateAsync(JobApplicationRequest requestDto)
         {
             if (await _repository.HasApplied(requestDto.ApplicantId, requestDto.JobId)) {

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import CustomTabPanel from "src/components/user/SavedJobs/CustomTabPanel";
 import { Box } from "@mui/material";
-import { SavedJobService } from "src/api/sevices/SavedJobService";
 import AllSavedJobs from "src/components/user/SavedJobs/AllSavedJobs";
 import Collections from "src/components/user/SavedJobs/Collections/Collections";
 
