@@ -15,10 +15,8 @@ namespace backend.Application.DTOs.Interviews
 
         public TimeSpan Duration { get; set; }
 
-        public DateTime EndsAt => ScheduledAt.Add(Duration);
+        public string InterviewMode { get; set; }
 
-        public InterviewMode InterviewMode { get; set; }
-
-        public InterviewStatus Status { get; set; } = InterviewStatus.Scheduled;
+        public string? Status { get; set; }
     }
 }

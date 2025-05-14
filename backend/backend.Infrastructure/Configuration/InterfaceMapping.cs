@@ -11,6 +11,7 @@ using backend.Application.Interfaces.EducationInterfaces;
 using backend.Application.Interfaces.EmployerInterfaces;
 using backend.Application.Interfaces.ExperienceInterfaces;
 using backend.Application.Interfaces.InstitutionInterfaces;
+using backend.Application.Interfaces.InterviewInterfaces;
 using backend.Application.Interfaces.JobApplicationInterfaces;
 using backend.Application.Interfaces.JobDetailsInterfaces;
 using backend.Application.Interfaces.JobInterfaces;
@@ -100,6 +101,10 @@ namespace backend.Infrastructure.Configuration
 
             services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
             services.AddScoped<IJobApplicationService, JobApplicationService>();
+
+            services.AddScoped<IInterviewRepository, InterviewRepository>();
+            services.AddScoped<IInterviewService, InterviewService>();
+
 
             services.AddSingleton<FileFactory>();
         }
