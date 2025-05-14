@@ -186,6 +186,7 @@ export default function EditApplicationStatus({ id, handleClose, refresh }) {
                       >
                         <MenuItem value={"Pending"}>Pending</MenuItem>
                         <MenuItem value={"Approved"}>Approved</MenuItem>
+                        <MenuItem value={"Rejected"}>Rejected</MenuItem>
                         <MenuItem value={"InReview"}>In Review</MenuItem>
                         <MenuItem value={"Withdrawn"}>Withdrawn</MenuItem>
                       </Select>

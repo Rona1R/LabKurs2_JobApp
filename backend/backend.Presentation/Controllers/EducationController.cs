@@ -1,5 +1,4 @@
-﻿using backend.Application.DTOs.Request;
-using backend.Application.DTOs.Response;
+﻿using backend.Application.DTOs.Educations;
 using backend.Application.Interfaces.EducationInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

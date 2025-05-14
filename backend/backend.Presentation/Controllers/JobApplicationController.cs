@@ -1,5 +1,4 @@
-﻿using backend.Application.DTOs.Request;
-using backend.Application.DTOs.Response;
+﻿using backend.Application.DTOs.Applications;
 using backend.Application.Exceptions;
 using backend.Application.Interfaces.JobApplicationInterfaces;
 using Microsoft.AspNetCore.Http;

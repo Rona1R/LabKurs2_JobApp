@@ -1,5 +1,4 @@
-﻿using backend.Application.DTOs.Request;
-using backend.Application.DTOs.Response;
+﻿using backend.Application.DTOs.SavedJobCollections;
 using backend.Application.Interfaces.SavedJobCollectionInterfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import Loading from "src/components/common/Loading";
 import { useAuth } from "src/context/AuthContext";
 import { JobApplicationService } from "src/api/sevices/JobApplicationService";
+import { statusMap } from "src/components/common/utils/jobAppStatusMap";
 import DropdownFilter from "src/components/dashboard/Employer/Applications/filters/DropdownFilter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolderOpen } from "@fortawesome/free-solid-svg-icons";
@@ -100,54 +101,8 @@ export default function MyApplications() {
       width: 200,
       renderCell: (params) => {
         const status = params.row?.applicationStatus;
-        let icon = null;
-        let color = "";
-        switch (status) {
-          case "Pending":
-            icon = (
-              <i
-                className="fa-regular fa-clock"
-                style={{ color: "#F57C00", marginRight: 8 }}
-              />
-            );
-            color = "#F57C00";
-            break;
-          case "InReview":
-            icon = (
-              <i
-                className="fa-solid fa-hourglass-half"
-                style={{ color: "#1565c0", marginRight: 8 }}
-              />
-            );
-            color = "#1565c0";
-            break;
-          case "Approved":
-            icon = (
-              <i
-                className="fa-solid fa-circle-check"
-                style={{ color: "#3c2ca6", marginRight: 8 }}
-              />
-            );
-            color = "#3c2ca6";
-            break;
-          case "Withdrawn":
-            icon = (
-              <i
-                className="fa-solid fa-arrow-rotate-left"
-                style={{ color: "#757575", marginRight: 8 }}
-              />
-            );
-            color = "#757575";
-            break;
-          default:
-            icon = (
-              <i
-                className="fa-regular fa-question-circle"
-                style={{ color: "#90A4AE", marginRight: 8 }}
-              />
-            );
-            color = "#90A4AE";
-        }
+        const { icon, color } = statusMap[status] || statusMap.default;
+
         return (
           <span
             style={{
@@ -244,7 +199,7 @@ export default function MyApplications() {
           </Stack>
         )}
         <Box
-          sx={{ width: "100%", overflowX: "auto",my:3 }}
+          sx={{ width: "100%", overflowX: "auto", my: 3 }}
           className="table-container"
         >
           {loading ? (

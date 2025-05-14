@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using backend.Application.DTOs.Request;
+using backend.Application.DTOs.Jobs;
 using backend.Application.Helpers;
 using backend.Application.Interfaces.JobDetailsInterfaces;
 using backend.Application.Interfaces.JobInterfaces;

@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using backend.Application.DTOs.Response.Auth;
+using backend.Application.DTOs.Auth;
 using backend.Application.Exceptions;
 using backend.Application.Interfaces.Authentication;
 using backend.Application.Interfaces.UserRoleInterfaces;

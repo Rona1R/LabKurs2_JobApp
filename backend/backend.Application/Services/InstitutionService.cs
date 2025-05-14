@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using backend.Application.DTOs.Request;
-using backend.Application.DTOs.Response;
+using backend.Application.DTOs.Institutions;
 using backend.Application.Interfaces.InstitutionInterfaces;
 using backend.Domain.Models;
 

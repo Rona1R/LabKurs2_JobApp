@@ -1,4 +1,4 @@
-﻿using backend.Application.DTOs.Request;
+﻿using backend.Application.DTOs.SavedJobs;
 using backend.Application.Exceptions;
 using backend.Application.Interfaces.SavedJobInterfaces;
 using Microsoft.AspNetCore.Http;
