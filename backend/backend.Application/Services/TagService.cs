@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using backend.Application.DTOs.Request;
-using backend.Application.DTOs.Response;
+using backend.Application.DTOs.Tags;
 using backend.Application.Interfaces.TagInterfaces;
 using backend.Domain.Models;
 

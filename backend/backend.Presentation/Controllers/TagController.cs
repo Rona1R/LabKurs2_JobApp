@@ -1,6 +1,5 @@
-﻿using backend.Application.DTOs.Request;
-using backend.Application.DTOs.Request.Auth;
-using backend.Application.DTOs.Response;
+﻿using backend.Application.DTOs.Auth;
+using backend.Application.DTOs.Tags;
 using backend.Application.Interfaces.TagInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

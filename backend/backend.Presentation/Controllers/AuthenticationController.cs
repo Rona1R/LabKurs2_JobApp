@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using System.Threading.Tasks;
-using backend.Application.DTOs.Request;
-using backend.Application.DTOs.Request.Auth;
+using backend.Application.DTOs.Auth;
 using backend.Application.Exceptions;
 using backend.Application.Interfaces.Authentication;
 using backend.Infrastructure.Migrations;

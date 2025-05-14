@@ -1,6 +1,5 @@
-﻿using backend.Application.DTOs.Request;
-using backend.Application.DTOs.Request.Auth;
-using backend.Application.DTOs.Response;
+﻿using backend.Application.DTOs.Auth;
+using backend.Application.DTOs.Departaments;
 using backend.Application.Exceptions;
 using backend.Application.Interfaces.DepartamentInterfaces;
 using Microsoft.AspNetCore.Authorization;

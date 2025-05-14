@@ -4,8 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using backend.Application.DTOs.Request;
-using backend.Application.DTOs.Response;
+using backend.Application.DTOs.Applications;
+using backend.Application.DTOs.Categories;
+using backend.Application.DTOs.Companies;
+using backend.Application.DTOs.Departaments;
+using backend.Application.DTOs.Educations;
+using backend.Application.DTOs.Employers;
+using backend.Application.DTOs.Experiences;
+using backend.Application.DTOs.Institutions;
+using backend.Application.DTOs.Jobs;
+using backend.Application.DTOs.JobTags;
+using backend.Application.DTOs.Languages;
+using backend.Application.DTOs.SavedJobCollections;
+using backend.Application.DTOs.SavedJobs;
+using backend.Application.DTOs.Tags;
+using backend.Application.DTOs.UserLanguages;
+using backend.Application.DTOs.Users;
 using backend.Domain.Models;
 
 
