@@ -12,6 +12,7 @@ using backend.Application.DTOs.Educations;
 using backend.Application.DTOs.Employers;
 using backend.Application.DTOs.Experiences;
 using backend.Application.DTOs.Institutions;
+using backend.Application.DTOs.Interviews;
 using backend.Application.DTOs.Jobs;
 using backend.Application.DTOs.JobTags;
 using backend.Application.DTOs.Languages;
@@ -121,6 +122,9 @@ namespace backend.Application.DTOs
                     .ForMember(dest => dest.ApplicantLastName, opt => opt.MapFrom(src => src.User.LastName))
                     .ForMember(dest => dest.ApplicantEmail, opt => opt.MapFrom(src => src.User.AspNetUser.Email))
                     .ForMember(dest => dest.JobName, opt => opt.MapFrom(src => src.Job.Title));
+
+            CreateMap<InterviewRequest, Interview>();
+            CreateMap<Interview, InterviewResponse>();
 
         }
     }
