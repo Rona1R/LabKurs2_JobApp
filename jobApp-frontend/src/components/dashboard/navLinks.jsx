@@ -107,7 +107,7 @@ export const getNavLinks = (role) => {
         {
           fontAwesomeIcon: faComputer,
           name: "Interviews",
-          path: "/",
+          path: "/dashboard/interviews",
         },
       ],
     },
@@ -134,7 +134,7 @@ export const getNavLinks = (role) => {
     {
       name: "Interviews",
       fontAwesomeIcon: faComputer,
-      path: "/",
+      path: "/dashboard/interviews",
     },
 
     {

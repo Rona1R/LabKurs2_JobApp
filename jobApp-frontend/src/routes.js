@@ -63,6 +63,7 @@ const SavedJobsByCollection = React.lazy(() =>
 
 const Applications = React.lazy(() => import("./pages/Dashboard/Employer/Jobs/Applications"));
 const MyApplications = React.lazy(() => import("./pages/User/MyApplications")); 
+const Interviews = React.lazy(() => import("./pages/Dashboard/Employer/Interviews/Interviews"));
 
 const routes = [
   ,
@@ -171,6 +172,12 @@ const routes = [
         path: "/dashboard/applications",
         protected: true,
         element: Applications,
+        roles: ["Employer"],
+      },
+      {
+        path: "/dashboard/interviews",
+        protected: true,
+        element: Interviews,
         roles: ["Employer"],
       },
       {
