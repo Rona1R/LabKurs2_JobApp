@@ -1,0 +1,15 @@
+.interview-event {
+  background-color: #b1f6b3 !important;
+  border: none !important;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+.interview-event .fc-event-title,
+.interview-event .fc-event-time {
+  color: #056308 !important;
+}
+
+.fc-prev-button, .fc-next-button, .fc-today-button{
+    border: none !important;
+    background-color: #0A0529 !important;
+}
