@@ -64,6 +64,43 @@ namespace backend.Infrastructure.Repositories
             return result;
         }
 
+
+        public async Task<IEnumerable<ApplicationsByEmployer>> GetApplicationsByJob(int jobId)
+        {
+            var query = _context.JobApplication
+                .Include(j => j.Job)
+                .ThenInclude(job => job.Company)
+                .Include(j => j.User)
+                .Where(j => !j.IsDeleted && j.Job.Id == jobId)
+                .OrderByDescending(j => j.Id)
+                .AsQueryable();
+
+            var result = await query.Select(j => new ApplicationsByEmployer
+            {
+                Id = j.Id,
+                ApplicantId = j.ApplicantId,
+                JobId = j.JobId,
+                CompanyName = j.Job.Company.Name,
+                ResumeUrl = j.ResumeUrl,
+                ApplicationStatus = j.ApplicationStatus.ToString(), 
+                AppliedAt = j.AppliedAt,
+                Applicant = new ApplicantResponse
+                {
+                    Id = j.User.Id,
+                    Name = j.User.Name,
+                    LastName = j.User.LastName,
+                    Email = j.User.AspNetUser.Email ?? "Not Provided"
+                },
+                Job = new JobDataResponse
+                {
+                    Id = j.Job.Id,
+                    Title = j.Job.Title
+                }
+            }).ToListAsync();
+
+            return result;
+        }
+
         public async Task<IEnumerable<ApplicationsByApplicant>> GetApplicationsByApplicant(int applicantId, JobApplicationFilters filters)
         {
             var query = _context.JobApplication

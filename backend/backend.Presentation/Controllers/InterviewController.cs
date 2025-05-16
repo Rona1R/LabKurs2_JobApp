@@ -13,5 +13,13 @@ namespace backend.Presentation.Controllers
         public InterviewController(IInterviewService service) : base(service)
         {
         }
+
+        [HttpGet]
+        [Route("byEmployer/{userId}")]
+        public async Task<IActionResult> GetInterviewsByEmployer(int userId)
+        {
+            return Ok(await _service.GetInterviewsByEmployer(userId));
+        }
+
     }
 }

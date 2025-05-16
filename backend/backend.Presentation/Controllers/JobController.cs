@@ -36,6 +36,7 @@ namespace backend.Presentation.Controllers
         }
 
         [HttpGet("byEmployer/{id}")]
+        [AllowAnonymous] // for development
         public async Task<IActionResult> GetByEmployer(int id)
         {
             var jobs = await _service.GetByEmployer(id);

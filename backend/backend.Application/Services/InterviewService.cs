@@ -15,5 +15,11 @@ namespace backend.Application.Services
         public InterviewService(IInterviewRepository repository, IMapper mapper) : base(repository, mapper)
         {
         }
+
+        public async Task<IEnumerable<InterviewResponse>> GetInterviewsByEmployer(int userId)
+        {
+            var interviews = await _repository.GetInterviewsByEmployer(userId);
+            return _mapper.Map<IEnumerable<InterviewResponse>>(interviews);
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace backend.Application.Interfaces.InterviewInterfaces
 {
     public interface IInterviewRepository : IBaseRepository<Interview>
     {
+        Task<IEnumerable<Interview>> GetInterviewsByEmployer(int userId);
     }
 }

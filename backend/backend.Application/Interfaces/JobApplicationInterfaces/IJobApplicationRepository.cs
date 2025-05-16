@@ -13,6 +13,7 @@ namespace backend.Application.Interfaces.JobApplicationInterfaces
     {
         Task<IEnumerable<ApplicationsByApplicant>> GetApplicationsByApplicant(int applicantId, JobApplicationFilters filters);
         Task<IEnumerable<ApplicationsByEmployer>> GetApplicationsByEmployer(int employerId, JobApplicationFilters filters);
+        Task<IEnumerable<ApplicationsByEmployer>> GetApplicationsByJob(int jobId);
         Task<IEnumerable<CompanyResponse>> GetCompaniesUserAppliedTo(int userId);
         Task<IEnumerable<JobDataResponse>> GetJobsAppliedByUser(int userId);
         Task<bool> HasApplied(int userId, int jobId);

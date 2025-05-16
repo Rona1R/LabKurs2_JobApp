@@ -14,6 +14,13 @@ namespace backend.Presentation.Controllers
         {
         }
 
+        [HttpGet("byJob/{jobId}")]
+        public async Task<IActionResult> GetApplicationsByJob(int jobId)
+        {
+            return Ok(await _service.GetApplicationsByJob(jobId));
+        }
+
+
         [HttpGet("byEmployer/{employerId}")]
         public async Task<IActionResult> GetApplicationsByEmplyoer(int employerId,[FromQuery] JobApplicationFilters filters)
         {

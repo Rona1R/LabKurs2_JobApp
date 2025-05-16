@@ -7,7 +7,8 @@ using backend.Application.DTOs.Interviews;
 
 namespace backend.Application.Interfaces.InterviewInterfaces
 {
-    public interface IInterviewService:IBaseService<InterviewRequest, InterviewResponse>
+    public interface IInterviewService : IBaseService<InterviewRequest, InterviewResponse>
     {
+        Task<IEnumerable<InterviewResponse>> GetInterviewsByEmployer(int userId);
     }
 }

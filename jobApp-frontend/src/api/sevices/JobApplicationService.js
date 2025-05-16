@@ -9,6 +9,10 @@ export class JobApplicationService extends BaseService {
     return await this.axiosInstance.get(`${this.requestMapping}/hasApplied/${userId}/${jobId}`)
   }
 
+  async getByJob(jobId){
+    return await this.axiosInstance.get(`${this.requestMapping}/byJob/${jobId}`);
+  }
+
   async getApplicationsByEmployer(employerId, params = {}) {
     return await this.axiosInstance.get(
       `${this.requestMapping}/byEmployer/${employerId}`,

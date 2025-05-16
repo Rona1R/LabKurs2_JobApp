@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using backend.Application.Interfaces.InterviewInterfaces;
 using backend.Domain.Models;
 using backend.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Infrastructure.Repositories
 {
@@ -13,6 +14,11 @@ namespace backend.Infrastructure.Repositories
     {
         public InterviewRepository(ApplicationDbContext context) : base(context)
         {
+        }
+
+        public async Task<IEnumerable<Interview>> GetInterviewsByEmployer(int userId)
+        {
+            return await _context.Interview.Where(i=>i.Application.Job.Company.Employer.UserId == userId).ToListAsync();
         }
     }
 }

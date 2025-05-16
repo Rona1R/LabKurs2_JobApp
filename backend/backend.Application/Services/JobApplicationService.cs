@@ -18,6 +18,11 @@ namespace backend.Application.Services
         {
         }
 
+        public async Task<IEnumerable<ApplicationsByEmployer>> GetApplicationsByJob(int jobId)
+        {
+            return await _repository.GetApplicationsByJob(jobId);
+        }
+
         public async Task<IEnumerable<ApplicationsByEmployer>> GetApplicationsByEmployer(int employerId,JobApplicationFilters filters)
         {
             return await _repository.GetApplicationsByEmployer(employerId, filters);

@@ -1,8 +1,8 @@
 import React from "react";
 import { Typography } from "@mui/material";
-import { Interviews } from "src/components/dashboard/Employer/Interviews/Interviews";
+import Interviews from "src/components/dashboard/Employer/Interviews/Interviews";
 
-export default function MyCompanies() {
+export default function InterviewsByEmployer() {
   return (
     <>
       <Typography

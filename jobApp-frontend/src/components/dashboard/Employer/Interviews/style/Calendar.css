@@ -1,15 +1,61 @@
-.interview-event {
-  background-color: #b1f6b3 !important;
-  border: none !important;
-  font-weight: bold;
-  font-size: 0.9rem;
-}
-.interview-event .fc-event-title,
-.interview-event .fc-event-time {
-  color: #056308 !important;
-}
 
 .fc-prev-button, .fc-next-button, .fc-today-button{
     border: none !important;
     background-color: #0A0529 !important;
+}
+
+.interview-event {
+  font-size: 16px;
+  font-weight:bold;
+}
+
+.interview-event .fc-event-time{
+  font-size: 16px;
+}
+
+.status-scheduled {
+  background-color: #1976d2 !important; 
+}
+
+
+.status-scheduled
+.fc-event-title,
+.status-scheduled
+.fc-event-time {
+  color:  #e1f0ff  !important
+}
+
+.status-completed {
+  background-color: #0b9544 !important; 
+}
+
+
+.status-completed
+.fc-event-title,
+.status-completed
+.fc-event-time {
+  color:  #effff6  !important
+}
+
+.status-canceled {
+  background-color: #df3229  !important; 
+}
+
+.status-canceled
+.fc-event-title,
+.status-canceled
+.fc-event-time {
+  color:  #f5e0df  !important
+}
+
+.status-rescheduled {
+  background-color: #7c45eb !important; 
+}
+
+
+.status-rescheduled
+.fc-event-title,
+.status-rescheduled
+.fc-event-time {
+  color:  #ece5fc  !important
 }
