@@ -7,6 +7,7 @@
 .interview-event {
   font-size: 16px;
   font-weight:bold;
+  border:none
 }
 
 .interview-event .fc-event-time{
@@ -14,7 +15,7 @@
 }
 
 .status-scheduled {
-  background-color: #1976d2 !important; 
+  background-color: #e1f0ff !important; 
 }
 
 
@@ -22,11 +23,11 @@
 .fc-event-title,
 .status-scheduled
 .fc-event-time {
-  color:  #e1f0ff  !important
+  color:  #1976d2   !important
 }
 
 .status-completed {
-  background-color: #0b9544 !important; 
+  background-color:  #effff6 !important; 
 }
 
 
@@ -34,22 +35,22 @@
 .fc-event-title,
 .status-completed
 .fc-event-time {
-  color:  #effff6  !important
+  color:  #0b9544  !important
 }
 
 .status-canceled {
-  background-color: #df3229  !important; 
+  background-color: #f5e0df   !important; 
 }
 
 .status-canceled
 .fc-event-title,
 .status-canceled
 .fc-event-time {
-  color:  #f5e0df  !important
+  color:  #df3229  !important
 }
 
 .status-rescheduled {
-  background-color: #7c45eb !important; 
+  background-color: #ece5fc !important; 
 }
 
 
@@ -57,5 +58,5 @@
 .fc-event-title,
 .status-rescheduled
 .fc-event-time {
-  color:  #ece5fc  !important
+  color: #7c45eb !important
 }

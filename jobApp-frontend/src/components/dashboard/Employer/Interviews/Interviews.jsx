@@ -10,16 +10,19 @@ import { useAuth } from "src/context/AuthContext";
 import CreateInterview from "./CreateInterview";
 import "./style/Calendar.css";
 import { useNotification } from "src/hooks/useNotification";
+import UpdateInterview from "./UpdateInterview";
 const interviewService = new InterviewService();
 
 export default function Interviews() {
-  const [selectedDate, setSelectedDate] = useState("");
-  const [showCreateInterview, setShowCreateInterview] = useState(false);
   const { user } = useAuth();
   const userId = user?.nameid;
+  const [selectedDate, setSelectedDate] = useState("");
+  const [showCreateInterview, setShowCreateInterview] = useState(false);
+  const [showUpdateInterview, setShowUpdateInterview] = useState(false);
+  const [selectedIInterview, setSelectedInterview] = useState(null);
   const [interviews, setInterviews] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [refreshKey,setRefreshKey] = useState("");
+  const [refreshKey, setRefreshKey] = useState("");
   const { showNotification } = useNotification();
 
   useEffect(() => {
@@ -29,8 +32,8 @@ export default function Interviews() {
         const formattedResponse = response.data.map((interview) => ({
           id: interview.id,
           title: `(${interview.interviewMode}) - ${interview.status}`,
-          start: interview.scheduledAt+"Z",
-          end: interview.endsAt+"Z",
+          start: interview.scheduledAt + "Z",
+          end: interview.endsAt + "Z",
           className: [
             `interview-event status-${interview.status.toLowerCase()}`,
           ],
@@ -61,21 +64,28 @@ export default function Interviews() {
 
   const handleEventClick = (info) => {
     const event = info.event;
-    alert(`Title: ${event.title}\nStart: ${event.start}\nEnd: ${event.end}`);
+    setSelectedInterview(event.id);
+    setShowUpdateInterview(true);
   };
 
   return (
     <>
-
-      {
-      showCreateInterview && 
-        <CreateInterview 
+      {showCreateInterview && (
+        <CreateInterview
           userId={userId}
           selectedDate={selectedDate}
-          handleClose={()=>setShowCreateInterview(false)}
-          refresh={()=>setRefreshKey(Date.now())}
+          handleClose={() => setShowCreateInterview(false)}
+          refresh={() => setRefreshKey(Date.now())}
         />
-      }
+      )}
+
+      {showUpdateInterview && selectedIInterview && (
+        <UpdateInterview
+          interviewId={selectedIInterview}
+          handleClose={() => setShowUpdateInterview(false)}
+          refresh={() => setRefreshKey(Date.now())}
+        />
+      )}
 
       <Box sx={{ mx: 4 }}>
         {loading ? (
